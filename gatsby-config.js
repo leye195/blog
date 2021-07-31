@@ -46,5 +46,19 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    {
+      resolve: "gatsby-source-filesystem",
+      options: {
+        name: "posts",
+        path: `${__dirname}/src/posts`,
+      },
+    },
+    {
+      resolve: "gatsby-plugin-google-fonts",
+      options: {
+        fonts: ["roboto mono", `Noto Sans KR\:400,400i,700,700i`],
+        display: "swap",
+      },
+    },
   ],
 };
