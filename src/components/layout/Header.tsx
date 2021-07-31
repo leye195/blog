@@ -1,9 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
-import { Link } from "gatsby";
-import { StaticImage } from "gatsby-plugin-image";
-import { Global } from "@emotion/react";
-import global from "../../styles/global";
+import { graphql, Link, useStaticQuery } from "gatsby";
 import { media } from "../../styles/variables";
 
 const headerStyle = css`
@@ -48,17 +45,19 @@ const headerStyle = css`
 `;
 
 const Header = () => {
+  const data = useStaticQuery(graphql`
+    query {
+      logo: file(relativePath: { eq: "logo.svg" }) {
+        publicURL
+      }
+    }
+  `);
   return (
     <>
-      <Global styles={global} />
       <header css={headerStyle}>
         <div className="inner-container">
           <Link to="/">
-            <StaticImage
-              className="logo"
-              src="../../images/logo.svg"
-              alt="dan.dev.log"
-            />
+            <img className="logo" src={data.logo.publicURL} alt="dan.dev.log" />
           </Link>
           <div className="menu">
             <Link to="/about">About</Link>
