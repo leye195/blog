@@ -15,6 +15,7 @@ type rowType = {
 
 const row = (params: rowType) => css`
   ${flexMixin(params)}
+  width: 100%;
 `;
 
 const Row: React.FC<Props> = ({

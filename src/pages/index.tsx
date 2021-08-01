@@ -5,6 +5,8 @@ import { mdxNodeType } from "types/post";
 import Layout from "../components/layout/Layout";
 import Img from "../components/common/Img";
 import Column from "../components/common/Column";
+import Row from "../components/common/Row";
+import Button from "../components/common/Button";
 import { media } from "../styles/variables";
 import { flexMixin } from "../styles/mixin";
 
@@ -78,6 +80,14 @@ const contentSection = css`
       color: #868e96;
     }
   }
+
+  & .page-button {
+    padding: 1rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    background-color: #7886b7;
+    color: white;
+  }
 `;
 
 const IndexPage = ({ data: { allMdx, bg, avatar } }: any) => {
@@ -105,9 +115,17 @@ const IndexPage = ({ data: { allMdx, bg, avatar } }: any) => {
                 <h2 className="post-preview-title">{frontmatter.title}</h2>
                 <p className="post-preview-date">Posted {frontmatter.date}</p>
               </article>
-              <hr></hr>
+              <hr />
             </>
           ))}
+          <Row justifyContents="space-between">
+            <Button className="page-button" type="button" onClick={() => {}}>
+              Newer Posts
+            </Button>
+            <Button className="page-button" type="button" onClick={() => {}}>
+              Older Posts
+            </Button>
+          </Row>
         </Column>
       </section>
     </Layout>

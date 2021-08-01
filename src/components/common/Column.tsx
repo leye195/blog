@@ -15,6 +15,7 @@ type colType = {
 
 const col = (params: colType) => css`
   ${flexMixin(params)}
+  width: 100%;
 `;
 
 const Column: React.FC<Props> = ({
