@@ -4,6 +4,7 @@ import { flexMixin } from "../../styles/mixin";
 
 type Props = rowType & {
   children: React.ReactNode;
+  className?: string;
 };
 
 type rowType = {
@@ -18,12 +19,18 @@ const row = (params: rowType) => css`
 
 const Row: React.FC<Props> = ({
   children,
+  className,
   direction = "row",
   alignItems = "flex-start",
   justifyContents = "flex-start",
 }) => {
   return (
-    <div css={row({ direction, alignItems, justifyContents })}>{children}</div>
+    <div
+      className={className}
+      css={row({ direction, alignItems, justifyContents })}
+    >
+      {children}
+    </div>
   );
 };
 

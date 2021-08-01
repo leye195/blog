@@ -4,6 +4,7 @@ import { flexMixin } from "../../styles/mixin";
 
 type Props = colType & {
   children: React.ReactNode;
+  className?: string;
 };
 
 type colType = {
@@ -18,12 +19,18 @@ const col = (params: colType) => css`
 
 const Column: React.FC<Props> = ({
   children,
+  className,
   direction = "column",
   alignItems = "flex-start",
   justifyContents = "flex-start",
 }) => {
   return (
-    <div css={col({ direction, alignItems, justifyContents })}>{children}</div>
+    <div
+      className={className}
+      css={col({ direction, alignItems, justifyContents })}
+    >
+      {children}
+    </div>
   );
 };
 
