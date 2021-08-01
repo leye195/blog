@@ -2,7 +2,7 @@ import React from "react";
 import { css } from "@emotion/react";
 import { media } from "../../styles/variables";
 
-type containerType = {
+type Props = {
   children: React.ReactNode;
   className?: string;
 };
@@ -22,7 +22,7 @@ const container = css`
   }
 `;
 
-const Container = ({ className, children }: containerType) => {
+const Container: React.FC<Props> = ({ className, children }) => {
   return (
     <div className={className} css={container}>
       {children}
