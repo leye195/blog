@@ -18,10 +18,13 @@ const headerStyle = css`
     & .menu {
       margin-top: 0.5rem;
       & > a {
-        margin-right: 1.5rem;
         font-size: 1.25rem;
         font-weight: bold;
         color: #7886b7;
+      }
+
+      & > a:first-child {
+        margin-right: 1.5rem;
       }
     }
 

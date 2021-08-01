@@ -43,6 +43,14 @@ export default css`
     }
   }
 
+  hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    border: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
   #root {
     min-height: 100vh;
   }
