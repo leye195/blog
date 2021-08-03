@@ -137,21 +137,19 @@ const IndexPage = ({ data: { allMdx, bg, avatar } }: any) => {
       <section css={contentSection}>
         <Column className="posts">
           {allMdx.nodes.map(({ frontmatter, id }: mdxNodeType) => (
-            <>
-              <Link to={`/posts/${frontmatter.slug}`}>
-                <article className="post-preview" key={id}>
-                  <h2 className="post-preview-title">{frontmatter.title}</h2>
-                  <Row alignItems="center" justifyContents="space-between">
-                    <Row className="tags">
-                      {frontmatter.tags.split(",").map((tag) => (
-                        <Tag className="tag" text={tag} />
-                      ))}
-                    </Row>
-                    <p className="post-preview-date">{frontmatter.date}</p>
+            <Link key={id} to={`/posts/${frontmatter.slug}`}>
+              <article className="post-preview" key={id}>
+                <h2 className="post-preview-title">{frontmatter.title}</h2>
+                <Row alignItems="center" justifyContents="space-between">
+                  <Row className="tags">
+                    {frontmatter.tags.split(",").map((tag) => (
+                      <Tag className="tag" text={tag} />
+                    ))}
                   </Row>
-                </article>
-              </Link>
-            </>
+                  <p className="post-preview-date">{frontmatter.date}</p>
+                </Row>
+              </article>
+            </Link>
           ))}
           <Row className="button-group" justifyContents="space-between">
             <Button className="page-button" type="button" onClick={() => {}}>
