@@ -2,6 +2,7 @@
 export const Colors = {
   black: "black",
   white: "white",
+  gray: "#868e96",
 };
 
 // breakpoints
