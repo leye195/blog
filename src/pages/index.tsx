@@ -143,7 +143,7 @@ const IndexPage = ({ data: { allMdx, bg, avatar } }: any) => {
                 <Row alignItems="center" justifyContents="space-between">
                   <Row className="tags">
                     {frontmatter.tags.split(",").map((tag) => (
-                      <Tag className="tag" text={tag} />
+                      <Tag key={tag} className="tag" text={tag} />
                     ))}
                   </Row>
                   <p className="post-preview-date">{frontmatter.date}</p>
