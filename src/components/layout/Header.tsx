@@ -23,7 +23,7 @@ const headerStyle = css`
         color: #7886b7;
       }
 
-      & > a:first-child {
+      &__about {
         margin-right: 1.5rem;
       }
     }
@@ -59,12 +59,16 @@ const Header = () => {
     <>
       <header css={headerStyle}>
         <div className="inner-container">
-          <Link to="/">
+          <Link className="logo-container" to="/">
             <img className="logo" src={data.logo.publicURL} alt="dan.dev.log" />
           </Link>
           <div className="menu">
-            <Link to="/about">About</Link>
-            <Link to="/posts">Posts</Link>
+            <Link className="menu__about" to="/about">
+              About
+            </Link>
+            <Link className="menu__posts" to="/posts">
+              Posts
+            </Link>
           </div>
         </div>
       </header>

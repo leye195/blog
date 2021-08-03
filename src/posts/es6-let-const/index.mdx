@@ -1,0 +1,62 @@
+---
+title: ES6, let,const
+slug: es6-let-const
+date: 2021-07-31
+tags: JavaScript, FrontEnd
+---
+
+import { css } from "@emotion/react";
+const blog = css`
+  & p {
+    line-height: 1.5;
+  }
+`;
+
+<article css={blog}>
+<h2>var</h2>
+<p>
+  ES6 문법이 업데이트 되기 전에는 var를 활용해 변수 선언을 했다. var는 다른
+  언어에서는 상상도 할 수 없는 몇 몇 특징들이 가지고 있다.
+</p>
+<br />
+<p>
+  <strong>1. 변수 선언시 var 생략 가능</strong>
+</p>
+<p>
+  <strong>2. 변수선언 중복 가능</strong>
+</p>
+<p>
+  <strong>3. 변수 선언을 하지 않았는데 값을 참조 가능(호이스팅)</strong>
+</p>
+<p>
+  <strong>
+    4. function-level-scope로 함수 외부에서 선언된 변수는 모두 전역 변수
+  </strong>
+</p>
+
+<h2>let,const</h2>
+<p>
+  var를 사용하며 고통 받던 우리는 ES6 버전에서 추가된 let과 const를 통해 var의
+  문제점들을 해결 할 수 있게됬다.
+</p>
+<br />
+<h3>let과 const는 모두 아래의 특징들을 공통으로 가지고 있다.</h3>
+<p>1. block-level-scope</p>
+<p>2. 변수 중복 선언 불가</p>
+<p>3. 호이스팅 불가</p>
+
+<h3>let과 const의 차이점</h3>
+<p>
+  <strong>
+    let은 변수 선언 후 값을 재할당 할 수 있으며 초기값을 반드시 설정하지 않아도
+    된다.
+  </strong>
+</p>
+
+<p>
+  <strong>
+    const는 변수 선언 진행시 반드시 초기값을 할당해야 하며 변수에 값을 재할당 할
+    수 없다
+  </strong>
+</p>
+</article>
