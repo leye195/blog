@@ -6,44 +6,10 @@ import Layout from "../components/layout/Layout";
 import Img from "../components/common/Img";
 import Column from "../components/common/Column";
 import Row from "../components/common/Row";
-import Button from "../components/common/Button";
 import Tag from "../components/common/Tag";
-import { Colors, media } from "../styles/variables";
+import PageHead from "../components/common/PageHead";
+import { media } from "../styles/variables";
 import { flexMixin } from "../styles/mixin";
-
-const topSection = css`
-  position: relative;
-  height: 30rem;
-
-  & .heading {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    color: white;
-
-    & > h2 {
-      margin-top: 0;
-      font-size: 3rem;
-    }
-
-    & > span {
-      font-size: 1.5rem;
-      font-weight: 300;
-    }
-
-    & .avatar {
-      height: 8.5rem;
-      width: 8.5rem;
-      margin-bottom: 1rem;
-
-      & > img {
-        background-color: white;
-        border-radius: 50%;
-      }
-    }
-  }
-`;
 
 const contentSection = css`
   padding: 1.5rem 1rem;
@@ -120,8 +86,7 @@ const contentSection = css`
 const IndexPage = ({ data: { allMdx, bg, avatar } }: any) => {
   return (
     <Layout>
-      <section css={topSection}>
-        <Img className="bg-image" src={bg.publicURL} alt="" />
+      <PageHead imgURL={bg.publicURL}>
         <Column
           className="heading"
           alignItems="center"
@@ -133,7 +98,7 @@ const IndexPage = ({ data: { allMdx, bg, avatar } }: any) => {
           <h2>Frontend Developer</h2>
           <span>DanYJ's 개발 블로그</span>
         </Column>
-      </section>
+      </PageHead>
       <section css={contentSection}>
         <Column className="posts">
           {allMdx.nodes.map(({ frontmatter, id }: mdxNodeType) => (
