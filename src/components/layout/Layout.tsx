@@ -15,6 +15,10 @@ const Layout: React.FC = ({ children }) => {
       <MDXProvider
         components={{
           p: (props) => <MDXDesign.Pragraph {...props} />,
+          code: (props) => <MDXDesign.Code {...props} />,
+          pre: (props) => <MDXDesign.Pre {...props} />,
+          a: (props) => <MDXDesign.Anchor {...props} />,
+          li: (props) => <MDXDesign.List {...props} />,
         }}
       >
         <div css={container}>

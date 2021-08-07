@@ -151,12 +151,13 @@ const IndexPage = ({ data: { allMdx, bg, avatar } }: any) => {
               </article>
             </Link>
           ))}
-          <Row className="button-group" justifyContents="space-between">
+          <Row
+            className="button-group"
+            justifyContents="center"
+            alignItems="center"
+          >
             <Button className="page-button" type="button" onClick={() => {}}>
-              Previous
-            </Button>
-            <Button className="page-button" type="button" onClick={() => {}}>
-              Next
+              Load More
             </Button>
           </Row>
         </Column>

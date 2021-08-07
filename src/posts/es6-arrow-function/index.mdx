@@ -1,0 +1,95 @@
+---
+title: ES6, Arrow Function
+slug: es6-arrow-function
+date: 2021-08-01
+tags: JavaScript, FrontEnd
+---
+
+<h2>Arrow Function</h2>
+<p>
+  Arrow Function(화살표 함수)는 function 키워드를 활용해 함수를 반드는 방법으로
+  ES6 부터 지원하고 있다.
+</p>
+
+<h3>기본 문법</h3>
+
+```javascript
+// 매개변수가 없는 경우
+const func = () => console.log("func");
+
+// 매개변수가 하나인 경우
+const func = (x) => {
+  return x;
+};
+
+// 매개변수가 여러개인 경우
+const func = (x, y) => {
+  return x + y;
+};
+
+// 한 줄 처리
+const func = (x, y) => x + y;
+
+// 객체를 반환할 경우
+const func = () => ({ a: 1, b: 2, c: 3 });
+```
+
+<h4>콜백 함수에 활용</h4>
+
+```
+// es6
+const numbers = [1,2,3,4,5];
+const obbNumbers = number.filter((number)=>number%2!==0);
+
+```
+
+<h3>this</h3>
+
+<h4>일반 함수의 this</h4>
+<p>
+  Javascript에서 일반 함수의 this는 함수의 호출 방식에 따라 this에 bind 될
+  객체를 결정한다.
+</p>
+<ul>
+  <li>함수 호출인 경우 this는 window 객체를 가리킨다</li>
+  <li>생성자 함수 호출인 경우 this는 함수의 인스턴스를 가리킨다</li>
+  <li>
+    메서드 함수 호출인 경우 this는 해당 메서드를 소유하는 객체를 가리킨다.
+  </li>
+  <li>
+    apply/call/bind를 활용 할 경우 this에 바인딩될 객체를 결정 할 수 있다{" "}
+  </li>
+</ul>
+
+<h4>Arrow function의 this</h4>
+<p>
+  화살표 함수의 this는 언제나 상위 스코프(lexical scope)를 가리키며
+  call,apply,bind 함수를 통해 this를 변경 할 수 없다
+</p>
+
+```
+const foo = () => {
+  console.log(this);
+}
+
+window.a = 1;
+
+const normal = function() {return this.a;};
+const arrow = () => this.a;
+
+console.log(normal.call({a:2})); // 2
+console.log(arrow.call({a:10})); // 1
+
+```
+
+<h3>참고</h3>
+<ul>
+  <li>
+    <a href="https://poiemaweb.com/es6-arrow-function">ES6 - Arrow function</a>
+  </li>
+  <li>
+    <a href="https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Functions/Arrow_functions">
+      MDN - Arrow Function
+    </a>
+  </li>
+</ul>
