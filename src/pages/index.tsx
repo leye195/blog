@@ -5,11 +5,9 @@ import { mdxNodeType } from "types/post";
 import Layout from "../components/layout/Layout";
 import Img from "../components/common/Img";
 import Column from "../components/common/Column";
-import Row from "../components/common/Row";
-import Tag from "../components/common/Tag";
 import PageHead from "../components/common/PageHead";
+import Post from "../components/common/Post";
 import { media } from "../styles/variables";
-import { flexMixin } from "../styles/mixin";
 
 const contentSection = css`
   padding: 1.5rem 1rem;
@@ -54,22 +52,6 @@ const contentSection = css`
     }
   }
 
-  & .post-preview {
-    ${flexMixin({ direction: "column" })}
-    margin-bottom: 0.5rem;
-    width: 100%;
-
-    &-title {
-      font-size: 2rem;
-    }
-
-    &-date {
-      font-size: 1.15rem;
-      color: #868e96;
-      white-space: pre;
-    }
-  }
-
   & .button-group {
     padding: 0.5rem;
 
@@ -103,17 +85,11 @@ const IndexPage = ({ data: { allMdx, bg, avatar } }: any) => {
         <Column className="posts">
           {allMdx.nodes.map(({ frontmatter, id }: mdxNodeType) => (
             <Link key={id} to={`/posts/${frontmatter.slug}`}>
-              <article className="post-preview" key={id}>
-                <h2 className="post-preview-title">{frontmatter.title}</h2>
-                <Row alignItems="center" justifyContents="space-between">
-                  <Row className="tags">
-                    {frontmatter.tags.split(",").map((tag) => (
-                      <Tag key={tag} className="tag" text={tag} />
-                    ))}
-                  </Row>
-                  <p className="post-preview-date">{frontmatter.date}</p>
-                </Row>
-              </article>
+              <Post
+                title={frontmatter.title}
+                tags={frontmatter.tags}
+                date={frontmatter.date}
+              />
             </Link>
           ))}
         </Column>

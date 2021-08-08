@@ -1,7 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
 import Img from "./Img";
-import Column from "./Column";
 
 type Props = {
   children?: React.ReactNode;

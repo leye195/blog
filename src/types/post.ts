@@ -13,4 +13,5 @@ export type postType = {
   date: string;
   slug: string;
   tags: string;
+  path: string;
 };

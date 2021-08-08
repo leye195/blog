@@ -66,7 +66,7 @@ const Header = () => {
             <Link className="menu__about" to="/about">
               About
             </Link>
-            <Link className="menu__posts" to="/posts">
+            <Link className="menu__posts" to="/posts?category=all">
               Posts
             </Link>
           </div>
