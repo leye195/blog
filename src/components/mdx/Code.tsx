@@ -11,7 +11,9 @@ const codeStyle = css`
 `;
 
 const Code: React.FC = ({ children }) => (
-  <code css={codeStyle}>{children}</code>
+  <code className="language-" css={codeStyle}>
+    {children}
+  </code>
 );
 
 export default Code;

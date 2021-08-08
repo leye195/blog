@@ -8,6 +8,10 @@ const preStyle = css`
   border: none;
 `;
 
-const Pre: React.FC = ({ children }) => <pre css={preStyle}>{children}</pre>;
+const Pre: React.FC = ({ children }) => (
+  <pre className="language-" css={preStyle}>
+    {children}
+  </pre>
+);
 
 export default Pre;
