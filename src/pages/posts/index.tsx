@@ -71,13 +71,12 @@ const PostsPage = ({ data: { bg, allMdx } }: any) => {
       const location = window.location;
       const { category } = qs.parse(location.search.slice(1));
       const { nodes } = allMdx;
-      console.log(category);
       setPostList(categorizePosts(nodes));
       setCategory(
         category ? (category?.toString()?.toLowerCase() as string) : "all"
       );
     }
-  }, [window.location.search]);
+  }, [isBrowser && window.location.search]);
 
   return (
     <Layout>
