@@ -55,24 +55,29 @@ const contentSection = css`
   }
 `;
 
+const isBrowser = typeof window !== "undefined";
+
 const PostsPage = ({ data: { bg, allMdx } }: any) => {
   const [category, setCategory] = useState<string>("all");
   const [postList, setPostList] = useState<{ [key: string]: any }>({});
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const location = window.location;
 
   const handleOpen = (isOpen: boolean) => () => {
     setIsOpen(isOpen);
   };
 
   useEffect(() => {
-    if (location.search) {
+    if (isBrowser) {
+      const location = window.location;
       const { category } = qs.parse(location.search.slice(1));
       const { nodes } = allMdx;
+      console.log(category);
       setPostList(categorizePosts(nodes));
-      setCategory(category?.toString()?.toLowerCase() as string);
+      setCategory(
+        category ? (category?.toString()?.toLowerCase() as string) : "all"
+      );
     }
-  }, [location.search]);
+  }, [window.location.search]);
 
   return (
     <Layout>
