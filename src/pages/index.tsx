@@ -1,9 +1,9 @@
 import React from "react";
 import { graphql, Link } from "gatsby";
+import { StaticImage } from "gatsby-plugin-image";
 import { css } from "@emotion/react";
 import { mdxNodeType } from "types/post";
 import Layout from "../components/layout/Layout";
-import Img from "../components/common/Img";
 import Column from "../components/common/Column";
 import PageHead from "../components/common/PageHead";
 import Post from "../components/common/Post";
@@ -65,7 +65,7 @@ const contentSection = css`
   }
 `;
 
-const IndexPage = ({ data: { allMdx, bg, avatar } }: any) => {
+const IndexPage = ({ data: { allMdx, bg } }: any) => {
   return (
     <Layout>
       <PageHead imgURL={bg.publicURL}>
@@ -75,7 +75,7 @@ const IndexPage = ({ data: { allMdx, bg, avatar } }: any) => {
           justifyContents="center"
         >
           <div className="avatar">
-            <Img src={avatar.publicURL} alt="" />
+            <StaticImage src="../images/avatar.png" alt="Home" />
           </div>
           <h2>Frontend Developer</h2>
           <span>DanYJ's 개발 블로그</span>
@@ -112,9 +112,6 @@ export const query = graphql`
       }
     }
     bg: file(relativePath: { eq: "bg.jpg" }) {
-      publicURL
-    }
-    avatar: file(relativePath: { eq: "avatar.png" }) {
       publicURL
     }
   }
