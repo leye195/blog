@@ -8,6 +8,7 @@ const codeStyle = css`
   padding: 30px;
   top: 0;
   white-space: pre-wrap;
+  overflow: auto;
 `;
 
 const Code: React.FC = ({ children }) => (
