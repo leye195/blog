@@ -23,6 +23,7 @@ const topSection = css`
     & > h2 {
       margin-top: 0;
       font-size: 3rem;
+      text-align: center;
     }
 
     & > span {

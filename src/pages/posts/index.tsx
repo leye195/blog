@@ -97,6 +97,7 @@ const PostsPage = ({ data: { bg, allMdx } }: any) => {
             "FrontEnd",
             "React",
             "TypeScript",
+            "TIL",
             "Etc",
             "Web",
             "Tool",
