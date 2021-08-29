@@ -2,7 +2,7 @@ import React from "react";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
-import Button from "../common/Button";
+import Common from "../common";
 import { flexMixin } from "../../styles/mixin";
 
 type Props = {
@@ -39,7 +39,7 @@ const categoryListStyle = css`
 
     & > li {
       padding: 0.5rem;
-      margin: 1rem;
+      margin: 0.5rem;
       border-radius: 10px;
       background-color: white;
       box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
@@ -51,6 +51,7 @@ const categoryListStyle = css`
 
     &.open {
       height: auto;
+      min-height: 66px;
       transition: all 0.25s linear;
     }
   }
@@ -74,9 +75,13 @@ const CategoryList: React.FC<Props> = ({ categories, isOpen, handleOpen }) => {
           </li>
         ))}
       </ul>
-      <Button className="more" type="button" onClick={handleOpen(!isOpen)}>
+      <Common.Button
+        className="more"
+        type="button"
+        onClick={handleOpen(!isOpen)}
+      >
         {isOpen ? <MdArrowDropUp /> : <MdArrowDropDown />}
-      </Button>
+      </Common.Button>
     </div>
   );
 };

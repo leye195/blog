@@ -12,15 +12,16 @@ const headerStyle = css`
     align-items: center;
     justify-content: space-between;
     margin: auto;
+    padding: 0 1rem;
     height: 100%;
     max-width: 310px;
 
     & .menu {
       margin-top: 0.5rem;
       & > a {
-        font-size: 1.25rem;
+        font-size: 1rem;
         font-weight: bold;
-        color: #7886b7;
+        color: black;
       }
 
       &__about {
@@ -36,13 +37,7 @@ const headerStyle = css`
       max-width: 550px;
     }
     ${media.md} {
-      max-width: 700px;
-    }
-    ${media.lg} {
-      max-width: 950px;
-    }
-    ${media.xl} {
-      max-width: 1200px;
+      max-width: 768px;
     }
   }
 `;
@@ -63,8 +58,8 @@ const Header = () => {
             <img className="logo" src={data.logo.publicURL} alt="dan.dev.log" />
           </Link>
           <div className="menu">
-            <Link className="menu__about" to="/about">
-              About
+            <Link className="menu__about" to="/me">
+              Me
             </Link>
             <Link className="menu__posts" to="/posts?category=all">
               Posts

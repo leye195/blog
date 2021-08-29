@@ -21,7 +21,10 @@ export default css`
   }
 
   ul,
-  li {
+  li,
+  ol {
+    padding: 0;
+    margin: 0;
     list-style: none;
   }
 
