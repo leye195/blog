@@ -10,7 +10,7 @@ type Props = {
 
 const topSection = css`
   position: relative;
-  height: 30rem;
+  height: 25rem;
 
   & .heading {
     width: 100%;

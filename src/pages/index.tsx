@@ -4,9 +4,7 @@ import { StaticImage } from "gatsby-plugin-image";
 import { css } from "@emotion/react";
 import { mdxNodeType } from "types/post";
 import Layout from "../components/layout/Layout";
-import Column from "../components/common/Column";
-import PageHead from "../components/common/PageHead";
-import Post from "../components/common/Post";
+import Common from "../components/common";
 import { media } from "../styles/variables";
 
 const contentSection = css`
@@ -30,15 +28,22 @@ const contentSection = css`
     margin: 0 auto;
     max-width: 80%;
 
-    & > a {
+    & .post {
       width: 100%;
       padding: 0.5rem;
       color: black;
+      border-bottom: 1px solid #f5f5f5;
       transition: all 0.2s linear;
-    }
 
-    & > a:hover {
-      background-color: #e8ecfd;
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        & .post-preview__title {
+          color: #7886b7;
+        }
+      }
     }
   }
 
@@ -68,8 +73,8 @@ const contentSection = css`
 const IndexPage = ({ data: { allMdx, bg } }: any) => {
   return (
     <Layout>
-      <PageHead imgURL={bg.publicURL}>
-        <Column
+      <Common.PageHead imgURL={bg.publicURL}>
+        <Common.Column
           className="heading"
           alignItems="center"
           justifyContents="center"
@@ -79,20 +84,20 @@ const IndexPage = ({ data: { allMdx, bg } }: any) => {
           </div>
           <h2>Frontend Developer</h2>
           <span>DanYJ's 개발 블로그</span>
-        </Column>
-      </PageHead>
+        </Common.Column>
+      </Common.PageHead>
       <section css={contentSection}>
-        <Column className="posts">
+        <Common.Column className="posts">
           {allMdx.nodes.map(({ frontmatter, id }: mdxNodeType) => (
-            <Link key={id} to={`/posts/${frontmatter.slug}`}>
-              <Post
+            <Link className="post" key={id} to={`/posts/${frontmatter.slug}`}>
+              <Common.Post
                 title={frontmatter.title}
                 tags={frontmatter.tags}
                 date={frontmatter.date}
               />
             </Link>
           ))}
-        </Column>
+        </Common.Column>
       </section>
     </Layout>
   );

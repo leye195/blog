@@ -3,8 +3,7 @@ import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { css } from "@emotion/react";
 import Layout from "../../components/layout/Layout";
-import Container from "../../components/common/Container";
-import Column from "../../components/common/Column";
+import Common from "../../components/common";
 import Utterances from "../../components/comment/Utterances";
 import { Colors } from "../../styles/variables";
 
@@ -31,18 +30,18 @@ const contentsWrapper = css`
 const BlogPost = ({ data: { mdx } }: any) => {
   return (
     <Layout>
-      <Container css={containerStyle}>
-        <Column css={contentsWrapper}>
-          <Column className="top-section">
+      <Common.Container css={containerStyle}>
+        <Common.Column css={contentsWrapper}>
+          <Common.Column className="top-section">
             <h1>{mdx.frontmatter.title}</h1>
             <p className="post-date">{mdx.frontmatter.date}</p>
-          </Column>
+          </Common.Column>
           <MDXRenderer>{mdx.body}</MDXRenderer>
 
           <hr />
           <Utterances repo="leye195/blog" theme="github-light" />
-        </Column>
-      </Container>
+        </Common.Column>
+      </Common.Container>
     </Layout>
   );
 };

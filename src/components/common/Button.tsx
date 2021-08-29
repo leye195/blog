@@ -4,7 +4,7 @@ type Props = {
   className?: string;
   children: React.ReactNode;
   type: "button" | "submit" | "reset";
-  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const Button: React.FC<Props> = ({ className, children, type, onClick }) => {

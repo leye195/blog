@@ -3,10 +3,8 @@ import { graphql, Link } from "gatsby";
 import { css } from "@emotion/react";
 import qs from "qs";
 import Layout from "../../components/layout/Layout";
-import PageHead from "../../components/common/PageHead";
-import Column from "../../components/common/Column";
+import Common from "../../components/common";
 import CategoryList from "../../components/posts/CategoryList";
-import Post from "../../components/common/Post";
 import { categorizePosts } from "../../libs/category";
 import { media } from "../../styles/variables";
 import { postType } from "types/post";
@@ -32,15 +30,22 @@ const contentSection = css`
     margin: 0 auto;
     max-width: 90%;
 
-    & > a {
+    & .post {
       width: 100%;
       padding: 0.5rem;
       color: black;
+      border-bottom: 1px solid #f5f5f5;
       transition: all 0.2s linear;
-    }
 
-    & > a:hover {
-      background-color: #e8ecfd;
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        & .post-preview__title {
+          color: #7886b7;
+        }
+      }
     }
   }
 
@@ -80,15 +85,15 @@ const PostsPage = ({ data: { bg, allMdx } }: any) => {
 
   return (
     <Layout>
-      <PageHead imgURL={bg.publicURL}>
-        <Column
+      <Common.PageHead imgURL={bg.publicURL}>
+        <Common.Column
           className="heading"
           alignItems="center"
           justifyContents="center"
         >
           <h2>Posts</h2>
-        </Column>
-      </PageHead>
+        </Common.Column>
+      </Common.PageHead>
       <section css={contentSection}>
         <CategoryList
           categories={[
@@ -105,15 +110,15 @@ const PostsPage = ({ data: { bg, allMdx } }: any) => {
           isOpen={isOpen}
           handleOpen={handleOpen}
         />
-        <Column className="posts">
+        <Common.Column className="posts">
           {postList[category as string]?.map(
             ({ slug, title, tags, date }: postType, idx: number) => (
-              <Link key={idx} to={`/posts/${slug}`}>
-                <Post title={title} tags={tags} date={date} />
+              <Link className="post" key={idx} to={`/posts/${slug}`}>
+                <Common.Post title={title} tags={tags} date={date} />
               </Link>
             )
           )}
-        </Column>
+        </Common.Column>
       </section>
     </Layout>
   );

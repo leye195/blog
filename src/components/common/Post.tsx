@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import Row from "../common/Row";
 import Tag from "../common/Tag";
 import { flexMixin } from "../../styles/mixin";
+import { media } from "../../styles/variables";
 
 type Props = {
   title: string;
@@ -16,14 +17,23 @@ const postStyle = css`
     margin-bottom: 0.5rem;
     width: 100%;
 
-    &-title {
-      font-size: 2rem;
+    & .post-preview__title {
+      font-size: 1.2rem;
+      font-weight: 400;
+
+      ${media.mdDown} {
+        font-size: 1rem;
+      }
     }
 
-    & .post-preview-date {
-      font-size: 1.15rem;
+    & .post-preview__date {
+      font-size: 1rem;
       color: #868e96;
       white-space: pre;
+
+      ${media.mdDown} {
+        font-size: 0.8rem;
+      }
     }
   }
 `;
@@ -31,14 +41,14 @@ const postStyle = css`
 const Post = ({ title, tags, date }: Props) => {
   return (
     <article css={postStyle} className="post-preview">
-      <h2 className="post-preview-title">{title}</h2>
+      <h2 className="post-preview__title">{title}</h2>
       <Row alignItems="center" justifyContents="space-between">
         <Row className="tags">
           {tags.split(",").map((tag) => (
             <Tag key={tag} className="tag" text={tag} />
           ))}
         </Row>
-        <p className="post-preview-date">{date}</p>
+        <p className="post-preview__date">{date}</p>
       </Row>
     </article>
   );
