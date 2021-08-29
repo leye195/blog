@@ -99,13 +99,13 @@ const PostsPage = ({ data: { bg, allMdx } }: any) => {
           categories={[
             "All",
             "Javascript",
-            "FrontEnd",
-            "React",
             "TypeScript",
+            "FrontEnd",
+            "Dev",
             "TIL",
-            "Etc",
+            "Work",
             "Web",
-            "Tool",
+            "Etc",
           ]}
           isOpen={isOpen}
           handleOpen={handleOpen}

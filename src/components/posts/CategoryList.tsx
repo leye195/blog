@@ -30,7 +30,7 @@ const categoryListStyle = css`
     padding: 0 0.5rem;
     margin-bottom: 0.5rem;
     width: 100%;
-    height: 66px;
+    min-height: 66px;
     overflow: hidden;
     border-left: 5px solid rgba(0, 0, 0, 0.3);
     border-right: 5px solid rgba(0, 0, 0, 0.3);
@@ -51,7 +51,6 @@ const categoryListStyle = css`
 
     &.open {
       height: auto;
-      min-height: 66px;
       transition: all 0.25s linear;
     }
   }
