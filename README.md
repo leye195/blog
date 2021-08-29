@@ -7,4 +7,5 @@
 ### 활용 스택
 
 - Gatsby
+- React.js
 - Emotion
