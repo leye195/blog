@@ -30,9 +30,7 @@ const Footer: React.FC = () => {
             <FaGithubSquare />
           </a>
         </Row>
-        <p className="copyright">
-          Copyright © dan.dev.log {new Date().getFullYear()}
-        </p>
+        <p className="copyright">© {new Date().getFullYear()} dan.dev.log </p>
       </Column>
     </footer>
   );
