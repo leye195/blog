@@ -7,9 +7,42 @@ import Layout from "../components/layout/Layout";
 import Common from "../components/common";
 import { media } from "../styles/variables";
 
+const pageHeader = css`
+  display: flex;
+  padding: 1rem 0;
+  height: 12rem;
+  position: relative;
+  color: white;
+  background-color: #7886b7;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 1rem;
+    background: linear-gradient(to right, #3d4d7f, transparent);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 1.5rem;
+    background: linear-gradient(to left, #3d4d7f, transparent);
+  }
+
+  & h1.page-header__title {
+    border-bottom: 0.25rem solid white;
+  }
+`;
+
 const contentSection = css`
-  padding: 1.5rem 1rem;
-  margin: auto;
+  padding: 2rem 1rem 1.5rem 1rem;
+  margin: 2rem auto 0 auto;
 
   ${media.sm} {
     max-width: 550px;
@@ -73,19 +106,16 @@ const contentSection = css`
 const IndexPage = ({ data: { allMdx, bg } }: any) => {
   return (
     <Layout>
-      <Common.PageHead imgURL={bg.publicURL}>
+      <div css={pageHeader}>
         <Common.Column
           className="heading"
           alignItems="center"
           justifyContents="center"
         >
-          <div className="avatar">
-            <StaticImage src="../images/avatar.png" alt="Home" />
-          </div>
-          <h2>Frontend Developer</h2>
-          <span>DanYJ's 개발 블로그</span>
+          <h1 className="page-header__title">Dan.Dev.Log</h1>
+          <span>Frontend Developer</span>
         </Common.Column>
-      </Common.PageHead>
+      </div>
       <section css={contentSection}>
         <Common.Column className="posts">
           {allMdx.nodes.map(({ frontmatter, id }: mdxNodeType) => (

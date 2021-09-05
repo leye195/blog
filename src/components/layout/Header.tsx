@@ -18,10 +18,30 @@ const headerStyle = css`
 
     & .menu {
       margin-top: 0.5rem;
+
       & > a {
+        position: relative;
         font-size: 1rem;
         font-weight: bold;
         color: black;
+
+        &::after {
+          content: "";
+          position: absolute;
+          height: 0.2rem;
+          width: 100%;
+          left: 0;
+          bottom: 0;
+          opacity: 0;
+          transition: all 0.09s linear;
+        }
+
+        &:hover {
+          &::after {
+            background-color: #7886b7;
+            opacity: 1;
+          }
+        }
       }
 
       &__about {
