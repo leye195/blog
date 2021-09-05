@@ -10,7 +10,27 @@ type Props = {
 
 const topSection = css`
   position: relative;
-  height: 25rem;
+  height: 14rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 1rem;
+    background: linear-gradient(to right, black, transparent);
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 1.5rem;
+    background: linear-gradient(to left, black, transparent);
+  }
 
   & .heading {
     width: 100%;
@@ -21,9 +41,10 @@ const topSection = css`
     text-shadow: 0px 3px 14px black;
 
     & > h2 {
-      margin-top: 0;
+      margin: 0;
       font-size: 3rem;
       text-align: center;
+      border-bottom: 0.25rem solid white;
     }
 
     & > span {
