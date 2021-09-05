@@ -47,6 +47,13 @@ const headerStyle = css`
       &__about {
         margin-right: 1.5rem;
       }
+
+      & .current-link {
+        &::after {
+          background-color: #7886b7;
+          opacity: 1;
+        }
+      }
     }
 
     ${media.smDown} {
@@ -78,10 +85,18 @@ const Header = () => {
             <img className="logo" src={data.logo.publicURL} alt="dan.dev.log" />
           </Link>
           <div className="menu">
-            <Link className="menu__about" to="/me">
+            <Link
+              className="menu__about"
+              to="/me"
+              activeClassName="current-link"
+            >
               Me
             </Link>
-            <Link className="menu__posts" to="/posts?category=all">
+            <Link
+              className="menu__posts"
+              to="/posts"
+              activeClassName="current-link"
+            >
               Posts
             </Link>
           </div>
