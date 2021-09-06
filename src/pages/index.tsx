@@ -1,6 +1,5 @@
 import React from "react";
 import { graphql, Link } from "gatsby";
-import { StaticImage } from "gatsby-plugin-image";
 import { css } from "@emotion/react";
 import { mdxNodeType } from "types/post";
 import Layout from "../components/layout/Layout";
@@ -10,7 +9,7 @@ import { media } from "../styles/variables";
 const pageHeader = css`
   display: flex;
   padding: 1rem 0;
-  height: 12rem;
+  height: auto;
   position: relative;
   color: white;
   background-color: #7886b7;
@@ -37,6 +36,19 @@ const pageHeader = css`
 
   & h1.page-header__title {
     border-bottom: 0.25rem solid white;
+  }
+
+  & .avatar {
+    height: 8.5rem;
+    width: 8.5rem;
+    margin-bottom: 0;
+
+    & > img {
+      height: 100%;
+      width: 100%;
+      background-color: white;
+      border-radius: 50%;
+    }
   }
 `;
 
@@ -103,7 +115,7 @@ const contentSection = css`
   }
 `;
 
-const IndexPage = ({ data: { allMdx, bg } }: any) => {
+const IndexPage = ({ data: { allMdx, avatar } }: any) => {
   return (
     <Layout>
       <div css={pageHeader}>
@@ -112,6 +124,9 @@ const IndexPage = ({ data: { allMdx, bg } }: any) => {
           alignItems="center"
           justifyContents="center"
         >
+          <figure className="avatar">
+            <img src={avatar.publicURL} alt="" />
+          </figure>
           <h1 className="page-header__title">Dan.Dev.Log</h1>
           <span>Frontend Developer</span>
         </Common.Column>
@@ -146,7 +161,7 @@ export const query = graphql`
         id
       }
     }
-    bg: file(relativePath: { eq: "bg.jpg" }) {
+    avatar: file(relativePath: { eq: "avatar.png" }) {
       publicURL
     }
   }
