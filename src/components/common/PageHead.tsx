@@ -10,7 +10,7 @@ type Props = {
 
 const topSection = css`
   position: relative;
-  height: 14rem;
+  height: 25rem;
 
   &::before {
     content: "";
