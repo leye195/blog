@@ -46,7 +46,12 @@ module.exports = {
     {
       resolve: "gatsby-plugin-manifest",
       options: {
+        name: "dan.dev-log",
+        short_name: "dan.dev-log",
+        start_url: "/",
+        background_color: "#7886b7",
         icon: "src/images/logo.svg",
+        display: `standalone`,
       },
     },
     {
