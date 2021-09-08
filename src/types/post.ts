@@ -1,5 +1,6 @@
 export type allMdx = {
-  nodes: mdxNodeType[];
+  nodes?: mdxNodeType[];
+  group?: mdxGroupType[];
 };
 
 export type mdxNodeType = {
@@ -8,10 +9,19 @@ export type mdxNodeType = {
   id: string;
 };
 
+export type mdxGroupType = {
+  group: [
+    {
+      tag: string;
+      totalCount: number;
+    }
+  ];
+};
+
 export type postType = {
   title: string;
   date: string;
   slug: string;
-  tags: string;
+  tags: string[];
   path: string;
 };

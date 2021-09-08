@@ -7,7 +7,7 @@ import { media } from "../../styles/variables";
 
 type Props = {
   title: string;
-  tags: string;
+  tags: string[];
   date: string;
 };
 
@@ -44,7 +44,7 @@ const Post = ({ title, tags, date }: Props) => {
       <h2 className="post-preview__title">{title}</h2>
       <Row alignItems="center" justifyContents="space-between">
         <Row className="tags">
-          {tags.split(",").map((tag) => (
+          {tags.map((tag) => (
             <Tag key={tag} className="tag" text={tag} />
           ))}
         </Row>

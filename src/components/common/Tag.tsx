@@ -4,15 +4,23 @@ import { media } from "../../styles/variables";
 
 type TagType = {
   text: string;
+  count?: number;
   className?: string;
 };
 
 const tagStyle = css`
+  display: flex;
+  justify-content: space-between;
   height: 1rem;
   padding: 0.5rem;
+  position: relative;
   border: 1px solid #7886b7;
+  border-radius: 10px;
   color: #7886b7;
-  border-radius: 0.5rem;
+
+  & > span {
+    margin-left: 0.5rem;
+  }
 
   ${media.mdDown} {
     height: 0.8rem;
@@ -20,10 +28,11 @@ const tagStyle = css`
   }
 `;
 
-const Tag = ({ className, text }: TagType) => {
+const Tag = ({ className, text, count }: TagType) => {
   return (
     <div className={className} css={tagStyle}>
       {text}
+      {count && <span>{count}</span>}
     </div>
   );
 };

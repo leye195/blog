@@ -4,7 +4,7 @@ import { graphql, Link, useStaticQuery } from "gatsby";
 import { media } from "../../styles/variables";
 
 const headerStyle = css`
-  height: 60px;
+  min-height: auto;
   border-bottom: 2px solid #f5f3f3;
 
   & .inner-container {
@@ -15,6 +15,11 @@ const headerStyle = css`
     padding: 0 1rem;
     height: 100%;
     max-width: 310px;
+
+    & .logo-container {
+      display: flex;
+      padding: 0.5rem 0;
+    }
 
     & .menu {
       margin-top: 0.5rem;
@@ -44,7 +49,8 @@ const headerStyle = css`
         }
       }
 
-      &__about {
+      &__about,
+      &__posts {
         margin-right: 1.5rem;
       }
 
@@ -57,7 +63,31 @@ const headerStyle = css`
     }
 
     ${media.smDown} {
-      justify-content: center;
+      flex-wrap: wrap;
+      padding: 0;
+      height: auto;
+      max-width: 95%;
+
+      & .logo-container {
+        justify-content: center;
+        width: 100%;
+      }
+
+      & .menu {
+        display: flex;
+        justify-content: center;
+        margin-top: 0;
+        margin-left: 0.5rem;
+        padding: 0.5rem 0;
+        width: 100%;
+
+        &__about,
+        &__posts,
+        &__tags {
+          display: flex;
+          justify-content: center;
+        }
+      }
     }
 
     ${media.sm} {
@@ -72,7 +102,7 @@ const headerStyle = css`
 const Header = () => {
   const data = useStaticQuery(graphql`
     query {
-      logo: file(relativePath: { eq: "logo.svg" }) {
+      logo: file(relativePath: { eq: "logo.png" }) {
         publicURL
       }
     }
@@ -98,6 +128,13 @@ const Header = () => {
               activeClassName="current-link"
             >
               Posts
+            </Link>
+            <Link
+              className="menu__tags"
+              to="/tags"
+              activeClassName="current-link"
+            >
+              Tags
             </Link>
           </div>
         </div>

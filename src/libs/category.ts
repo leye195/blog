@@ -1,8 +1,8 @@
 export const categorizePosts = (posts: any) => {
   return posts.reduce((posts: any, { frontmatter: post }: any) => {
-    const tags = post.tags.split(",");
+    const { tags } = post;
     tags.forEach((tag: string) => {
-      const postTag = tag.toLowerCase().trim();
+      const postTag = tag.toLowerCase();
       if (posts[postTag]) posts[postTag] = [...posts[postTag], { ...post }];
       else posts[postTag] = [{ ...post }];
     });
