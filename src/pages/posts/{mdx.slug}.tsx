@@ -2,10 +2,10 @@ import React from "react";
 import { graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { css } from "@emotion/react";
-import Layout from "../../components/layout/Layout";
-import Common from "../../components/common";
-import Utterances from "../../components/comment/Utterances";
-import { Colors } from "../../styles/variables";
+import Layout from "components/layout/Layout";
+import Common from "components/common";
+import Utterances from "components/comment/Utterances";
+import { Colors } from "styles/variables";
 
 const containerStyle = css`
   margin: 0 auto;

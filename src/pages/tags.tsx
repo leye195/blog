@@ -1,11 +1,11 @@
 import React from "react";
 import { graphql, Link } from "gatsby";
 import { css } from "@emotion/react";
-import Layout from "../components/layout/Layout";
-import Common from "../components/common";
-import Tag from "../components/common/Tag";
-import { media } from "../styles/variables";
+import Layout from "components/layout/Layout";
+import Common from "components/common";
+import Tag from "components/common/Tag";
 import { mdxGroupType } from "types/post";
+import { media } from "styles/variables";
 
 type Props = {
   data: {

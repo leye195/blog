@@ -1,6 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
-import { media } from "../../styles/variables";
+import { media } from "styles/variables";
 
 type Props = {
   children: React.ReactNode;

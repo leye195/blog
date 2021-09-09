@@ -2,11 +2,11 @@ import React from "react";
 import { Global, css } from "@emotion/react";
 import { MDXProvider } from "@mdx-js/react";
 import { MdArrowUpward } from "react-icons/md";
-import Header from "./Header";
-import Footer from "./Footer";
-import Common from "../common";
-import MDXDesign from "../mdx";
-import global from "../../styles/global";
+import Header from "components/layout/Header";
+import Footer from "components/layout/Footer";
+import Common from "components/common";
+import MDXDesign from "components/mdx";
+import global from "styles/global";
 
 const container = css`
   & .to-top {

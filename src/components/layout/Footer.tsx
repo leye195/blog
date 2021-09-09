@@ -1,8 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { FaGithubSquare } from "react-icons/fa";
-import Row from "../common/Row";
-import Column from "../common/Column";
+import Common from "components/common";
 
 const footerStyle = css`
   padding: 3rem 0;
@@ -24,14 +23,14 @@ const footerStyle = css`
 const Footer: React.FC = () => {
   return (
     <footer css={footerStyle}>
-      <Column alignItems="center" justifyContents="center">
-        <Row alignItems="center" justifyContents="center">
+      <Common.Column alignItems="center" justifyContents="center">
+        <Common.Row alignItems="center" justifyContents="center">
           <a href="https://github.com/leye195" target="_blank" rel="noopener">
             <FaGithubSquare />
           </a>
-        </Row>
+        </Common.Row>
         <p className="copyright">© {new Date().getFullYear()} dan.dev.log </p>
-      </Column>
+      </Common.Column>
     </footer>
   );
 };

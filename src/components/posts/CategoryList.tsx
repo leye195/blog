@@ -2,8 +2,8 @@ import React from "react";
 import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
-import Common from "../common";
-import { flexMixin } from "../../styles/mixin";
+import Common from "components/common";
+import { flexMixin } from "styles/mixin";
 
 type Props = {
   children?: React.ReactNode;

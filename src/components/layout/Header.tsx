@@ -1,7 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
 import { graphql, Link, useStaticQuery } from "gatsby";
-import { media } from "../../styles/variables";
+import { media } from "styles/variables";
 
 const headerStyle = css`
   min-height: auto;

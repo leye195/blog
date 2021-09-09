@@ -1,9 +1,8 @@
 import React from "react";
 import { css } from "@emotion/react";
-import Row from "../common/Row";
-import Tag from "../common/Tag";
-import { flexMixin } from "../../styles/mixin";
-import { media } from "../../styles/variables";
+import Common from "components/common";
+import { flexMixin } from "styles/mixin";
+import { media } from "styles/variables";
 
 type Props = {
   title: string;
@@ -42,14 +41,14 @@ const Post = ({ title, tags, date }: Props) => {
   return (
     <article css={postStyle} className="post-preview">
       <h2 className="post-preview__title">{title}</h2>
-      <Row alignItems="center" justifyContents="space-between">
-        <Row className="tags">
+      <Common.Row alignItems="center" justifyContents="space-between">
+        <Common.Row className="tags">
           {tags.map((tag) => (
-            <Tag key={tag} className="tag" text={tag} />
+            <Common.Tag key={tag} className="tag" text={tag} />
           ))}
-        </Row>
+        </Common.Row>
         <p className="post-preview__date">{date}</p>
-      </Row>
+      </Common.Row>
     </article>
   );
 };

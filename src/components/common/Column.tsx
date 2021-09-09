@@ -1,6 +1,6 @@
 import React from "react";
 import { css } from "@emotion/react";
-import { flexMixin } from "../../styles/mixin";
+import { flexMixin } from "styles/mixin";
 
 type Props = colType & {
   children: React.ReactNode;
