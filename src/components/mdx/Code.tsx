@@ -5,7 +5,6 @@ const codeStyle = css`
   background: inherit;
   color: inherit;
   display: block;
-  padding: 30px;
   top: 0;
   white-space: pre-wrap;
   overflow: auto;
