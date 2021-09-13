@@ -1,6 +1,7 @@
 import React from "react";
 import { css } from "@emotion/react";
-import Img from "./Img";
+import Img from "components/common/Img";
+import { media } from "styles/variables";
 
 type Props = {
   children?: React.ReactNode;
@@ -10,26 +11,20 @@ type Props = {
 
 const topSection = css`
   position: relative;
+  margin: 0 auto;
   height: 25rem;
 
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 1rem;
-    background: linear-gradient(to right, black, transparent);
+  ${media.sm} {
+    max-width: 550px;
   }
-
-  &::after {
-    content: "";
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 1.5rem;
-    background: linear-gradient(to left, black, transparent);
+  ${media.md} {
+    max-width: 700px;
+  }
+  ${media.lg} {
+    max-width: 950px;
+  }
+  ${media.xl} {
+    max-width: 1200px;
   }
 
   & .heading {
