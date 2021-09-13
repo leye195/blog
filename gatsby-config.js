@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: "Dan DevLog",
-    url: "https://dantechblog.gatsbyjs.io",
+    siteUrl: "https://dantechblog.gatsbyjs.io",
   },
   plugins: [
     "gatsby-plugin-typescript",
