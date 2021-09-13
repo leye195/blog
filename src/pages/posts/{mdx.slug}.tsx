@@ -36,8 +36,9 @@ const BlogPost = ({ data: { mdx } }: any) => {
             <h1>{mdx.frontmatter.title}</h1>
             <p className="post-date">{mdx.frontmatter.date}</p>
           </Common.Column>
-          <MDXRenderer>{mdx.body}</MDXRenderer>
-
+          <Common.Container>
+            <MDXRenderer>{mdx.body}</MDXRenderer>
+          </Common.Container>
           <hr />
           <Utterances repo="leye195/blog" theme="github-light" />
         </Common.Column>

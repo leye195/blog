@@ -18,6 +18,7 @@ export default css`
 
   p {
     margin: 0;
+    padding: 0;
   }
 
   ul,
@@ -56,5 +57,9 @@ export default css`
 
   #root {
     min-height: 100vh;
+  }
+
+  .deckgo-highlight-code {
+    width: 100%;
   }
 `;

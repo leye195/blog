@@ -2,11 +2,14 @@ import React from "react";
 import { Global, css } from "@emotion/react";
 import { MDXProvider } from "@mdx-js/react";
 import { MdArrowUpward } from "react-icons/md";
+import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";
 import Header from "components/layout/Header";
 import Footer from "components/layout/Footer";
 import Common from "components/common";
 import MDXDesign from "components/mdx";
 import global from "styles/global";
+
+deckDeckGoHighlightElement();
 
 const container = css`
   & .to-top {
@@ -36,10 +39,10 @@ const Layout: React.FC = ({ children }) => {
       <MDXProvider
         components={{
           p: (props) => <MDXDesign.Pragraph {...props} />,
-          code: (props) => <MDXDesign.Code {...props} />,
           pre: (props) => <MDXDesign.Pre {...props} />,
           a: (props) => <MDXDesign.Anchor {...props} />,
           li: (props) => <MDXDesign.List {...props} />,
+          ul: (props) => <MDXDesign.Ul {...props} />,
         }}
       >
         <div css={container}>

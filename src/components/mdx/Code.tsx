@@ -1,6 +1,10 @@
 import React from "react";
 import { css } from "@emotion/react";
 
+type Props = {
+  className?: string;
+};
+
 const codeStyle = css`
   background: inherit;
   color: inherit;
@@ -10,10 +14,12 @@ const codeStyle = css`
   overflow: auto;
 `;
 
-const Code: React.FC = ({ children }) => (
-  <code className="language-" css={codeStyle}>
-    {children}
-  </code>
-);
+const Code: React.FC<Props> = ({ children, className }) => {
+  return (
+    <code className={className} css={codeStyle}>
+      {children}
+    </code>
+  );
+};
 
 export default Code;
