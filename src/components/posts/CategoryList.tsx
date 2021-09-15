@@ -1,8 +1,6 @@
-import React from "react";
-import { MdArrowDropDown, MdArrowDropUp } from "react-icons/md";
+import React, { useRef, useState } from "react";
 import { css } from "@emotion/react";
 import { Link } from "gatsby";
-import Common from "components/common";
 import { flexMixin } from "styles/mixin";
 
 type Props = {
@@ -10,6 +8,13 @@ type Props = {
   categories: string[];
   isOpen: boolean;
   handleOpen: (isOpen: boolean) => () => void;
+};
+
+type posType = {
+  top: number;
+  left: number;
+  x: number;
+  y: number;
 };
 
 const categoryListStyle = css`
@@ -26,7 +31,6 @@ const categoryListStyle = css`
       direction: "row",
       alignItems: "center",
     })}
-    flex-wrap: wrap;
     padding: 0 0.5rem;
     margin-bottom: 0.5rem;
     width: 100%;
@@ -36,6 +40,17 @@ const categoryListStyle = css`
     border-right: 5px solid rgba(0, 0, 0, 0.3);
     background-color: #e8e8e8;
     transition: all 0.25s linear;
+    overflow: auto;
+    cursor: grab;
+
+    &.drag-scroll {
+      user-select: none;
+      cursor: grabbing;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     & > li {
       padding: 0.5rem;
@@ -64,23 +79,62 @@ const categoryListStyle = css`
   }
 `;
 
-const CategoryList: React.FC<Props> = ({ categories, isOpen, handleOpen }) => {
+const CategoryList: React.FC<Props> = ({ categories, isOpen }) => {
+  const ref = useRef(null);
+  const [pos, setPos] = useState<posType>({
+    top: 0,
+    left: 0,
+    x: 0,
+    y: 0,
+  });
+  const [isMouseDown, setIsMouseDown] = useState(false);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    const { clientX, clientY } = e;
+    if (ref && ref.current) {
+      const ele = ref.current as any;
+      const { scrollTop, scrollLeft } = ele;
+      setPos({
+        left: scrollLeft,
+        top: scrollTop,
+        x: clientX,
+        y: clientY,
+      });
+      setIsMouseDown(true);
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const dx = e.clientX - pos.x;
+    const dy = e.clientY - pos.y;
+
+    if (ref && ref.current && isMouseDown) {
+      const ele = ref.current as any;
+
+      ele.scrollTop = pos.top - dy;
+      ele.scrollLeft = pos.left - dx;
+    }
+  };
+
+  const handleMouseUp = (e: React.MouseEvent) => {
+    setIsMouseDown(false);
+  };
+
   return (
     <div css={categoryListStyle}>
-      <ul className={`category ${isOpen ? "open" : "close"}`}>
+      <ul
+        ref={ref}
+        className={`category ${isMouseDown ? "drag-scroll" : ""}`}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+      >
         {categories.map((category: string) => (
           <li key={category}>
             <Link to={`?category=${category}`}>{category}</Link>
           </li>
         ))}
       </ul>
-      <Common.Button
-        className="more"
-        type="button"
-        onClick={handleOpen(!isOpen)}
-      >
-        {isOpen ? <MdArrowDropUp /> : <MdArrowDropDown />}
-      </Common.Button>
     </div>
   );
 };
