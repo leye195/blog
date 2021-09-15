@@ -128,6 +128,7 @@ const CategoryList: React.FC<Props> = ({ categories, isOpen }) => {
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
       >
         {categories.map((category: string) => (
           <li key={category}>
