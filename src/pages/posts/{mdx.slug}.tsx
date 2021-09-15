@@ -6,6 +6,7 @@ import Layout from "components/layout/Layout";
 import Common from "components/common";
 import Utterances from "components/comment/Utterances";
 import { Colors, media } from "styles/variables";
+import SEO from "components/common/SEO";
 
 const containerStyle = css`
   margin: 0 auto;
@@ -38,6 +39,7 @@ const postContainer = css`
 const BlogPost = ({ data: { mdx } }: any) => {
   return (
     <Layout>
+      <SEO title={`${mdx.frontmatter.title} | Dan DevLog`} article />
       <Common.Container css={containerStyle}>
         <Common.Column css={contentsWrapper}>
           <Common.Column className="top-section">

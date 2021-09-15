@@ -5,7 +5,7 @@ import Layout from "components/layout/Layout";
 import Common from "components/common";
 import Tag from "components/common/Tag";
 import { mdxGroupType } from "types/post";
-import { media } from "styles/variables";
+import SEO from "components/common/SEO";
 
 type Props = {
   data: {
@@ -15,6 +15,7 @@ type Props = {
 
 const tagsSection = css`
   max-width: 700px;
+  min-height: 25rem;
   margin: 2rem auto 2rem auto;
   padding: 0 1rem;
 
@@ -28,8 +29,7 @@ const tagsSection = css`
     &__list {
       display: flex;
       flex-wrap: wrap;
-      padding-top: 1rem;
-      min-height: 25rem;
+      padding-top: 0.5rem;
 
       & > a {
         height: fit-content;
@@ -47,6 +47,10 @@ const tagsSection = css`
       & .empty__space {
         margin-right: 1rem;
       }
+
+      & .tag--wrapper {
+        margin: 0.5rem 0.5rem 0 0;
+      }
     }
   }
 `;
@@ -54,17 +58,18 @@ const tagsSection = css`
 const TagsPage = ({ data: { allMdx } }: Props) => {
   return (
     <Layout>
+      <SEO title="Tags | Dan DevLog" />
       <section css={tagsSection}>
         <Common.Column className="tags">
           <h1 className="tags__title">Tags</h1>
           <div className="tags__list">
             {allMdx?.group.map(({ tag, totalCount }, idx) => (
-              <>
+              <div className="tag--wrapper" key={tag}>
                 {idx !== 0 && <div className="empty__space" />}
                 <Link to={`/posts?category=${tag}`}>
                   <Tag className="tag" text={tag} count={totalCount} />
                 </Link>
-              </>
+              </div>
             ))}
           </div>
         </Common.Column>

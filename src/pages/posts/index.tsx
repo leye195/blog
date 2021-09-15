@@ -8,6 +8,7 @@ import CategoryList from "../../components/posts/CategoryList";
 import { categorizePosts } from "../../libs/category";
 import { media } from "../../styles/variables";
 import { postType } from "types/post";
+import SEO from "components/common/SEO";
 
 const contentSection = css`
   padding: 1.5rem 1rem;
@@ -85,6 +86,7 @@ const PostsPage = ({ data: { bg, allMdx } }: any) => {
 
   return (
     <Layout>
+      <SEO title="Posts | Dan DevLog" />
       <Common.PageHead imgURL={bg.publicURL}>
         <Common.Column
           className="heading"

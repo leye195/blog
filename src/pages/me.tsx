@@ -5,6 +5,7 @@ import Layout from "components/layout/Layout";
 import Common from "components/common";
 import Card from "components/me/Card";
 import data from "data";
+import SEO from "components/common/SEO";
 
 const containerStyle = css`
   max-width: 700px;
@@ -46,6 +47,7 @@ const containerStyle = css`
 const MePage = ({ data: { bg } }: any) => {
   return (
     <Layout>
+      <SEO title="Me | Dan DevLog" />
       <Common.PageHead imgURL={bg.publicURL}>
         <Common.Column
           className="heading"

@@ -1,10 +1,10 @@
-import React from "react";
 import { graphql, Link } from "gatsby";
 import { css } from "@emotion/react";
 import { mdxNodeType } from "types/post";
 import Layout from "components/layout/Layout";
 import Common from "components/common";
 import { media } from "styles/variables";
+import SEO from "components/common/SEO";
 
 const pageHeader = css`
   display: flex;
@@ -118,6 +118,7 @@ const contentSection = css`
 const IndexPage = ({ data: { allMdx, avatar } }: any) => {
   return (
     <Layout>
+      <SEO />
       <div css={pageHeader}>
         <Common.Column
           className="heading"
