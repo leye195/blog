@@ -19,6 +19,7 @@
       "@emotion/react/types/css-prop",
       "@types/jest",
       "src/custom.d.ts",
+      "@testing-library/jest-dom",
       "node"
     ],
     "baseUrl": "src",
@@ -27,11 +28,5 @@
     }
   },
   "include": ["src"],
-  "exclude": [
-    "node_modules",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    "**/*.spec.tsx",
-    "**/*.test.tsx"
-  ]
+  "exclude": ["node_modules"]
 }
