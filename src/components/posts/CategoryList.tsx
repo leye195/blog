@@ -6,8 +6,8 @@ import { flexMixin } from "styles/mixin";
 type Props = {
   children?: React.ReactNode;
   categories: string[];
-  isOpen: boolean;
-  handleOpen: (isOpen: boolean) => () => void;
+  isOpen?: boolean;
+  handleOpen?: (isOpen: boolean) => () => void;
 };
 
 type posType = {
@@ -79,7 +79,7 @@ const categoryListStyle = css`
   }
 `;
 
-const CategoryList: React.FC<Props> = ({ categories, isOpen }) => {
+const CategoryList: React.FC<Props> = ({ categories }) => {
   const ref = useRef(null);
   const [pos, setPos] = useState<posType>({
     top: 0,

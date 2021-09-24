@@ -25,7 +25,12 @@ const Footer: React.FC = () => {
     <footer css={footerStyle}>
       <Common.Column alignItems="center" justifyContents="center">
         <Common.Row alignItems="center" justifyContents="center">
-          <a href="https://github.com/leye195" target="_blank" rel="noopener">
+          <a
+            className="github"
+            href="https://github.com/leye195"
+            target="_blank"
+            rel="noopener"
+          >
             <FaGithubSquare />
           </a>
         </Common.Row>

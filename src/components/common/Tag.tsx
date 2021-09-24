@@ -1,6 +1,6 @@
-import React from "react";
 import { css } from "@emotion/react";
 import { media } from "styles/variables";
+import { flexMixin } from "styles/mixin";
 
 type TagType = {
   text: string;
@@ -9,8 +9,7 @@ type TagType = {
 };
 
 const tagStyle = css`
-  display: flex;
-  justify-content: space-between;
+  ${flexMixin({ direction: "row", justifyContents: "space-between" })}
   height: 1rem;
   padding: 0.5rem;
   position: relative;

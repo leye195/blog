@@ -8,14 +8,17 @@ import Footer from "components/layout/Footer";
 import Common from "components/common";
 import MDXDesign from "components/mdx";
 import global from "styles/global";
+import { flexMixin } from "styles/mixin";
 
 deckDeckGoHighlightElement();
 
 const container = css`
   & .to-top {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    ${flexMixin({
+      direction: "row",
+      alignItems: "center",
+      justifyContents: "center",
+    })}
     padding: 1rem;
     position: fixed;
     bottom: 1rem;

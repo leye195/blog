@@ -3,8 +3,8 @@ import { css } from "@emotion/react";
 import { mdxNodeType } from "types/post";
 import Layout from "components/layout/Layout";
 import Common from "components/common";
-import { media } from "styles/variables";
 import SEO from "components/common/SEO";
+import { media } from "styles/variables";
 
 const pageHeader = css`
   display: flex;
