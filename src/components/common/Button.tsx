@@ -2,7 +2,7 @@ import React from "react";
 
 type Props = {
   className?: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   type: "button" | "submit" | "reset";
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
