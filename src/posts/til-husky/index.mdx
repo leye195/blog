@@ -1,0 +1,56 @@
+---
+title: TIL, husky 적용 방법
+slug: til-husky
+date: 2021-09-24
+tags: ["TIL", "Dev"]
+---
+
+## husky?
+
+husky는 front-end 개발 환경에서 `git-hook`을 쉽게 제어 할 수 있게 도와주는 툴이다.<br/>
+`git-hook`은 git에서 특정 이벤트 (commit,push etc...)가 발생했을때 hook을 통해 특정 스크립트를 실행할 수 있도록 도와준다.
+
+## 설치
+
+```
+// npm
+npm i husky --save-dev
+
+// yarn
+yarn add --dev husky
+```
+
+## 사용 방법
+
+이전 v4 까지는 package.json에 `pre-commit` 이나 `pre-push` 시 실행될 명령을 작성했는데
+이후 v5 버전부터는 각 개별 파일로 작성할 수 있고 원하는 위치에 저장할 수 있게 됬다. <br/>
+
+예를 들어 `.husky/husky-config` 에 설정 파일을 저장하고 싶다면 다음과 같이 실행하면 된다.
+
+```
+npx husky install ".husky/husky-config"
+// 폴더이름을 따로 지정하기 않을 경우 .husky가 기본값으로 사용된다.
+
+```
+
+`pre-commit` 혹은 `pre-push` 같은 hook을 작성하고 싶을 경우 다음과 같이 명령어를 입력하면 된다.
+** 꼭 husky install 부터 실행한 뒤에 아래 명령어를 입력해야된다. **
+
+```
+// pre-commit
+npx husky add .husky/husky-config/pre-commit "npm test"
+git add .husky/husky-config/pre-commit
+
+// pre-push
+npx husky add .husky/husky-config/pre-push "npm test"
+git add .husky/husky-config/pre-push
+
+```
+
+위와 같이 명령을 실행하면 내부에 관련 스크립트가 작성되어 있는 pre-commit 파일 혹은 pre-push 파일이 husky 지정 폴더에 생성되며
+commit 혹은 push을 진행시 먼저 지정 스크립트 `ex) npm test` 가 실행된다.
+
+### 참고
+
+- [husky document](https://typicode.github.io/husky/#/?id=create-a-hook)
+- [husky로 손쉽게 git hook 관리하기](https://www.huskyhoochu.com/npm-husky-the-git-hook-manager/)
