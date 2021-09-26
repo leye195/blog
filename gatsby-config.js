@@ -11,8 +11,8 @@ module.exports = {
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
-    "gatsby-plugin-sitemap",
     "gatsby-plugin-resolve-src",
+    "gatsby-plugin-advanced-sitemap",
     {
       resolve: "gatsby-plugin-gtag",
       options: {
