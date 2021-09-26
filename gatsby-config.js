@@ -16,7 +16,7 @@ module.exports = {
     {
       resolve: "gatsby-plugin-gtag",
       options: {
-        trackingId: `G-RXBYPBJS9M`, // 측정 ID
+        trackingId: process.env.GA_ID, // 측정 ID
         head: false, // head에 tracking script를 넣고 싶다면 true로 변경
         anonymize: true,
       },
