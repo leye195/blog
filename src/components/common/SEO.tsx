@@ -1,3 +1,4 @@
+import React from "react";
 import { Helmet } from "react-helmet";
 import { graphql, useStaticQuery } from "gatsby";
 
@@ -13,6 +14,10 @@ const SEO = ({ title, description, article = false }: Props) => {
 
   return (
     <Helmet title={title || defaultTitle}>
+      <meta
+        name="google-site-verification"
+        content="-VbHu6wFO57CBz4OA2s8BwT8CvLhOQB0Bo4-J1wL64s"
+      />
       {article && <meta property="og:type" content="article" />}
       <meta property="og:title" content={title || defaultTitle} />
       <meta property="twitter:title" content={title || defaultTitle} />

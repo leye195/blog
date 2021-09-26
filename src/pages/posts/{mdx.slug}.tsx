@@ -39,7 +39,11 @@ const postContainer = css`
 const BlogPost = ({ data: { mdx } }: any) => {
   return (
     <Layout>
-      <SEO title={`${mdx.frontmatter.title} | Dan DevLog`} article />
+      <SEO
+        title={`${mdx.frontmatter.title} | Dan DevLog`}
+        description={mdx.body}
+        article
+      />
       <Common.Container css={containerStyle}>
         <Common.Column css={contentsWrapper}>
           <Common.Column className="top-section">
