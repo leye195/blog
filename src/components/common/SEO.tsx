@@ -21,13 +21,9 @@ const SEO = ({ title, description, article = false }: Props) => {
       {article && <meta property="og:type" content="article" />}
       <meta property="og:title" content={title || defaultTitle} />
       <meta property="twitter:title" content={title || defaultTitle} />
-      {description && (
-        <>
-          <meta name="description" content={description} />
-          <meta property="og:description" content={description} />
-          <meta property="twitter:description" content={description} />
-        </>
-      )}
+      <meta name="description" content={description || ""} />
+      <meta property="og:description" content={description || ""} />
+      <meta property="twitter:description" content={description || ""} />
     </Helmet>
   );
 };

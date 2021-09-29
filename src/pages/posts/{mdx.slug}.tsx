@@ -41,7 +41,7 @@ const BlogPost = ({ data: { mdx } }: any) => {
     <Layout>
       <SEO
         title={`${mdx.frontmatter.title} | Dan DevLog`}
-        description={mdx.body}
+        description={mdx.excerpt}
         article
       />
       <Common.Container css={containerStyle}>
@@ -69,6 +69,7 @@ export const query = graphql`
         date(formatString: "MMMM D, YYYY")
       }
       body
+      excerpt(truncate: true)
     }
   }
 `;
