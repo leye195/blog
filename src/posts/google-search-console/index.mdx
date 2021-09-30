@@ -1,0 +1,152 @@
+---
+title: Gatsby Blog Google Search Console에 등록하는 방법
+slug: google-search-console
+date: 2021-09-30
+tags: ["Dev", "FrontEnd"]
+---
+
+## Google Search Console
+
+google search console은 google에 제공하는 서비스로 웹 사이트를 어떻게 인식하고 있는지에 대한 정보들을 제공한다. <br/>
+제공되는 정보들을 통해 보다 나은 SEO 최적화에 대한 문제점 들을 모니터링 할 수 있다.
+
+## 등록 절차
+
+1. google search console 접속
+2. 속성 추가 > URL 접두사 > 메타 태그 인증 클릭
+3. sitemap 등록
+   - sitemap의 경우 `gatsby-plugin-site` 혹은 `gatsby-plugin-advanced-sitemap` 플러그인을 통해서 생성 할 수 있다.
+   - 생성된 sitemap.xml 을 search console에 제출하여 등록
+4. rss 등록 (optional)
+   <br />
+
+### sitemap, rss
+
+sitemap는 웹 크롤러가 사이트를 찾아와 글을 크롤링 할 수 있도록 도와주는 역할을 수행한다.<br/>
+rss는 사이트에 새로운 글이 등록되면 사이트를 구독하는 사람들에게 알려주는 역할을 수행한다.
+
+## gatsby sitemap 생성 방법
+
+`gatsby-plugin-site` 혹은 `gatsby-plugin-advanced-sitemap`를 설치
+
+```
+npm i gatsby-plugin-site // yarn add gatsby-plugin-site
+npm i gatsby-plugin-advanced-sitemap // yarn add gatsby-plugin-advanced-sitemap
+
+```
+
+`gatsby-config.js` 설정 파일에 plugin을 등록한다.
+
+```
+module.exports = {
+ plugins: [
+   ...
+   "gatsby-plugin-advanced-sitemap", // "gatsby-plugin-site"
+ ]
+}
+```
+
+build 명령을 수행하면 `public` 내부에 sitemap.xml 파일이 생성된다.
+
+### gatsby rss 생성 방법
+
+`gatsby-plugin-feed` 플러그인을 설치
+
+```
+npm i gatsby-plugin-feed
+```
+
+`gatsby-config.js`에 설치한 플러그인을 등록한다
+
+```
+module.exports = {
+ plugins: [
+   ...
+   "gatsby-plugin-feed", // "gatsby-plugin-site"
+ ]
+}
+```
+
+** 필자의 경우 아래와 같이 작성하여 rss feed 생성 관련하여 커스터마이징을 진행했다 **
+
+```
+plugins: [
+    {
+      resolve: `gatsby-plugin-feed`,
+      options: {
+        query: `
+          {
+            site {
+              siteMetadata {
+                title
+                description
+                siteUrl
+                site_url: siteUrl
+              }
+            }
+          }
+        `,
+        feeds: [
+          {
+            serialize: ({ query: { site, allMdx } }) => {
+              return allMdx.edges.map((edge) => {
+                return Object.assign({}, edge.node.frontmatter, {
+                  description: edge.node.excerpt,
+                  date: edge.node.frontmatter.date,
+                  url: site.siteMetadata.siteUrl + `/posts/${edge.node.slug}`,
+                  guid: site.siteMetadata.siteUrl + `/posts/${edge.node.slug}`,
+                  custom_elements: [{ "content:encoded": edge.node.html }],
+                });
+              });
+            },
+            query: `
+              {
+                allMdx(
+                  sort: { fields: [frontmatter___date], order: DESC }
+                ) {
+                  edges {
+                    node {
+                      excerpt
+                      html
+                      slug
+                      frontmatter {
+                        title
+                        date
+                      }
+                    }
+                  }
+                }
+              }
+            `,
+            output: "/rss.xml",
+          },
+        ],
+      },
+    },
+]
+```
+
+`gatsby-node.js` 파일 내부에 아래와 같이 코드을 작성한다
+
+```
+const { createFilePath } = require(`gatsby-source-filesystem`);
+exports.onCreateNode = ({ node, actions, getNode }) => {
+  const { createNodeField } = actions;
+  if (node.internal.type === `Mdx`) {
+    const value = createFilePath({ node, getNode });
+    createNodeField({
+      name: `slug`,
+      node,
+      value,
+    });
+  }
+};
+```
+
+마지막으로 build를 실행하면 rss.xml 파일이 `public` 내부에 생성된다.<br/>
+rss 역시 sitemap을 등록한 방식과 동일하게 진행하면 된다.<br/>
+
+### 참고
+
+- [Adding an RSS Feed](https://www.gatsbyjs.com/docs/how-to/adding-common-features/adding-an-rss-feed/)
+- [gatsby-plugin-feed-mdx](https://www.gatsbyjs.com/plugins/gatsby-plugin-feed-mdx/)
