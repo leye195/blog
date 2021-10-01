@@ -1,18 +1,18 @@
-import React from "react";
+import React from 'react';
 
 type Props = {
-  className?: string;
-  children?: React.ReactNode;
-  type: "button" | "submit" | "reset";
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
+	className?: string;
+	children?: React.ReactNode;
+	type: 'button' | 'submit' | 'reset';
+	onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
 const Button: React.FC<Props> = ({ className, children, type, onClick }) => {
-  return (
-    <button className={className} type={type} onClick={onClick}>
-      {children}
-    </button>
-  );
+	return (
+		<button className={className} type={type} onClick={onClick}>
+			{children}
+		</button>
+	);
 };
 
 export default Button;

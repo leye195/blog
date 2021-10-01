@@ -1,12 +1,12 @@
-import React from "react";
-import { css } from "@emotion/react";
+import React from 'react';
+import { css } from '@emotion/react';
 
 const ulStyle = css`
-  margin-left: 1rem;
+	margin-left: 1rem;
 `;
 
 const Ul: React.FC = ({ children }) => {
-  return <ul css={ulStyle}>{children}</ul>;
+	return <ul css={ulStyle}>{children}</ul>;
 };
 
 export default Ul;

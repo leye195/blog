@@ -1,16 +1,16 @@
-import React from "react";
-import { css } from "@emotion/react";
+import React from 'react';
+import { css } from '@emotion/react';
 
 const preStyle = css`
-  width: 100%;
-  color: #f8f8f2 !important;
-  border: none;
+	width: 100%;
+	color: #f8f8f2 !important;
+	border: none;
 `;
 
 const Pre: React.FC = ({ children }) => (
-  <pre className="language-" css={preStyle}>
-    {children}
-  </pre>
+	<pre className="language-" css={preStyle}>
+		{children}
+	</pre>
 );
 
 export default Pre;

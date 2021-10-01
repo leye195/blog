@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
 type Props = {
-  className?: string;
+	className?: string;
 };
 
 const Section: React.FC<Props> = ({ children, className }) => {
-  return <section className={className}>{children}</section>;
+	return <section className={className}>{children}</section>;
 };
 
 export default Section;
