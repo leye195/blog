@@ -69,9 +69,9 @@ const MePage = ({ data: { bg } }: any) => {
           <Common.Section className="experience">
             <h3>💻 Experience</h3>
             <ul className="card-group">
-              {data.experiences.map(({ title, description }) => (
+              {data.experiences.map(({ title, period, description }) => (
                 <li key={title} className="card">
-                  <Card {...{ title, description }} />
+                  <Card {...{ title, period, description }} />
                 </li>
               ))}
             </ul>

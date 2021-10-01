@@ -4,6 +4,7 @@ import Card from "components/me/Card";
 
 const props = {
   title: "card title",
+  period: "from - now",
   description: "card description",
 };
 

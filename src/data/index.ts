@@ -1,5 +1,6 @@
 type experienceType = {
   title: string;
+  period: string;
   description: string;
 };
 
@@ -10,7 +11,16 @@ type skillType = {
 const experiences: experienceType[] = [
   {
     title: "SuperTree",
-    description: "Web FrontEnd | 2020.10 - Now",
+    period: "Web FrontEnd | 2020.10 - Now",
+    description: `Maintain PlayDapp MarketPLAce (Eth, Polygon)
+    Develop MakeOffer, Bundle, Auction for MarketPLAce
+     - interact with SDK and API
+     - create components to implement function
+    Apply Web3-React on MarketPLAce 
+     - support CoinBase Wallet connect
+     - fix wallet login session issue
+    Support network switching 
+     - let user switch network if user is on wrong network`,
   },
 ];
 
