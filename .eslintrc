@@ -1,3 +1,15 @@
 {
-  "extends": ["plugin:prettier/recommended"]
+	"extends": ["airbnb-base", "plugin:prettier/recommended"],
+	"env": {
+		"browser": true,
+		"jest": true
+	},
+	"ignorePatterns": ["node_modules/"],
+	"settings": {
+		"import/resolver": {
+			"node": {
+				"paths": ["src"]
+			}
+		}
+	}
 }

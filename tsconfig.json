@@ -15,13 +15,7 @@
 		"forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */,
 		"resolveJsonModule": true,
 		"lib": ["dom", "esnext"],
-		"types": [
-			"@emotion/react/types/css-prop",
-			"@types/jest",
-			"src/custom.d.ts",
-			"@testing-library/jest-dom",
-			"node"
-		],
+		"types": ["@emotion/react/types/css-prop", "@types/jest", "src/custom.d.ts", "@testing-library/jest-dom", "node"],
 		"baseUrl": "src",
 		"paths": {
 			"*": ["*"]
