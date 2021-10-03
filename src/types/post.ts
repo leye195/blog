@@ -9,13 +9,13 @@ export type mdxNodeType = {
 	id: string;
 };
 
+export type groupType = {
+	tag?: string;
+	totalCount?: number;
+};
+
 export type mdxGroupType = {
-	group: [
-		{
-			tag: string;
-			totalCount: number;
-		},
-	];
+	group: groupType[];
 };
 
 export type postType = {

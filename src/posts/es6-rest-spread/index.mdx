@@ -1,0 +1,134 @@
+---
+title: ES6, Spread, Rest
+slug: es6-rest-spread
+date: 2021-10-03
+tags: ['JavaScript', 'FrontEnd', 'es6']
+---
+
+## spread, rest
+
+spread와 rest 문법은 es6 부터 도입된 문법으로 비슷한 부분이 있어 많이 헷갈려 하는 경향이 있다.
+
+### spread
+
+spread는 단어 자체적 `펼치다` 라는 의미를 가지고 있다. 이 문법을 사용하면 객체, 배열을 펼칠 수 있다.
+
+아래 코드에서는 `baseInfo` 라는 객체를 선언하고 spread 를 활용해 `baseInfo` 객체를 펼치고, age 정보를 추가하여 `infoWithAge` 라는 객체는 선언했다.
+
+```
+const baseInfo = {
+  name: 'lee',
+  from: 'korea'
+};
+
+const infoWithAge = {
+  ...baseInfo,
+  age: 27
+};
+/*
+{
+  name: 'lee',
+  from: 'korea',
+  age: 27
+}
+*/
+
+
+```
+
+배열에서 spread 문법은 아래와 같이 사용 할 수 있다
+
+```
+const numbers = [1,2,3];
+const anotherNumbers = [...numbers,4,5];
+
+console.log(numbers); // [1,2,3]
+console.log(anotherNumbers); // [1,2,3,4,5]
+
+```
+
+### rest
+
+rest는 spread와 비슷하지만, 역할이 다르다.
+
+rest는 객체, 배열 그리고 함수 파라미터에서 사용이 가능하다
+
+**객체와 배열에서 사용하는 경우**
+
+아래 코드를 확인해보면 rest에는 name을 제외한 나머지 값들이 들어있다.
+
+rest이 객체와 배열에 사용 될 경우 비구조 할당 문법과 같이 사용되며, 추출한 값의 이름은 임의로 지정하면 된다. (꼭 rest라고 지정할 필요는 없다)
+
+```
+const info = {
+  name: 'lee',
+  age: 27,
+  from 'korea'
+};
+
+const {name, ...rest} = info;
+
+console.log(rest); // {age:27,from:'korea'}
+console.log(name); // lee
+
+const numbers = [1,2,3,4,5];
+
+const [first,...rest] = numbers;
+
+console.log(first); // 1
+console.log(rest); // [2,3,4,5]
+
+```
+
+**함수 파라미터에서 사용하는 경우**
+
+rest 문법을 함수에서 사영하는 경우를 알아보겠다.
+
+함수에서 rest 문법은 파라미터를 몇개 전달 될 지 모르는 상황에서 매우 유용하다
+
+```
+// rest 활용 전
+const sum1 = (a,b,c,d) => a+b+c+d;
+
+// rest 활용, ...rest는 배열
+const sum2 = (...rest) => rest.reduce((x,y)=>x+y,0);
+
+console.log(sum1(1,2,3,4)); // 4개의 파라미터를 전달
+console.log(sum2(1,2,3)); // 3개의 파라미터를 전달
+
+```
+
+### spread와 rest 같이 활용해보기
+
+먼저 아래와 같은 rest 문법을 활용한 코드가 있다고 가정해보겠다.
+
+결과가 정상적으로 출력되지만 뭔가 깔끔해보이지 않다는 느낌을 준다.
+
+```
+const numbers = [1,2,3,4,5];
+
+const sum = (...rest) => rest.reduce((x,y)=>x+y,0);
+
+const result = sum(number[0],number[1],number[2],number[3],number[4]);
+
+console.log(result); // 15
+```
+
+spread를 추가적으로 활용하면 더 깔끔한 코드를 작성할 수 있다.
+
+```
+const numbers = [1,2,3,4,5];
+
+const sum = (...rest) => rest.reduce((x,y)=>x+y,0);
+
+const result = sum(...numbers);
+
+console.log(result); // 15
+```
+
+**spread와 rest 문법은 매우 유용하여 꼭 알아두는게 좋다**
+
+### 참고
+
+- [Rest](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Functions/rest_parameters)
+- [Spread syntax](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Operators/Spread_syntax)

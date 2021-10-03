@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
 import qs from 'qs';
-import Layout from '../../components/layout/Layout';
-import Common from '../../components/common';
-import CategoryList from '../../components/posts/CategoryList';
-import { categorizePosts } from '../../libs/category';
-import { media } from '../../styles/variables';
-import { postType } from 'types/post';
+import Layout from 'components/layout/Layout';
+import Common from 'components/common';
+import CategoryList from 'components/posts/CategoryList';
 import SEO from 'components/common/SEO';
+import { categorizePosts } from 'libs/category';
+import { media } from '../../styles/variables';
+import { postType, groupType } from 'types/post';
 
 const contentSection = css`
 	padding: 1.5rem 1rem;
@@ -81,7 +81,6 @@ const PostsPage = ({ data: { bg, allMdx } }: any) => {
 			setCategory(category ? (category?.toString()?.toLowerCase() as string) : 'all');
 		}
 	}, [isBrowser && window.location.search]);
-
 	return (
 		<Layout>
 			<SEO title="Posts | Dan DevLog" />
@@ -92,7 +91,7 @@ const PostsPage = ({ data: { bg, allMdx } }: any) => {
 			</Common.PageHead>
 			<section css={contentSection}>
 				<CategoryList
-					categories={['All', 'Javascript', 'TypeScript', 'FrontEnd', 'Dev', 'TIL', 'Work', 'Web', 'Etc']}
+					categories={['All', ...allMdx.group.map((item: groupType) => item['tag'])]}
 					isOpen={isOpen}
 					handleOpen={handleOpen}
 				/>
@@ -122,6 +121,9 @@ export const query = graphql`
 					tags
 				}
 				id
+			}
+			group(field: frontmatter___tags) {
+				tag: fieldValue
 			}
 		}
 	}
