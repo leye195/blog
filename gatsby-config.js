@@ -136,7 +136,7 @@ module.exports = {
 		{
 			resolve: 'gatsby-plugin-robots-txt',
 			host: 'https://dantechblog.gatsbyjs.io/',
-			sitemap: 'https://dantechblog.gatsbyjs.io//sitemap.xml',
+			sitemap: 'https://dantechblog.gatsbyjs.io/sitemap.xml',
 			policy: [{ userAgent: '*', allow: '/' }],
 		},
 		{

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { css } from '@emotion/react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import Common from 'components/common';
@@ -111,16 +111,16 @@ const Header = () => {
 		}
 	`);
 
-	const handleIsDark = (isDark: boolean) => () => {
+	const handleIsDark = useCallback((isDark: boolean) => {
 		setIsDark(isDark);
-	};
+	}, []);
 
-	const handleTheme = () => {
+	const handleTheme = useCallback(() => {
 		setIsDark(prev => {
 			saveTheme(!prev);
 			return !prev;
 		});
-	};
+	}, []);
 
 	return (
 		<>

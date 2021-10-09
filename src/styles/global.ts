@@ -25,6 +25,7 @@ const darkTheme = css`
 				& > li {
 					border: 1px solid #383636;
 					background-color: #282c35;
+
 					& a {
 						color: white;
 					}

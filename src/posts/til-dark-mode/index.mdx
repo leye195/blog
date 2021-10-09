@@ -1,0 +1,160 @@
+---
+title: TIL, 다크 모드 적용 방법
+slug: til-dark-mode
+date: 2021-10-10
+tags: ['TIL', 'JavaScript', 'FrontEnd']
+---
+
+## Dark Mode
+
+다크모드(Dark Mode) 란 어두운 배경에 밝은 글자를 사용하는것으로, 눈의 피로를 줄이기 위해 사용을 선호하는 사람들이 늘어나고 있다.
+
+요즘 Windows, MacOS, iOS 등 운영체제 및 웹 서비스에서도 다크모드를 많이 사용하고 있으며 사용자가 스스로 사용여부를 결정할 수 있게 한다.
+
+## prefers-color-scheme
+
+다크모드를 구현하는데 제일 쉬운 방법은 CSS 멀티미디어 중 하나인 `prefers-color-scheme` 를 활용하는 것이다.
+
+`prefers-color-scheme` 는 사용자의 OS가 현재 사용중인 테마를 감지하여 dark 인지 light를 판단 할 수 있게 해준다.
+
+`prefers-color-scheme` 에는 아래 3가지 설정을 통해 테마 체크 진행 할 수 있다.
+
+```
+prefers-color-sheme: light
+prefers-color-sheme: dark
+prefers-color-sheme: no-preference
+```
+
+<br />
+
+css를 통해 다크모드 적용하는 방법은 다음과 같다
+
+```html
+<div class="theme"></div>
+```
+
+```css
+@media (prefers-color-scheme: light) {
+	.theme {
+		background-color: white;
+		color: black;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	.theme {
+		background-color: black;
+		color: white;
+	}
+}
+```
+
+## Attribute와 LocalStorage 활용
+
+위와 같이 적용하면 OS의 테마 상태를 구분해서 스타일을 설정 해줄수 있다, 하지만 사용자가 직접 원하는 모드를 설정 할 수 없다는 단점이 있다.
+
+체크박스 같이 사용자가 모드를 선택 할 수 있는 요소를 제공해야 된다.
+
+```html
+<input class="checkbox" type="checkbox" />
+<div class="theme"></div>
+```
+
+체크박스를 체크하면 다크모드, 체크하지 않으면 라이트모드를 적용한다고 가정한다.
+
+checkbox 체크시 body 태그에 'dark' class를 주입하고, 체크를 풀 경우 'light'가 되도록 코드를 작성한다.
+
+```javaScript
+
+const checkbox = document.querySelector('.checkbox');
+
+const handleCheck = (({target})) => {
+    if(target.checked) {
+        document.body.className = 'dark'
+    } else {
+        document.doby.className = 'light';
+    }
+}
+
+checkbox.addEventListener('click',handleCheck);
+
+```
+
+그 다음 body 태그에 'dark' class에 대한 스타일 정의를 작성해준다.
+
+```
+:root[class="dark"] {
+  --background: #000;
+  --color: #fff;
+}
+
+:root[class="light"] {
+  --background: #fff;
+  --color: #000;
+}
+
+body .theme{
+  background: var(--background);
+  color: var(--color);
+}
+```
+
+이제 모드를 직접 전환하고 OS theme에 따라 모드를 감지 할 수 있지만, 웹 페이지에 다시 접근하거나 새로고침을 진행 할 경우 사용자가 선택 했던 모드가 사라지게 되는 단점이 생긴다.
+
+이 단점은 localStorage를 활용하면 해결 할 수 있다.
+
+사용자가 처음 웹에 접근 한 경우 혹은 체크박스를 클릭한 경우 localStorage.setItem을 통해 color-theme을 저장한다.
+
+```
+localStorage.setItem('color-theme','dark');
+localStorage.setItem('color-theme','white');
+```
+
+localStorage에 저장된 정보를 확인, 정보가 없는 경우 OS 테마를 적용 한다.
+
+사용자가 checkbox 상태를 전환 할 때마다 localStorage에 color-theme 정보를 저장 및 변경한다.
+
+```
+// ex) 참고용 코드 입니다
+
+const checkbox = document.querySelector('.checkbox');
+
+const userColorTheme = localStorage.getItem('color-theme');
+const osColorTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+
+const theme = userColorTheme? userColorTheme : osColorTheme;
+
+window.onload = () => {
+  if (theme === 'dark') {
+    localStorage.setItem('color-theme', 'dark');
+    document.body.className='dark';
+    checkbox.setAttribute('checked', true);
+  } else {
+    localStorage.setItem('color-theme', 'light');
+    document.body.className='light';
+  }
+}
+
+const handleCheck = (({target})) => {
+    if(target.checked) {
+        localStorage.setItem('color-theme', 'dark');
+        document.body.className = 'dark'
+    } else {
+        localStorage.setItem('color-theme', 'light');
+        document.doby.className = 'light';
+    }
+}
+
+checkbox.addEventListener('click',handleCheck);
+```
+
+위와 같이 작성시 사용자가 지정한 모드를 localStorage를 통해 저장하여 재접근시에도 유지가 될 수 있게 되어 좋은 사용자 경험을 제공 할 수 있게 된다.
+
+다음 포스트에서는 dark mode를 react에서 적용하는 방법을 알아보겠다.
+
+### 참고
+
+- [CSS :root](https://developer.mozilla.org/ko/docs/Web/CSS/:root)
+- [prefers-color-scheme](https://developer.mozilla.org/ko/docs/Web/CSS/@media/prefers-color-scheme)
+- [A Complete Guide to Dark Mode on the Web](https://css-tricks.com/a-complete-guide-to-dark-mode-on-the-web/#using-custom-properties)
+- [Dark Mode in CSS](https://css-tricks.com/dark-modes-with-css/)
