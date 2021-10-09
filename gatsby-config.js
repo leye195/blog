@@ -133,5 +133,11 @@ module.exports = {
 				display: 'swap',
 			},
 		},
+		{
+			resolve: 'gatsby-plugin-robots-txt',
+			host: 'https://dantechblog.gatsbyjs.io/',
+			sitemap: 'https://dantechblog.gatsbyjs.io//sitemap.xml',
+			policy: [{ userAgent: '*', allow: '/' }],
+		},
 	],
 };
