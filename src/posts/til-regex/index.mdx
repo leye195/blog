@@ -1,0 +1,39 @@
+---
+title: TIL, 정규표현식 Invalid regular expression 현상
+slug: til-regex
+date: 2021-10-06
+tags: ['JavaScript', 'TIL']
+---
+
+## 이슈 사항
+
+문제없이 잘 실행되고 있던 서비스 페이지가 Safari/iOS에서 실행이 안되는 이슈가 발생하게 됬다.
+
+에러 로그를 확인해보니 `SyntaxError: Invalid regular expression: invalid group specifier name` 라는 에러메시지가 출력되고 있었다.
+
+## 에러 발생 원인
+
+왜 크롬에서는 잘 작동하는데 다른 브라우저에서는 작동하지 않을까 생각을 하며 문제를 파악해본 결과 추가된 함수에서 숫자를 comma와 함께 formatting 하기 위해 사용중인 정규표현식에서 Safari/iOS 에서는 지원하지 않고 있는 `x(?<=y)` `x(?<!y)` lookbehind 문법을 사용한것이 에러 발생 원인이었다.
+
+## 해결 방법
+
+기존 lookbehind 문법을 사용중인 정규 표현식을 모든 브라우저에서 지원 할 수 있도록 수정하였다.
+
+ex) 숫자를 comma와 함께 formatting 하는 함수
+
+```
+// 수정 전
+function formatNumber(number) {
+  return number.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+}
+
+// 수정 후
+function formatNumber(number) {
+  const parts = number.toString().split('.');
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return parts.join('.');
+}
+
+```
+
+**항상 브라우저 호환성을 고려하여 개발을 진행하는것이 중요**
