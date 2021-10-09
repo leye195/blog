@@ -71,11 +71,10 @@ const contentSection = css`
 
 	& .posts {
 		margin: 0 auto;
-		max-width: 80%;
 
 		& .post {
 			width: 100%;
-			padding: 0.5rem;
+			padding: 0.5rem 0;
 			color: black;
 			border-bottom: 1px solid #f5f5f5;
 			transition: all 0.2s linear;
