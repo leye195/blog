@@ -2,7 +2,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Toggle from 'react-toggle';
 import { css } from '@emotion/react';
 import { useMediaQuery } from 'react-responsive';
-import { saveTheme } from 'libs';
+import 'react-toggle/style.css';
+
+type Props = {
+	isDark: boolean;
+	handleTheme: React.ChangeEventHandler<HTMLInputElement>;
+	handleIsDark: (val: boolean) => void;
+};
 
 const darkMode = css`
 	.react-toggle-track-check,
@@ -16,8 +22,7 @@ const darkMode = css`
 	}
 `;
 
-const DarkModeToggle = () => {
-	const [isDark, setIsDark] = useState<boolean>(false);
+const DarkModeToggle = ({ isDark, handleTheme, handleIsDark }: Props) => {
 	const systemPrefers = useMediaQuery({
 		query: '(prefers-color-scheme: dark)',
 	});
@@ -29,19 +34,12 @@ const DarkModeToggle = () => {
 
 		if (theme === 'dark') {
 			document.body.classList.add('dark');
-			setIsDark(true);
+			handleIsDark(true);
 		} else {
 			document.body.classList.remove('dark');
-			setIsDark(false);
+			handleIsDark(false);
 		}
 	}, [systemPrefers]);
-
-	const handleTheme = () => {
-		setIsDark(prev => {
-			saveTheme(!prev);
-			return !prev;
-		});
-	};
 
 	return (
 		<Toggle

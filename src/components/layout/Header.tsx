@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import Common from 'components/common';
 import DarkModeToggle from 'components/layout/DarkModeToggle';
+import { saveTheme } from 'libs';
 import { media } from 'styles/variables';
-import 'react-toggle/style.css';
 
 const headerStyle = css`
 	min-height: auto;
@@ -101,6 +101,8 @@ const headerStyle = css`
 `;
 
 const Header = () => {
+	const [isDark, setIsDark] = useState<boolean>(false);
+
 	const data = useStaticQuery(graphql`
 		query {
 			logo: file(relativePath: { eq: "logo.png" }) {
@@ -108,6 +110,18 @@ const Header = () => {
 			}
 		}
 	`);
+
+	const handleIsDark = (isDark: boolean) => () => {
+		setIsDark(isDark);
+	};
+
+	const handleTheme = () => {
+		setIsDark(prev => {
+			saveTheme(!prev);
+			return !prev;
+		});
+	};
+
 	return (
 		<>
 			<header css={headerStyle}>
@@ -128,7 +142,7 @@ const Header = () => {
 							Tags
 						</Link>
 						<div className="theme">
-							<DarkModeToggle />
+							<DarkModeToggle isDark={isDark} handleTheme={handleTheme} handleIsDark={handleIsDark} />
 						</div>
 					</div>
 				</Common.Column>
