@@ -21,7 +21,7 @@ describe('<Header/>', () => {
 		const logoContainer = container.getElementsByClassName('logo-container')[0];
 
 		expect(logoContainer.childElementCount).toBe(1);
-		expect(container.getElementsByClassName('menu')[0].childElementCount).toBe(3);
+		expect(container.getElementsByClassName('menu')[0].childElementCount).toBe(4);
 	});
 
 	it('should have correct link on menu', () => {

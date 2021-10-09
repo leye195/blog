@@ -13,3 +13,13 @@ export const categorizePosts = (posts: any) => {
 		return posts;
 	}, {});
 };
+
+export const saveTheme = (isDark: boolean) => {
+	if (isDark) {
+		localStorage.setItem('color-theme', 'dark');
+		document.body.classList.add('dark');
+	} else {
+		localStorage.setItem('color-theme', 'light');
+		document.body.classList.remove('dark');
+	}
+};

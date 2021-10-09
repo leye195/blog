@@ -6,7 +6,7 @@ import Layout from 'components/layout/Layout';
 import Common from 'components/common';
 import CategoryList from 'components/posts/CategoryList';
 import SEO from 'components/common/SEO';
-import { categorizePosts } from 'libs/category';
+import { categorizePosts } from 'libs';
 import { media } from '../../styles/variables';
 import { postType, groupType } from 'types/post';
 
@@ -29,11 +29,10 @@ const contentSection = css`
 
 	& .posts {
 		margin: 0 auto;
-		max-width: 90%;
 
 		& .post {
 			width: 100%;
-			padding: 0.5rem;
+			padding: 0.5rem 0;
 			color: black;
 			border-bottom: 1px solid #f5f5f5;
 			transition: all 0.2s linear;
