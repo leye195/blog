@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import Toggle from 'react-toggle';
 import { css } from '@emotion/react';
 import { useMediaQuery } from 'react-responsive';
