@@ -139,5 +139,12 @@ module.exports = {
 			sitemap: 'https://dantechblog.gatsbyjs.io//sitemap.xml',
 			policy: [{ userAgent: '*', allow: '/' }],
 		},
+		{
+			resolve: `gatsby-plugin-canonical-urls`,
+			options: {
+				siteUrl: `https://dantechblog.gatsbyjs.io/`,
+				stripQueryString: true,
+			},
+		},
 	],
 };
