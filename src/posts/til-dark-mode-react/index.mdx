@@ -1,0 +1,242 @@
+---
+title: TIL, 다크 모드 React 적용 방법
+slug: til-dark-mode-react
+date: 2021-10-11
+tags: ['TIL', 'FE', 'React']
+---
+
+이번 포스트에서는 [이전 포스트](/posts/til-dark-mode) 에서 설명한 것들을 응용하여 react에 적용하는 방법을 알아보겠습니다.
+
+## React에 Dark Mode 적용하기
+
+우선 필자는 css-in-js 라이브러리 중 하나인 emotion을 이용한다는것을 참고해주시길 바랍니다.
+[혹시 emotion에 대해서 아직 모르신다면 먼저 개발 문서 읽어보시는것이 권장합니다](https://emotion.sh/docs/introduction)
+
+먼저 dark mode에 맞는 스타일을 지정해주는 위해 스타일 코드를 작성합니다.
+
+```
+// styles/global.ts
+import {css} from '@emotion/react';
+
+const darkTheme = css`
+ body {
+  &.dark {
+   background-color: #282c35;
+
+   h1,
+   h2,
+   h3,
+   h4,
+   h5,
+   a,
+   p,
+   span {
+     color: white;
+   }
+  }
+}`;
+
+export default css`
+  ${darkTheme}
+  body {
+    background-color: #fff;
+    color: black;
+  }
+`;
+```
+
+dark 모드를 켰다 끄는 용도로 활용하는 DarkModeToggle 컴포넌트를 작성합니다.
+
+isDark 라는 상태를 만들어 Toggle 컴포넌트의 체크상태를 괸리하고, handleTheme 함수를 통해 isDark 상태값을 변환 하도록 합니다.
+
+```
+// DarkModeToggle.tsx
+import React, { useState, useEffect, useMemo } from 'react';
+import Toggle from 'react-toggle';
+import { css } from '@emotion/react';
+
+const darkMode = css`
+  .react-toggle-track-check,
+  .react-toggle-track-x {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+  }
+`;
+
+const DarkModeToggle = () => {
+  const [isDark, setIsDark] = useState<boolean>(false);
+
+  const handleTheme = () => {
+    setIsDark(prev => !prev);
+  };
+
+  return (
+   <Toggle
+    css={darkMode}
+    checked={isDark}
+    onChange={handleTheme}
+    icons={{ checked: 'D', unchecked: 'L' }}
+    aria-label="Dark mode toggle"
+   />);
+}
+```
+
+OS 테마 설정을 감지하기 위해 `react-responsive` 를 프로젝트에 설치합니다.
+
+`react-responsive`는 media 쿼리를 쉽게 감지 하도록 useMediaQuery hook을 제공합니다.
+
+[사용방법은 해당 라이브러리 repo를 확인해보시면 좋습니다](https://github.com/contra/react-responsive)
+
+```
+yarn add react-responsive
+// or
+npm i react-responsive
+
+```
+
+이제 useMediaQuery hook을 활용해 `prefers-color-scheme` 를 감지하도록 하고 systemPrefers 값에 따라
+
+body 태그의 className에 `dark` 혹은 `light`를 추가하여 mode에 맞는 스타일 적용하도록 합니다.
+
+```
+...
+const systemPrefers = useMediaQuery({
+  query: '(prefers-color-scheme: dark)',
+});
+
+useEffect(()=>{
+  const osTheme = systemPrefers ? 'dark':'light';
+
+  if(osTheme === 'dark') {
+    document.body.classList.add('dark');
+    setIsDark(true);
+  } else {
+    document.body.classList.remove('dark');
+    setIsDark(false);
+  }
+
+},[systemPrefers])
+
+...
+```
+
+그 다음 사용자가 선택한 mode 정보를 localStorage에 저장하여 페이지에 재접근해도 해당 상태가 유지될 수 있도록 `saveTheme` 이라는 함수를 작성합니다.
+
+```
+// lib/index.ts
+export const saveTheme = (isDark: boolean) => {
+  if (isDark) {
+    localStorage.setItem('color-theme', 'dark');
+    document.body.classList.add('dark');
+  } else {
+    localStorage.setItem('color-theme', 'light');
+    document.body.classList.remove('dark');
+  }
+};
+```
+
+`saveTheme` 함수를 사용해 localStorage에 `color-theme` 정보를 저장하도록 useEffect와 handleTheme 부분의 코드를 수정합니다.
+
+userTheme 변수를 useEffect에 추가하여 localStorage에 저장된 `color-theme` 정보를 저장합니다.
+
+유저가 처음 페이지에 진입한 경우 theme에는 osTheme 값이 저장되고, mode 설정을 한 경우 userTheme 값을 저장합니다.
+
+```
+const systemPrefers = useMediaQuery({
+  query: '(prefers-color-scheme: dark)',
+});
+
+useEffect(()=>{
+  const osTheme = systemPrefers ? 'dark':'light';
+  const userTheme = localStorage.getItem('color-theme');
+  const theme = userTheme || osTheme;
+
+  if(theme === 'dark') {
+    document.body.classList.add('dark');
+    setIsDark(true);
+  } else {
+    document.body.classList.remove('dark');
+    setIsDark(false);
+  }
+
+},[systemPrefers])
+
+const handleTheme = () => {
+  setIsDark(prev => {
+    saveTheme(!prev);
+    return !prev;
+  };
+};
+
+```
+
+<br />
+
+## 통합 코드
+
+```
+// DarkModeToggle.tsx
+import React, { useState, useEffect, useMemo } from 'react';
+import Toggle from 'react-toggle';
+import { css } from '@emotion/react';
+
+const darkMode = css`
+  .react-toggle-track-check,
+  .react-toggle-track-x {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: white;
+  }
+`;
+
+const DarkModeToggle = () => {
+  const [isDark, setIsDark] = useState<boolean>(false);
+  const systemPrefers = useMediaQuery({
+    query: '(prefers-color-scheme: dark)',
+  });
+
+  useEffect(()=>{
+    const osTheme = systemPrefers ? 'dark':'light';
+    const userTheme = localStorage.getItem('color-theme');
+    const theme = userTheme || osTheme;
+
+    if(theme === 'dark') {
+      document.body.classList.add('dark');
+      setIsDark(true);
+    } else {
+      document.body.classList.remove('dark');
+      setIsDark(false);
+    }
+  },[systemPrefers])
+
+  const handleTheme = () => {
+    setIsDark(prev => {
+      saveTheme(!prev);
+      return !prev
+    });
+  };
+
+  return (
+   <Toggle
+    css={darkMode}
+    checked={isDark}
+    onChange={handleTheme}
+    icons={{ checked: 'D', unchecked: 'L' }}
+    aria-label="Dark mode toggle"
+   />);
+}
+
+```
+
+<br />
+
+**결과물:**
+
+![](https://res.cloudinary.com/dx2cwpj5p/image/upload/v1633864717/posts/result_ixe8kp.gif)

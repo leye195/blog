@@ -57,6 +57,7 @@ const headerStyle = css`
 			display: flex;
 			align-items: center;
 			position: relative;
+			color: black;
 			font-size: 1rem;
 			font-weight: bold;
 

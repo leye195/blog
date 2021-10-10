@@ -16,6 +16,12 @@ const darkTheme = css`
 				color: white;
 			}
 
+			.menu {
+				& > a {
+					color: white !important;
+				}
+			}
+
 			.category {
 				border-color: #383636;
 				border-style: solid;
@@ -24,7 +30,7 @@ const darkTheme = css`
 
 				& > li {
 					border: 1px solid #383636;
-					background-color: #282c35;
+					background-color: #33353a;
 
 					& a {
 						color: white;
@@ -48,8 +54,6 @@ export default css`
 		margin: 0;
 		min-height: 100%;
 		box-sizing: border-box;
-		background-color: var(--background);
-		color: var(--color);
 	}
 
 	a,
@@ -68,6 +72,10 @@ export default css`
 		padding: 0;
 		margin: 0;
 		list-style: none;
+	}
+
+	img {
+		width: 100%;
 	}
 
 	button {
