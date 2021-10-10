@@ -11,7 +11,6 @@ const darkTheme = css`
 			h3,
 			h4,
 			h5,
-			a,
 			p {
 				color: white;
 			}
@@ -54,6 +53,10 @@ export default css`
 		margin: 0;
 		min-height: 100%;
 		box-sizing: border-box;
+	}
+
+	a {
+		color: #7886b7;
 	}
 
 	a,
