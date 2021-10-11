@@ -135,9 +135,11 @@ module.exports = {
 		},
 		{
 			resolve: 'gatsby-plugin-robots-txt',
-			host: 'https://dantechblog.gatsbyjs.io/',
-			sitemap: 'https://dantechblog.gatsbyjs.io/sitemap.xml',
-			policy: [{ userAgent: '*', allow: '/' }],
+			options: {
+				host: 'https://dantechblog.gatsbyjs.io',
+				sitemap: 'https://dantechblog.gatsbyjs.io/sitemap.xml',
+				policy: [{ userAgent: '*', allow: '/' }],
+			},
 		},
 		{
 			resolve: `gatsby-plugin-canonical-urls`,
