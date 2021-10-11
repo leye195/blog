@@ -117,7 +117,7 @@ const contentSection = css`
 const IndexPage = ({ data: { allMdx, avatar } }: any) => {
 	return (
 		<Layout>
-			<SEO title="Dan DevLog" />
+			<SEO title="Home | Dan DevLog" />
 			<div css={pageHeader}>
 				<Common.Column className="heading" alignItems="center" justifyContents="center">
 					<figure className="avatar">
