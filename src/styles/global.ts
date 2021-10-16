@@ -40,6 +40,12 @@ const darkTheme = css`
 			.skills {
 				color: white;
 			}
+
+			.github {
+				& > svg {
+					color: white;
+				}
+			}
 		}
 	}
 `;

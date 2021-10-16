@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import Img from 'components/common/Img';
 import { media } from 'styles/variables';
+import LazyImage from './LazyImage';
 
 type Props = {
 	children?: React.ReactNode;
@@ -63,7 +63,7 @@ const topSection = css`
 const PageHead: React.FC<Props> = ({ className, imgURL, children }) => {
 	return (
 		<section className={className} css={topSection}>
-			<Img className="bg-image" src={imgURL} alt="" />
+			<LazyImage className="bg-image" src={imgURL} alt="" loading="lazy" />
 			{children}
 		</section>
 	);
