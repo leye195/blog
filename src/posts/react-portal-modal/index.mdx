@@ -1,0 +1,132 @@
+---
+title: React, Portal을 활용해 Modal 만들기
+slug: react-portal-modal
+date: 2021-10-17
+tags: ['React', 'FE']
+---
+
+## Portal?
+
+ReactDOM에서 제공하는 Portal은 컴포넌트를 렌더링 할 때, 부모 컴포넌트의 DOM 외부에 존재하는 DOM 노드에 렌더링 할 수 있게 해준다.
+
+즉, 외부에 존재하는 DOM 노드가 React App DOM 계층에 존재하는 것 처럼 연결해준다.
+
+이 기능은 Modal 컴포넌트를 만들어야 될 때 매우 유용하게 사용 할 수 있다.
+
+### 사용 방법
+
+ReactDOM에서 제공하는 createPortal 함수를 활용하여 Portal 생성을 할 수 있다.
+
+```
+ReactDOM.createPortal(this.props.children,document.body);
+```
+
+createPortal 함수의 첫 인자는 컴포넌트를, 두 번쨰 인자는 컴포넌트를 넣어줄 DOM을 넣어줍니다.
+
+아래 코드의 경우 `#root-modal` 내부에 컴포넌트를 위치 시키기 위해 `<div id="root-modal"></div>` 을 추가해줬습니다.
+
+```
+//App.js
+const app = () => {
+    return <>
+        ...
+        <div id="root-modal"></div>
+    </>
+}
+
+```
+
+#root-modal에 컴포넌트를 렌더링 해주기 위해 `ModalPortal` 라는 컴포넌트를 만들어 children으로 전달하게 하겠습니다.
+
+```
+// ModalPortal.jsx
+
+const ModalPortal = ({children,closePortal}) => {
+  const ref = useRef<Element | null>();
+  const [mounted,setMounted] = useState(false);
+
+  useEffect(()=>{
+    setMounted(true);
+    if(document) {
+        const dom = document.getElementById('root-modal');
+        ref.current = dom; // ref에 dom 값 전달
+    }
+  },[]);
+
+  if(ref.current&&mounted) { // mounted 됬고 dom이 존재하는 경우 모달 랜더링 진행
+    return createPortal(
+      <div className="modal-container">
+        <div className="modal-background" role="presentation" onClick={closePortal}/>
+        {children}
+      </div>,
+      ref.current
+    )
+  }
+
+  return null;
+}
+
+export default ModalPortal;
+
+```
+
+위와 같이 작성한 ModalPortal 컴포넌트 기반으로 children을 바꿔가며 각 상황에 맞는 모달들을 만들어 줄 수 있습니다.
+
+이제 닫기 버튼을 누르면 모달이 사라지도록 구현을 해보겠습니다.
+
+<br />
+
+```
+//App.js
+
+const App = () => {
+  const [modalOpened, setModalOpened] = useState(false);
+
+  const handleOpen = () => {
+    setModalOpened(true);
+  };
+
+  const handleClose = () => {
+    setModalOpened(false);
+  };
+
+  return (
+    <div className="App">
+      <button onClick={handleOpen}>Open Modal</button>
+      {modalOpened && (
+        <ModalPortal closePortal={handleClose}>
+          <SampleModal />
+        </ModalPortal>
+      )}
+      <div id="root-modal"></div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+App 컴포넌트에서 modal이 열렸는지 닫혔는지 판단 하기 위한 state 값을 useState를 활용하여 선언하고 handleOpen, handleClose 함수를 이용해 modalOpened 상태값을 변경 할 수 있도록 작성합니다.
+
+ModalPortal 컴포넌트에 handleClose를 props로 전달하여 닫기 버튼과 모달 외부를 클릭 할 경우 모달이 닫힐 수 있도록 합니다.
+
+### 결과물
+
+<iframe
+	src="https://codesandbox.io/embed/affectionate-tree-okg1f?fontsize=14&hidenavigation=1&theme=dark"
+	style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+	title="affectionate-tree-okg1f"
+	allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+	sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+[샘플 코드](https://codesandbox.io/s/affectionate-tree-okg1f?file=/src/components/ModalPortal.jsx)
+
+<br />
+
+React에서 Portal을 활용해 모달을 만드는 방법을 알아봤습니다. Portal을 활용하면 렌더링을 원하는 DOM에 할 수 있어 모달 팝업, 알림창을 구현 할 때 알아놓으면 매우 유용하고 활용도가 높은 기능이라고 생각됩니다.
+
+### 참고
+
+- [Portals](https://reactjs-kr.firebaseapp.com/docs/portals.html)
+- [React: Using portals to make a modal popup](https://dev.to/link2twenty/react-using-portals-to-make-a-modal-2kdf)
