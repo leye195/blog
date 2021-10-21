@@ -1,0 +1,150 @@
+---
+title: web3-react, 지갑 연동
+slug: web3-react
+date: 2021-10-21
+tags: ['React', 'Dev', 'FE']
+---
+
+## web3-react?
+
+web3-react는 react에서 web3의 Dapp과 관련된 특정 데이터를 최신 상태로 유지해주는 state machine 으로
+
+지갑 연동을 간단하게 할 수 있도록 도와줍니다.
+
+## 설치
+
+web3-react를 사용하기 위해서는 먼저 `@web3-react/core`와 `@ethersproject/providers`를 설치한다.
+
+```
+yarn add @web3-react/core @ethersproject/providers
+```
+
+## 기본 설정
+
+설치한 @web3-react/core에서 제공하는 `Web3ReactProvider` 를 App root의 provider로 제공하고 web3 객체를 인스턴스화 하는 getLibrary 함수를 정의하여 prop로 전달한다.
+
+```
+// ex)
+
+import {Web3ReactProvider} from '@web3-react/core';
+import {Web3Provider} from '@ethersproject/providers';
+
+function getLibrary(provider) {
+    return new Web3Provider(provider,'any');
+}
+
+const App = () => {
+   ...
+   return (
+       <Web3ReactProvider getLibrary={getLibrary}>
+         {children}
+       </Web3ReactProvider>
+   )
+}
+```
+
+## useWeb3React 활용 context 값 접근하기
+
+root의 provider로 설정한 `Web3ReactProvider` 에서는 아래 subtree에서 context 값에 접근 할 수 있도록 `useWeb3React` 라는 hook을 제공한다.
+
+connector, library, chainId, account, active, error, activate, deactivate 값들읋 접근 할 수 있다.
+
+```
+const {connector, library, chainId, account, active, error, activate, deactivate} = useWeb3React();
+```
+
+- connector: 현재 dapp에 연결된 월렛의 connector 값
+- library: provider 제공
+- chainId: dapp에 연결된 account의 chainId
+- account: dapp에 연결된 account address
+- active: dapp 유저가 로그인 된 상태인지 체크
+- activate: dapp 월렛 연결 기능 수행 함수
+- deactivate: dapp 월렛 연결 해제 수행 함수
+
+## 지갑 연동
+
+wallet을 dapp에 연결하기 위해서는 해당 wallet에 맞는 connector를 activate 함수에 전달해야 된다.
+
+metamask의 경우 injectedConnector, coinbase의 경우 walletlinkConnector를 portis의 경우 portisConnector를 설치한다.
+
+### metamask 연동하기
+
+1. `@web3-react/injected-connector` 를 설치한다. (metamask 크롬 익스텐션 설치도 필요)
+
+```
+yarn add @web3-react/injected-connector
+```
+
+2. injectedConnector 인스턴스를 생성한다. (저 같은 경우에는 connector 들만 모아두고 관리하기 위해 `lib/connectors/index.js`를 만들어 습니다. )
+
+```
+// lib/connectors/index.js
+
+import {InjectedConnector} from '@web3-react/injected-connector';
+
+export const injected = new InjectedConnector();
+```
+
+3. activate 함수에 connector를 전달한다. 정상적으로 실행될 경우 useWeb3React에서 제공하는 context 값들이 갱신된다.
+
+```
+//ex)
+
+import {Web3ReactProvider,useWeb3React} from '@web3-react/core';
+import {Web3Provider} from '@ethersproject/providers';
+import {injected} from 'lib/connectors';
+
+function getLibrary(provider) {
+  return new Web3Provider(provider,'any');
+}
+
+const App = () => {
+  const {connector, library, chainId, account, active, error, activate, deactivate} = useWeb3React();
+
+  const handleConnect = () => {
+    if(active) {
+      deactivate();
+      return;
+    }
+    activate(injected,(error)=>{
+        if('/No Ethereum provider was found on window.ethereum/'.test(err)) window.open('https://metamask.io/download.html');
+    });
+  }
+
+   return (
+       <Web3ReactProvider getLibrary={getLibrary}>
+         <div>
+            <div>
+              <p>Account: {account}</p>
+              <p>ChainId: {chainId}</p>
+            </div>
+            <div>
+              <button type="button" onClick={handleConnect}>{active?'disconnect':'connect'}</button>
+            </div>
+         </div>
+       </Web3ReactProvider>
+   )
+}
+```
+
+주의:
+
+metamask 익스텐션이 크롬에 설치되어 있지 않은 경우 `No Ethereum provider was found on window.ethereum` 에러가 발생하게됩니다.
+
+해당 에러 발생시 유저를 [설치 안내 페이지](https://metamask.io/download.html) 링크로 이동하도록 하여 익스텐션을 설치하도록 유도하는것이 좋습니다.
+
+## 샘플 결과물
+
+아래 결과물은 간단하게 사용하는 법을 구현한 것으로 새로고침시 로그인이 유지되지 않습니다.
+
+<iframe
+	src="https://codesandbox.io/embed/nice-kalam-sr44t?fontsize=14&hidenavigation=1&theme=dark"
+	style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+	title="nice-kalam-sr44t"
+	allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+	sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+### 참고
+
+- [web3-react](https://github.com/NoahZinsmeister/web3-react)
