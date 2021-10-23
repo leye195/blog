@@ -1,3 +1,4 @@
+import React from 'react';
 import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
 import { mdxNodeType } from 'types/post';
