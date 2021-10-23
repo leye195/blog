@@ -2,7 +2,7 @@ import React from 'react';
 import { css } from '@emotion/react';
 
 type Props = {
-	info?: { title: string; link?: string }[];
+	info: { title: string; link?: string }[];
 };
 
 const table = css`
