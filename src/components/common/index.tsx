@@ -8,6 +8,7 @@ import LazyImage from './LazyImage';
 import PageHead from './PageHead';
 import Post from './Post';
 import Tag from './Tag';
+import Table from './Table';
 
 export default {
 	Button,
@@ -20,4 +21,5 @@ export default {
 	Row,
 	Tag,
 	Section,
+	Table,
 };

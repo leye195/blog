@@ -13,7 +13,7 @@ const containerStyle = css`
 	padding: 0 1rem;
 
 	& .main-contents {
-		padding: 1rem 0;
+		padding: 1.5rem 0;
 
 		& .card-group {
 			border-bottom: 1px solid #f5f3f3;
@@ -54,26 +54,27 @@ const MePage = ({ data: { bg } }: any) => {
 				</Common.Column>
 			</Common.PageHead>
 			<Common.Container css={containerStyle}>
-				<h2>I'm YoungJae</h2>
+				<h2>이영재 (DanYJ)</h2>
 				<p>
 					I'm Web FrontEnd Developer in <strong>SuperTree</strong> that serve{' '}
 					<a className="" href="https://playdapp.com">
 						PlayDapp MarketPLAce
 					</a>
 				</p>
+				<Common.Table info={data.basicInfo} />
 				<main className="main-contents">
 					<Common.Section className="experience">
-						<h3>💻 Experience</h3>
+						<h2>💻 Experience</h2>
 						<ul className="card-group">
-							{data.experiences.map(({ title, period, description }) => (
+							{data.experiences.map(({ title, period, position, projects, projectDescription }) => (
 								<li key={title} className="card">
-									<Card {...{ title, period, description }} />
+									<Card {...{ title, period, position, projects, projectDescription }} />
 								</li>
 							))}
 						</ul>
 					</Common.Section>
 					<Common.Section className="skills">
-						<h3>📚 Skills</h3>
+						<h2>📚 Skills</h2>
 						{Object.keys(data.skills).map(title => (
 							<div key={title} className="skills__container">
 								<h4>{title}</h4>

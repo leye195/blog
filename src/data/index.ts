@@ -1,26 +1,51 @@
 type experienceType = {
 	title: string;
 	period: string;
-	description: string;
+	position: string;
+	projects: string;
+	projectDescription: projectType[];
+};
+
+type projectType = {
+	title: string;
+	stack: string;
+	describe: { main: string; sub?: string[] }[];
 };
 
 type skillType = {
 	[key: string]: string[];
 };
 
+const projectList: projectType[] = [
+	{
+		title: 'PlayDapp MarketPLAce (Eth, Polygon)',
+		stack: 'JavaScript, React, Redux,react-router, react-query, scss, web3-react',
+		describe: [
+			{ main: '마켓 플레이스 신규 기능 개발 (MakeOffer, Bundle, Auction, Transfer)', sub: [] },
+			{
+				main: '지갑 추가 확장성 강화를 위해, web3-react 도입',
+				sub: ['새로운 지갑 로그인을 쉽게 추가 및 지원 (CoinBase, Trust Wallet 추가 지원)'],
+			},
+			{
+				main: 'UX 개선 작업',
+				sub: [
+					'로그아웃, 네트워크 스위칭 진행시 화면 유지되도록 개선',
+					'연결된 네트워크가 다른 경우 toast를 통해 알수있도록 개선',
+					'metamask 모바일 로그인 지원 - metamask 사용자 고려',
+				],
+			},
+			{ main: '프로젝트 Container-Presenter 패턴 작용', sub: [] },
+		],
+	},
+];
+
 const experiences: experienceType[] = [
 	{
 		title: 'SuperTree',
-		period: 'Web FrontEnd | 2020.10 - Now',
-		description: `Maintain PlayDapp MarketPLAce (Eth, Polygon)
-    Develop MakeOffer, Bundle, Auction for MarketPLAce
-     - interact with SDK and API
-     - create components to implement function
-    Apply Web3-React on MarketPLAce 
-     - support CoinBase Wallet connect
-     - fix wallet login session issue
-    Support network switching 
-     - let user switch network if user is on wrong network`,
+		period: '2020.10 - current',
+		position: 'MarketPLAce Frontend Engineer, Service Platform Team',
+		projects: 'PlayDapp MarketPLAce (Eth, Polygon)',
+		projectDescription: [...projectList],
 	},
 ];
 
@@ -30,7 +55,14 @@ const skills: skillType = {
 	Etc: ['Git / Github'],
 };
 
+const basicInfo = [
+	{ title: 'Github', link: 'https://github.com/leye195' },
+	{ title: 'Blog', link: 'https://dantechblog.gatsbyjs.io' },
+	{ title: 'Contact', link: 'mailto:leye195@naver.com' },
+];
+
 export default {
 	experiences,
 	skills,
+	basicInfo,
 };
