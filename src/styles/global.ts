@@ -11,7 +11,10 @@ const darkTheme = css`
 			h3,
 			h4,
 			h5,
-			p {
+			p,
+			li,
+			td,
+			tr {
 				color: white;
 			}
 
