@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { media } from 'styles/variables';
+import { media, Colors } from 'styles/variables';
 import LazyImage from './LazyImage';
 
 type Props = {
@@ -10,6 +10,7 @@ type Props = {
 };
 
 const topSection = css`
+	background-color: ${Colors.blue};
 	position: relative;
 	margin: 0 auto;
 	height: 25rem;
@@ -32,14 +33,14 @@ const topSection = css`
 		height: 100%;
 		position: absolute;
 		top: 0;
-		color: white;
-		text-shadow: 0px 3px 14px black;
+		color: ${Colors.white};
+		text-shadow: 0px 3px 14px ${Colors.black};
 
 		& > h2 {
 			margin: 0;
 			font-size: 3rem;
 			text-align: center;
-			border-bottom: 0.25rem solid white;
+			border-bottom: 0.25rem solid ${Colors.white};
 		}
 
 		& > span {
@@ -53,7 +54,7 @@ const topSection = css`
 			margin-bottom: 1rem;
 
 			& > img {
-				background-color: white;
+				background-color: ${Colors.white};
 				border-radius: 50%;
 			}
 		}

@@ -4,7 +4,7 @@ import { media } from 'styles/variables';
 import { flexMixin } from 'styles/mixin';
 
 type TagType = {
-	text: string;
+	text: string | undefined;
 	count?: number;
 	className?: string;
 };

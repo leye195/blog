@@ -4,8 +4,9 @@ import { css } from '@emotion/react';
 import Layout from 'components/layout/Layout';
 import Common from 'components/common';
 import Tag from 'components/common/Tag';
-import { mdxGroupType } from 'types/post';
 import SEO from 'components/common/SEO';
+import { mdxGroupType } from 'types/post';
+import { Colors } from 'styles/variables';
 
 type Props = {
 	data: {
@@ -39,8 +40,8 @@ const tagsSection = css`
 				transition: all 0.25s linear;
 
 				&:hover {
-					background-color: #7886b7;
-					color: white;
+					background-color: ${Colors.blue};
+					color: ${Colors.white};
 				}
 			}
 

@@ -50,7 +50,7 @@ const MePage = ({ data: { bg } }: any) => {
 			<SEO title="Me | Dan DevLog" />
 			<Common.PageHead imgURL={bg.publicURL}>
 				<Common.Column className="heading" alignItems="center" justifyContents="center">
-					<h2>Me</h2>
+					<h2>About Me</h2>
 				</Common.Column>
 			</Common.PageHead>
 			<Common.Container css={containerStyle}>

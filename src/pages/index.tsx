@@ -5,15 +5,15 @@ import { mdxNodeType } from 'types/post';
 import Layout from 'components/layout/Layout';
 import Common from 'components/common';
 import SEO from 'components/common/SEO';
-import { media } from 'styles/variables';
+import { media, Colors } from 'styles/variables';
 
 const pageHeader = css`
 	display: flex;
 	padding: 1rem 0;
 	height: auto;
 	position: relative;
-	color: white;
-	background-color: #7886b7;
+	color: ${Colors.white};
+	background-color: ${Colors.blue};
 
 	&::before {
 		content: '';
@@ -36,7 +36,7 @@ const pageHeader = css`
 	}
 
 	& h1.page-header__title {
-		border-bottom: 0.25rem solid white;
+		border-bottom: 0.25rem solid ${Colors.white};
 	}
 
 	& .avatar {
@@ -47,7 +47,7 @@ const pageHeader = css`
 		& > img {
 			height: 100%;
 			width: 100%;
-			background-color: white;
+			background-color: ${Colors.white};
 			border-radius: 50%;
 		}
 	}
@@ -76,7 +76,7 @@ const contentSection = css`
 		& .post {
 			width: 100%;
 			padding: 0.5rem 0;
-			color: black;
+			color: ${Colors.black};
 			border-bottom: 1px solid #f5f5f5;
 			transition: all 0.2s linear;
 
@@ -86,7 +86,7 @@ const contentSection = css`
 
 			&:hover {
 				& .post-preview__title {
-					color: #7886b7;
+					color: ${Colors.blue};
 				}
 			}
 		}
@@ -109,8 +109,8 @@ const contentSection = css`
 			padding: 1rem;
 			font-weight: bold;
 			font-size: 1.2rem;
-			background-color: #7886b7;
-			color: white;
+			background-color: ${Colors.blue};
+			color: ${Colors.white};
 		}
 	}
 `;

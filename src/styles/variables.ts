@@ -1,8 +1,11 @@
 //colors
 export const Colors = {
-	black: 'black',
-	white: 'white',
+	black: '#000000',
+	white: '#ffffff',
+	lightGray: '#f5f3f3',
 	gray: '#868e96',
+	blue: '#7886b7',
+	sky: '#87cefa',
 };
 
 // breakpoints

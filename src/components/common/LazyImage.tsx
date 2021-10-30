@@ -24,6 +24,7 @@ const LazyImage = (props: imageType) => {
 			ref={imgRef}
 			className={`${props.className} source ${isLoaded ? 'loaded' : ''}`}
 			onLoad={() => setIsLoaded(true)}
+			loading={props.loading}
 		/>
 	);
 };
