@@ -1,0 +1,158 @@
+---
+title: Rollup 사용하기
+slug: rollup
+date: 2021-10-31
+tags: ['Dev', 'Bundler']
+---
+
+## Rollup.js
+
+Rollup은 Webpack 같은 모듈 번들러로 아래와 같은 장점들을 가지고 있다.
+
+- webpack과 다르게 코드들을 동일한 수준으로 호이스팅 한 후 한 번에 번들링을 진행하기 때문에 속도에서는 webpack보다 빠르고 결과물도 훨씬 가볍다.
+- es 모듈 형태로 빌드를 할 수 있어 라이브러리나 패키지를 작업하는데 활용할 수 있다.
+  - webpack은 es 모듈로 번들을 할 수 없음, 오직 commonJS 형태로 번들링 진행 가능
+
+es 모듈이며 라이브러리를 만들고 있는 경우 Rollup을 활용하는 것이 좋지만, code spliting이 필요하거나 static asset이 많은 경우, 안정성을 추구해야되는 경우 혹은 CommonJS 종속성이 많은 무언가를 번들링 할 경우 webpack을 사용하는것이 좋다.
+
+## 필요 패키지 설치 및 설정
+
+### 설치하기
+
+```
+yarn add -D rollup @rollup/plugin-babel @rollup/plugin-node-resolve rollup-plugin-peer-deps-external @rollup/plugin-url @rollup/plugin-commonjs rollup-plugin-typescript2 rollup-plugin-terser
+```
+
+- rollup: rollup 패키지
+- @rollup/plugin-babel: rollup에서 babel을 사용 할 수 있게 해주는 플러그인
+- @rollup/plugin-node-resolve: node_modules에서 써드파티 모듈을 사용하는 용도로 사용, js 외의 확장자 (tx,tsx)를 불러오기 위해서도 필요함
+- rollup-plugin-peer-deps-external: peerDependency로 설치된 라이브러리의 코드가 번들링 결과에 포함되지 않고 import를 통해 불러와서 사용할 수 있게 해주는 플러그인
+- @rollup/plugin-url: 파일을 데이터 URI 혹은 es모듈로 가져오는 플러그인
+- @rollup/plugin-commonjs: CommonJS 모듈을 es 모듈로 변환하는 플러그인
+- rollup-plugin-typescript2: typescript 지원 플러그인
+- rollup-plugin-terser: 생성된 es번들을 최소화하기 위한 플러그인
+
+### 설정하기
+
+위의 패키지들을 설치 완료 했다면 이제 rollup 설정을 진행하도록 한다.
+
+**peerDependencies 설정**
+
+```
+yarn add react react-dom @emotion/react --peer
+```
+
+react, react-dom @emotion/react를 peer로 설치해준다.
+
+```
+//package.json
+"peerDependencies": {
+  "@emotion/react": "^11.5.0",
+  "react": "^17.0.2",
+  "react-dom": "^17.0.2"
+}
+```
+
+**rollup.config.js 설정**
+다음으로 rollup.config.js 파일을 생성하여 rollup 설정을 진행한다.
+
+```
+//rollup.config.js
+import commonjs from "@rollup/plugin-commonjs";
+import typescript from "rollup-plugin-typescript2";
+import resolve from "@rollup/plugin-node-resolve";
+import svgr from "@svgr/rollup";
+import url from "@rollup/plugin-url";
+import peerDepsExternal from "rollup-plugin-peer-deps-external";
+import babel from "@rollup/plugin-babel";
+import pkg from "./package.json";
+
+export default {
+  input: "src/index.ts", // 어떤 파일로 부터 불러올것인지 설정
+  output: [
+    {
+      file: pkg.main,// package.json에 설정한 main의 경로로 번들링 진행
+      format: "cjs", // commonjs 형태로 번들링
+      sourcemap: true,
+    },
+    {
+      file: pkg.module, //번들링한 파일을 저장 할 경로, package.json에 설정한 module의 경로로 번들링
+      format: "esm", // es모듈 형태로 번들링
+      sourcemap: true,
+    },
+  ],
+  plugins: [
+    commonjs(),//commonJS형태로 만들어진 모듈도 불러와서 사용 할 수 있게 해줌
+    resolve(), //node_modules에서 모듈을 불러올수 있도록 해줌, ts/tsx 파일도 불러올수 있음
+    url(), //미디어 파일을 dataURI 형태로 불러와서 사용 할 수 있게 해줌
+    svgr(), //svg를 컴포넌트로 사용 할 수 있게 해줌
+    peerDepsExternal(), //peerDependencies에 설치된 라이브러리들을 external모듈로 설정하여 번들 결과물에서 제외
+    babel({ exclude: "node_modules/**" }), //babel을 사용 할 수 있게 해줌
+    typescript({ useTsconfigDeclarationDir: true }), //typescript 플러그인
+  ],
+};
+```
+
+**tsconfig 설정**
+typescript를 사용할 경우 필요한 설정으로 javascript로 작업을 진행 하는 경우 이 과정은 생략해도 된다.
+
+```
+//tsconfig.json
+{
+  "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "build",
+    "baseUrl": "./src",
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "es6", "esnext"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "jsx": "react"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build"]
+}
+```
+
+**모듈 설정 및 package.json 설정**
+외부에 모듈을 제공하기 위한 설정을 진행한다.
+
+```
+// src/index.ts
+export {default as Button} from './components/Button';
+export {default as Form} from './components/Form';
+export {default as Selector} from './components/Selector';
+
+// 혹은 아래와 같이 작성
+
+import Button from './components/Button';
+import Form from './components/Form';
+import Selector from './components/Selector';
+
+export default {
+    Button,
+    Form,
+    Selector
+};
+```
+
+package.json에 빌드 수행을 위한 scripts를 추가한다.
+
+```
+"scripts": {
+    "build": "rollup -c"
+}
+```
+
+마지막으로 빌드를 수행하면 아래와 같이 build 폴더가 프로젝트에 생성된다.
+
+### 참고
+
+- [rollup.js](https://rollupjs.org/guide/en/)
+- [Rollup을 사용해서 npm 배포하기](https://flamingotiger.github.io/frontend/DevEnv/rollup-setup/)
+- [Rollup을 사용하여 디자인 시스템 번들 후, npm 라이브러리로 배포하기](https://velog.io/@velopert/bundle-with-rollup-and-publish-to-npm)
