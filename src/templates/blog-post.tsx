@@ -1,6 +1,7 @@
 import React from 'react';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
+import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
 import { css } from '@emotion/react';
 import Layout from 'components/layout/Layout';
 import Common from 'components/common';
@@ -36,7 +37,13 @@ const postContainer = css`
 	width: 100%;
 `;
 
-const BlogPost = ({ data: { mdx } }: any) => {
+const postLink = css`
+	display: flex;
+	align-items: center;
+	padding: 0.5rem 1rem;
+`;
+
+const BlogPost = ({ data: { mdx }, pageContext: { next, previous } }: any) => {
 	return (
 		<Layout>
 			<SEO title={`${mdx.frontmatter.title} | Dan DevLog`} description={mdx.excerpt} article />
@@ -50,6 +57,25 @@ const BlogPost = ({ data: { mdx } }: any) => {
 						<MDXRenderer>{mdx.body}</MDXRenderer>
 					</Common.Container>
 					<hr />
+					<Common.Row justifyContents="space-between">
+						<Common.Row alignItems="center" justifyContents="flex-start">
+							{previous && (
+								<Link css={postLink} to={`/posts${previous.fields.slug}`}>
+									<MdChevronLeft />
+									<p>{previous.frontmatter.title}</p>
+								</Link>
+							)}
+						</Common.Row>
+						<Common.Row alignItems="center" justifyContents="flex-end">
+							{next && (
+								<Link css={postLink} to={`/posts${next.fields.slug}`}>
+									<p>{next.frontmatter.title}</p>
+									<MdChevronRight />
+								</Link>
+							)}
+						</Common.Row>
+					</Common.Row>
+					<hr />
 					<Utterances repo="leye195/blog" theme="github-light" />
 				</Common.Column>
 			</Common.Container>
@@ -58,8 +84,8 @@ const BlogPost = ({ data: { mdx } }: any) => {
 };
 
 export const query = graphql`
-	query getPost($id: String) {
-		mdx(id: { eq: $id }) {
+	query getPost($slug: String) {
+		mdx(fields: { slug: { eq: $slug } }) {
 			frontmatter {
 				title
 				date(formatString: "MMMM D, YYYY")
