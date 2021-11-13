@@ -40,7 +40,30 @@ const postContainer = css`
 const postLink = css`
 	display: flex;
 	align-items: center;
-	padding: 0.5rem 1rem;
+	padding: 0.25rem 0.5rem;
+
+	${media.smDown} {
+		font-size: 0.85rem;
+	}
+
+	&.next,
+	&.prev {
+		& > p {
+			word-break: break-all;
+		}
+
+		& > svg {
+			font-size: 1.5rem;
+		}
+
+		& .next-icon {
+			margin-left: 0.5rem;
+		}
+
+		& .prev-icon {
+			margin-right: 0.5rem;
+		}
+	}
 `;
 
 const BlogPost = ({ data: { mdx }, pageContext: { next, previous } }: any) => {
@@ -60,17 +83,17 @@ const BlogPost = ({ data: { mdx }, pageContext: { next, previous } }: any) => {
 					<Common.Row justifyContents="space-between">
 						<Common.Row alignItems="center" justifyContents="flex-start">
 							{previous && (
-								<Link css={postLink} to={`/posts${previous.fields.slug}`}>
-									<MdChevronLeft />
+								<Link className="prev" css={postLink} to={`/posts${previous.fields.slug}`}>
+									<MdChevronLeft className="prev-icon" />
 									<p>{previous.frontmatter.title}</p>
 								</Link>
 							)}
 						</Common.Row>
 						<Common.Row alignItems="center" justifyContents="flex-end">
 							{next && (
-								<Link css={postLink} to={`/posts${next.fields.slug}`}>
+								<Link className="next" css={postLink} to={`/posts${next.fields.slug}`}>
 									<p>{next.frontmatter.title}</p>
-									<MdChevronRight />
+									<MdChevronRight className="next-icon" />
 								</Link>
 							)}
 						</Common.Row>

@@ -18,6 +18,11 @@ const darkTheme = css`
 				color: white;
 			}
 
+			a svg,
+			a p {
+				color: white;
+			}
+
 			.menu {
 				& > a {
 					color: white !important;
