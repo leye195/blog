@@ -12,6 +12,21 @@ const containerStyle = css`
 	margin: 2rem auto;
 	padding: 0 1rem;
 
+	& .last-updated {
+		font-size: 0.85rem;
+		margin-bottom: 1rem;
+
+		&__text {
+			padding: 0.25rem;
+			background: #7886b7;
+			color: white;
+			vertical-align: baseline;
+			border-radius: 0.25rem;
+			line-height: 1;
+			font-weight: 700;
+		}
+	}
+
 	& .main-contents {
 		padding: 1.5rem 0;
 
@@ -54,7 +69,10 @@ const MePage = ({ data: { bg } }: any) => {
 				</Common.Column>
 			</Common.PageHead>
 			<Common.Container css={containerStyle}>
-				<h2>이영재 (DanYJ)</h2>
+				<h2>이영재(DanYJ)</h2>
+				<Common.Row className="last-updated" alignItems="center" justifyContents="flex-end">
+					<span className="last-updated__text">Last Updated: 2021.12.07</span>
+				</Common.Row>
 				<p>
 					I'm Web FrontEnd Developer in <strong>SuperTree</strong> that serve{' '}
 					<a className="" href="https://playdapp.com">
