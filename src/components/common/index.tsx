@@ -9,6 +9,7 @@ import PageHead from './PageHead';
 import Post from './Post';
 import Tag from './Tag';
 import Table from './Table';
+import SEO from './SEO';
 
 export default {
 	Button,
@@ -22,4 +23,5 @@ export default {
 	Tag,
 	Section,
 	Table,
+	SEO,
 };
