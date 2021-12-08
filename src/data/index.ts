@@ -37,8 +37,8 @@ const projectList: projectType[] = [
 			},
 			{ main: '프로젝트 Container-Presentational 패턴 작용', sub: ['view, logic 분리 관심사의 분리 적용'] },
 			{
-				main: 'polygon 마켓 2차 이벤트 합성 기능 구현',
-				sub: ['기존 이벤트 페이지 재사용 가능 각종 컴포넌트 분리'],
+				main: 'polygon 마켓 2차 이벤트 합성',
+				sub: ['기존 이벤트 페이지 재사용 가능 각종 컴포넌트 분리', '이벤트 합성 기능 구현', '이벤트 랭킹 페이지 제작'],
 			},
 		],
 	},

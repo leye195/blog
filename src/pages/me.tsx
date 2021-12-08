@@ -4,8 +4,8 @@ import { css } from '@emotion/react';
 import Layout from 'components/layout/Layout';
 import Common from 'components/common';
 import Card from 'components/me/Card';
-import data from 'data';
 import SEO from 'components/common/SEO';
+import data from 'data';
 
 const containerStyle = css`
 	max-width: 700px;
