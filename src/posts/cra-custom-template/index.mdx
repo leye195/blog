@@ -1,0 +1,232 @@
+---
+title: CRA Custom Template 생성하기
+slug: cra-custom-template
+date: 2021-12-19
+tags: ['React', 'FE', 'CRA']
+---
+
+React를 선택하여 프로젝트를 구성하고자 할 때 CRA (Create React App) 을 활용하면 쉽고 빠르게 React 프로젝트를 시작할 수 있습니다.
+
+```bash
+yarn create react-app my-app
+// or
+npm init react-app my-app
+```
+
+만약 typescript로 시작하는것을 원한다면 CRA에서 제공하는 typescript 용 템플릿을 사용하면 됩니다.
+
+```bash
+yarn create react-app my-app --template typescript
+// or
+npm init react-app my-app --template typescript
+```
+
+이와 더불어 CRA에서는 템플릿을 커스터마이징 하여 배포하는 기능을 제공하고 있어 필요한 설정을 한 뒤 템플릿을 통해 빠르게 해당 환경을 구성 할 수 있게 해줍니다.
+
+이 글에서는 CRA (Create React App) custom template를 구성하는 방법에 대해서 소개하고자 합니다.
+
+## 프로젝트 생성 및 설정
+
+먼저 CRA 명령어를 사용하며 프로젝트를 생성합니다.
+
+```bash
+yarn create react-app my-template --template typescript
+```
+
+## 패키지 설치
+
+템플릿에 포함될 패키지들을 설치해줍니다.
+
+```bash
+yarn add react-router react-router-dom react-query axios recoil styled-components
+```
+
+- type definition이 필요한 패키지의 경우 추가적으로 설치를 진행해줍니다.
+
+### Prettier, ESlint 설정
+
+```bash
+yarn add -D eslint eslint-config-airbnb @typescript-eslint/eslint-plugin @typescript-eslint/parser
+yarn add -D eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react-hooks eslint-plugin-react
+yarn add -D prettier eslint-plutin-prettier eslint-config-prettier
+```
+
+ESlint의 typescript 지원을 위해 `@typescript-eslint/eslint-plugin` , `@typescript-eslint/parser` 패키지를 추가했습니다.
+
+스타일 가이드로 airbnb를 적용하기 위해 `eslint-config-airbnb` 그리고 해당 패키지를 사용하기 위해 필요한 `eslint-plugin-import` , `eslint-plugin-react` , `eslint-plugin-jsx-a11y` , `eslint-plugin-react-hooks` 를 추가로 설치합니다.
+
+**ESlint 설정**
+
+프로젝트 root 경로에 `.eslintrc` 파일 생성하고 내부 설정해줍니다.
+
+```bash
+{
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "extends": [
+    "plugin:prettier/recommended",
+    "prettier",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb",
+    "airbnb/hooks"
+  ],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "quotes": "off",
+    "func-names": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
+    "import/extensions": "off",
+    "react/require-default-props": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"],
+        "extensions": [".d.ts", ".ts", ".tsx", ".js", ".jsx"]
+      }
+    }
+  }
+}
+```
+
+**Prettier 설정**
+
+eslint와 마찬가지로 root 경로에 `.prettierrc` 를 생성하여 아래와 같이 작성합니다.
+
+```bash
+{
+  "printWidth": 120,
+  "tabWidth": 2,
+  "singleQuote": false,
+  "trailingComma": "all",
+  "semi": true
+}
+```
+
+## custom template 설정
+
+CRA 커스텀 템플릿을 설정하기 위해서는 CRA에서 생성한 기본 프로젝트의 구조를 변경해줄 필요가 있습니다.
+
+![image](https://user-images.githubusercontent.com/30601503/146664546-3c998a75-03e9-4ab3-9525-f2f09407b46a.png)
+
+**template 폴더**
+
+`template` 폴더를 생성 `src` 및 `.eslintrc` , `.prettierrc`, `tsconfig.json` 을 전부 `template` 내부로 이동시켜줍니다.
+
+**template.json 파일**
+
+root 경로에 `template.json` 파일을 생성하여, 템플릿에 필요한 패키지 의존성 및 스크립트를 작성합니다.
+
+```bash
+{
+  "package": {
+    "dependencies": {
+      "@testing-library/jest-dom": "^5.14.1",
+      "@testing-library/react": "^12.0.0",
+      "@testing-library/user-event": "^13.2.1",
+
+      "axios": "^0.24.0",
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "react-query": "^3.34.5",
+      "react-router": "^6.2.1",
+      "react-router-dom": "^6.2.1",
+      "react-scripts": "5.0.0",
+      "recoil": "^0.5.2",
+      "styled-components": "^5.3.3",
+      "styled-normalize": "^8.0.7",
+      "typescript": "^4.4.2",
+      "web-vitals": "^2.1.0"
+    },
+    "devDependencies": {
+      "@types/jest": "^27.0.1",
+      "@types/node": "^16.7.13",
+      "@types/react": "^17.0.20",
+      "@types/react-dom": "^17.0.9",
+      "@types/styled-components": "^5.1.18",
+      "@typescript-eslint/eslint-plugin": "^5.7.0",
+      "@typescript-eslint/parser": "^5.7.0",
+      "eslint": "^8.5.0",
+      "eslint-config-airbnb": "^19.0.2",
+      "eslint-config-prettier": "^8.3.0",
+      "eslint-plugin-import": "^2.25.3",
+      "eslint-plugin-jsx-a11y": "^6.5.1",
+      "eslint-plugin-prettier": "^4.0.0",
+      "eslint-plugin-react": "^7.27.1",
+      "eslint-plugin-react-hooks": "^4.3.0",
+      "prettier": "^2.5.1"
+    },
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test"
+    }
+  }
+}
+```
+
+**package.json 수정**
+
+```bash
+{
+  "name": "cra-template",
+  "version": "0.1.0",
+  "private": true,
+  "main": "template.json",
+  "keywords": [
+    "react",
+    "create-react-app",
+    "cra-template",
+    "typescript",
+    "eslint",
+    "prettier",
+    "react-router",
+    "react-router-dom",
+    "react-query",
+    "styled-components"
+  ],
+  "files": [
+    "template",
+    "template.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leye195/cra-template",
+    "directory": "/"
+  },
+  "license": "MIT"
+}
+```
+
+이제 아래와 같은 ㄱ
+
+## template 활용 프로젝트 생성
+
+마지막으로 template을 활용하여 프로젝트를 생성해보도록 하겠습니다.
+
+처음에 CRA 제공 typescript 템플릿을 활용하여 프로젝트를 생성했던 방법와 비슷하게 명령어를 입력하면 됩니다. 한 가지 달라지는 부분은 `--template <name>` 이 부분이 달라진다는 것입니다.
+
+```bash
+yarn create react-app test --template file:/Users/yjlee/Documents/ts/cra-template/cra-template
+```
+
+`file:/Users/yjlee/Documents/ts/cra-template/cra-template` 경로를 입력해준 이유는 `npm` 에 배포하지 않은 상태에서 템플릿 활용 테스트를 진행해보기 위해서 입니다.
+
+명령어를 실행한 결과 프로젝트도 잘 생성이 되고 start 스크립트 실행 역시 정상적으로 작동하는 것을 확인 할 수 있습니다.
+
+![image](https://user-images.githubusercontent.com/30601503/146664527-c9a2b708-de36-43ef-8d48-5b78710608d3.png)
+
+![image](https://user-images.githubusercontent.com/30601503/146664519-c3db5e5d-9951-4a29-ac73-1578b53e0801.png)
+
+이렇게 템플릿 구성 및 생성 방법에 대해서 알아봤습니다. 부족하지만 도움이 되었으면 좋겠습니다.
+
+다음 글에서는 해당 템플릿을 npm에 배포하는 방법에 대해서 알아보도록 하겠습니다.
+
+## 참고
+
+- [https://create-react-app.dev/docs/custom-templates/#the-template-folder](https://create-react-app.dev/docs/custom-templates/#the-template-folder)
+- [https://medium.com/lycl/cra-custom-template-생성-npm-에-게시-및-ci-cd-구성하기-1-982326f137d5](https://medium.com/lycl/cra-custom-template-%EC%83%9D%EC%84%B1-npm-%EC%97%90-%EA%B2%8C%EC%8B%9C-%EB%B0%8F-ci-cd-%EA%B5%AC%EC%84%B1%ED%95%98%EA%B8%B0-1-982326f137d5)
+- [https://grischuk.de/how-to-create-custom-create-react-app-cra-templates](https://grischuk.de/how-to-create-custom-create-react-app-cra-templates)
