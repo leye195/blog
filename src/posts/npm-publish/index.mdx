@@ -1,0 +1,58 @@
+---
+title: npm publish
+slug: npm-publish
+date: 2021-12-27
+tags: ['FE', 'CRA', 'npm']
+---
+
+이번에는 <a href="/posts/cra-custom-template">저번 글</a>에서 생성한 CRA template을 npm에 배포하는 방법에 대해서 알아보겠습니다.
+
+## npm
+
+npm은 `node package manager` 로 javascript 혹은 typescript로 작성한 패키지를 배포하여 저장 그리고 다른 개발자들이 배포한 패키지를 설치하거나 업데이트를 할 수 있도록 해줍니다.
+
+### npm 로그인
+
+npm에 패키지을 배포하기 위해서는 npm 계정에 로그인을 해야합니다.
+
+npm 계정이 없는 경우 npm 사이트에서 가입을 진행 하고 터미널로 돌아와 `npm login` 커맨드를 입력하고 관련 정보들을 입력합니다.
+
+로그인이 잘 되었는지 확인하고자 한다면 `npm whoami` 커맨드를 입력하여 username을 입력하면 현재 로그인된 `username` 이 터미널에 출력될 것 입니다.
+
+```bash
+$ npm whoami
+leye195
+```
+
+### 패키지 이름 체크
+
+배포할 패키지의 이름이 npm에 존재하는지 체크하기 위해서는 `npm info <package name>` 커맨드를 활용해야 됩니다.
+
+만약 사용하고자 하는 패키지 이름이 이미 존재하는 경우 터미널에 관련 정보가 출력될 것이고 존재 하지 않는다면
+
+404 에러가 발생하게 됩니다.
+
+### 패키지 배포
+
+이제 저번에 작성한 cra template을 `cra-template-rrrs` 라는 name으로 설정하여 npm에 배포해보도록 하겠습니다.
+
+배포는 매우 간단합니다 터미널에 `npm publish` 커맨드를 실행하면 npm에 배포가 진행됩니다.
+
+![스크린샷 2021-12-27 오후 11 01 24](https://user-images.githubusercontent.com/30601503/147480151-13b98a44-9b75-476a-a4d9-246d62ffb1d5.png)
+
+자! 이제 배포가 완료 되었으니 배포한 cra template을 사용하기 위해 아래 같이 입력해주면
+
+```bash
+yarn create react-app test-app --template cra-template-rrrs
+```
+
+짜잔! 성공적으로 템플릿을 설치할 수 있게 됩니다.
+
+![스크린샷 2021-12-27 오후 11 05 24](https://user-images.githubusercontent.com/30601503/147480114-b3a64078-5b3b-4799-b355-548045c27187.png)
+
+배포한 `cra-template-rrrs` 코드는 [해당 링크](https://github.com/leye195/cra-template-rrrs) 에서 확인하실수 있습니다.
+
+### 참고
+
+- [npm publish | npm Docs](https://docs.npmjs.com/cli/v8/commands/npm-publish/)
+- [nodejs npm module publish](https://heropy.blog/2019/01/31/node-js-npm-module-publish/)
