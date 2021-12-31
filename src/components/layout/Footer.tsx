@@ -1,22 +1,26 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { FaGithubSquare } from 'react-icons/fa';
+import { FaGithubSquare, FaRssSquare, FaInstagramSquare } from 'react-icons/fa';
 import Common from 'components/common';
 
 const footerStyle = css`
-	padding: 3rem 0;
+	padding: 1.5rem 0 1.5rem 0;
 	border-top: 1px solid #f5f3f3;
 
 	& svg {
-		font-size: 2.5rem;
+		font-size: 2rem;
 		cursor: pointer;
-		color: black;
+		color: #505050;
 	}
 
 	& .copyright {
 		margin-top: 1rem;
 		font-size: 0.85rem;
 		text-align: center;
+
+		& span {
+			font-weight: 300;
+		}
 	}
 `;
 
@@ -28,8 +32,16 @@ const Footer: React.FC = () => {
 					<a className="github" href="https://github.com/leye195" target="_blank" rel="noopener">
 						<FaGithubSquare />
 					</a>
+					<a className="insta" href="https://www.instagram.com/dan__yj" target="_blank" rel="noopener">
+						<FaInstagramSquare />
+					</a>
+					<a className="rss" href="/rss.xml" target="_blank" rel="noopener">
+						<FaRssSquare />
+					</a>
 				</Common.Row>
-				<p className="copyright">© {new Date().getFullYear()} dan.dev.log </p>
+				<p className="copyright">
+					© {new Date().getFullYear()} dan.dev.log, <span>Built with Gatsby</span>
+				</p>
 			</Common.Column>
 		</footer>
 	);
