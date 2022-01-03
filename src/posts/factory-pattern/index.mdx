@@ -1,0 +1,86 @@
+---
+title: Factory Pattern
+slug: factory-pattern
+date: 2022-01-03
+tags: ['design pattern', 'JavaScript']
+---
+
+Javascript에서 contructor를 활용하여 객체 생성이 가능하다. 하지만 contructor는 다른 함수들 같이 동작하지 않기 때문에 `new` 키워드 없이 사용할 경우 정상적으로 작동하지 않으며 에러 메시지 또한 출력하지 않아 주의하지 않으면 에러발생 여부를 판단 하기 어려워 진다.
+
+객체를 생성하기 더 좋은 방법으로 `Factory` 패턴을 활용 할 수 있습니다.
+
+`Factory function Pattern` 은 contructor와 비슷하지만 `new` 키워드를 사용하지 않고 간단하게 함수를 통해 새로운 객체를 리턴해줍니다.
+
+```javascript
+const factoryFunction = (name) => {
+  const hi = () => console.log(`hi from ${name});
+	return {name,hi};
+};
+
+const a = factoryFuncntion('a');
+a.hi() // hi from a
+```
+
+그렇다면 `factory` 함수를 활용하여 상속은 어떻게 구현하는 것일까요?
+
+```javascript
+const Persion = name => {
+	const walk = () => console.log(`${name} is walking`);
+
+	return { walk };
+};
+
+const Machine = name => {
+	const { walking } = Person(name);
+	const flying = () => console.log(`${name} is flying`);
+
+	return { walking, flying };
+};
+```
+
+위에 작성한 방식을 활용하여 다른 객체의 속성을 상속 받을 수 있습니다.
+
+factory 함수를 활용한 한 가지 예를 더 만들어보겠습니다.
+
+이번에는 Animal factory 함수를 만들고, Animal의 기능을 상속 받는 biteAnimal factory 함수를 만들어 보겠습니다.
+
+```javascript
+const Animal = (name) => {
+   let walking = false;
+	 const walk = () => {
+     walking = true;
+	 }
+	 const isWalking = () => walking;
+}
+
+// factory 함수를 활용하여 rabbit 객체 생성
+const rabbit = Animal('rabbit');
+
+const biteAnimal = (name) => {
+	 const animal = Animal(name);
+	 const bite = () => {
+		 console.log('bite someone');
+	 }
+	 return {...animal,bite);
+}
+
+// bite() 함수를 부여한 tiger 객체 생성
+const tiger = biteAnimal('tiger');
+
+tiger.walk();
+tiger.bite(); // bit someone
+console.log(tiger.isWalking()); // true
+
+```
+
+같은 방법으로 다양한 기능을 가질 수 있는 객체를 만들어 낼 수 있게 됩니다.
+
+contructor 생성자 함수가 아닌 factory pattern을 통해 객체를 생성하는 방법에 대해서 좀 알아봤습니다.
+
+부족하지만 이해하는데 조금이라도 도움이 됬으면 좋겠습니다.
+
+## 참고
+
+- [How JavaScript works: the factory design pattern + 4 use cases](https://blog.sessionstack.com/how-javascript-works-the-factory-design-pattern-4-use-cases-7b9f0d22151d)
+- [Factory Method Pattern in JavaScript](https://velog.io/@godori/factory-method-pattern)
+- [Understand the Factory Design Pattern in plain JavaScript](https://medium.com/front-end-weekly/understand-the-factory-design-pattern-in-plain-javascript-20b348c832bd)
