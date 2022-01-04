@@ -1,0 +1,153 @@
+---
+title: MSW 사용해서 mock API 설정하기
+slug: msw-mock-api
+date: 2022-01-04
+tags: ['FE', 'mocking']
+---
+
+FrontEnd 개발을 진행하다 보면 BackEnd 개발 의존성 문제가 발생하여 개발이 지체되는 문제가 발생하게 됩니다.
+
+해당 문제를 해결 하기 위헤서는 data mocking을 활용해야 되는데, 이 때 mocking 진행시 `msw` 를 이용하여 mocking을 진행하면 BackEnd가 준비되지 않은 상태에서도 FrontEnd 개발을 진행 할 수 있습니다.
+
+## MSW
+
+`msw` 는 Mock Service Worker의 줄임말로 service worker를 사용하여 네트워크 요청을 가로채 해당 요청에 대한 모킹 할 수 있게 해주는 라이브러리이며 코드 수정 없이 서비스 워커를 통해 mock api 작동여부를 설정 할 수 있습니다.
+
+## 설치
+
+```bash
+yarn add msw -D
+
+npm i msw --dev
+```
+
+<br />
+
+## msw 사용하기
+
+1. 아래 명령문을 통해 `src/mocks` 폴더를 생성하고 안에 `handler.ts` 파일을 생성합니다.
+
+```jsx
+mkdir src/mocks
+touch src/mocks/handler.ts
+```
+
+2. api 요청에 대한 응답을 mocking을 하기 위해 `handler.ts` 안에 아래와 같이 코드를 작성합니다.
+
+```
+import { rest } from 'msw';
+
+export const handlers = [
+    rest.get('https://test.api.com/movies', (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.json({
+                data: [{
+                    id: 1,
+                    title: 'Spider Man',
+                    rate: 4.5,
+                },
+                {
+                    id: 2,
+                    title: 'Kings Man',
+                    rate: 4.5,
+                }],
+            }),
+        );
+    }),
+    rest.get('https://test.api.com/movies/1', (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.json({
+                id: 1,
+                title: 'Spider Man',
+                rate: 4.5,
+            }),
+        );
+    }),
+];
+```
+
+<br />
+
+### 서비스 워커 설정
+
+먼저 서비스워크 등록을 위한 `mockServiceWorker.js` 파일을 public 폴더에 생성하기 위해 아래 명령을 실행합니다.
+
+```bash
+npx msw init public/ --save
+```
+
+browser 환경에서 service worker 실행 설정을 하기 위한 `src/mocks/browser.ts` 파일을 생성하고 아래와 같이 코드를 작성합니다.
+
+```jsx
+import { setupWorker } from 'msw';
+import { handlers } from './handlers';
+
+export const owrker = setupWorker(...handlers);
+```
+
+node 환경에서 사용하고자 하는 경우 `src/mocks/node.ts` 파일을 생성하고 아래와 같이 코드를 작성합니다.
+
+```jsx
+import { setupServer } from 'msw/node';
+import { handlers } from './handlers';
+
+export const server = setupServer(...handlers);
+```
+
+<br />
+
+### 서비스 워커 실행
+
+CRA의 경우 `mocks/browser` 파일의 worker를 불러와 `worker.start()` 를 실행하면 됩니다.
+
+```
+// index.ts
+if (process.env.NODE_ENV === 'development') {
+	// develop 환경에서만 사용
+    const { worker } = require('./mocks/browser');
+    worker.start();
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+NextJS의 경우 server side가 먼저 실행된 후 브라우저 환경인 client side가 실행되기 때문에 node 환경에 대해서 추가적으로 설정을 진행해줘야 됩니다.
+
+아래와 같이 `isServer` 를 활용하여 node 환경인 경우에는 `mocks/server` 의 mock server를 리스닝, browser 환경인 경우 `mocks/browser` 의 worker를 시작하도록 해줍니다.
+
+```
+// _app.ts
+const isServer = process.browser ? false : true;
+
+if (process.env.NODE_ENV === 'development') {
+    if (isServer) {
+        (async () => {
+            const { server } = await import('../mocks/server');
+            server.listen();
+        })();
+    } else {
+        (async () => {
+            const { worker } = await import('../mocks/browser');
+            worker.start();
+        })();
+    }
+}
+
+function MyApp({ Component, pageProps }: AppProps) {
+    return <Component {...pageProps} />;
+}
+
+export default MyApp;
+```
+
+각 상황에 맞춰 설정을 진행한 뒤 프로젝트를 localhost로 실행하면 개발자 도구 콘솔에 아래와 같은 MSW 사용 가능 메시지가 출력이 되는것을 확인 할 수 있게 되며.
+mock api를 통해 응답을 받을 수 있게 됩니다.
+
+![image](https://user-images.githubusercontent.com/30601503/148063803-7506e189-556e-4b9b-ae85-f00eea2c4a1d.png)
+
+## 참고
+
+- [Mock Service Worker](https://mswjs.io/docs/)
+- [Mocking으로 생산성까지 챙기는 FE 개발](https://tech.kakao.com/2021/09/29/mocking-fe/)
