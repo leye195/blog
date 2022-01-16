@@ -1,0 +1,93 @@
+---
+title: reselect 사용하기
+slug: redux-reselect
+date: 2022-01-16
+tags: ['FE', 'react']
+---
+
+`reselect`는 redux에서 selector를 사용 할 수 있도록 해주는 library 로 원본 데이터를 다양한 형태로 가공하여 사용 할 수 있도록 도와준다.
+
+우선 redux에 있는 데이터를 가져오는데 역할을 수행하는 `useSelector`이 가지고 있는 특징을 먼저 알아보겠다.
+
+- useSelector는 랜더링때 마다 실행된다.
+- action이 dispatch 되었을 때 실행되며, 이전 state 값과 현재 state 값이 다른 경우 리렌더링이 진행된다.
+
+<br />
+
+첫 번째 특징에서의 랜더링 될 때 마다 실행된다는 것은 매번 재계산을 진행한 다는 것으로 데이터의 크기가 클 경우 소요 비용이 커지게 되는데, 이게 두 번째 특징과 연결되어 리랜더링이 발생 할 경우 불필요한 계산이 발생하게 되어 성능에 영향을 줄 수 있다.
+
+위의 발생한 문제점들을 해결하는 방법으로 `reselect` 를 사용하게 되는데, 기본적으로 selector와 같지만 `memoization` 을 통해 이전 state 값을 캐시에 저장하여 불필요한 계산을 없애준다.
+
+## 설치
+
+```
+yarn add reselect
+
+npm i reselect
+```
+
+## 적용 방법
+
+`reselect` 를 사용하는 방법은 다음과 같다
+
+```
+// ducks/todos.js
+
+import { createSelector } from "reselect";
+
+const ADD_TODO = "ADD_TODO";
+const DONE_TODO = "DONE_TODO";
+
+const initialState = {
+  todoList: []
+};
+
+// actions
+export const addTodo = (todo) => {
+  return {
+    type: ADD_TODO,
+    payload: { todo }
+  };
+};
+
+export const doneTodo = (todos) => {
+  return {
+    type: DONE_TODO,
+    payload: {
+      todos
+    }
+  };
+};
+
+// select
+const getTodos = (state) => state.todos;
+
+export const getTodoList = createSelector(getTodos, (todos) =>
+  todos.todoList.filter((todo) => !todo.isCompleted)
+);
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_TODO:
+      return { ...state, todoList: [action.payload.todo, ...state.todoList] };
+    case DONE_TODO:
+      return { ...state, todoList: [...action.payload.todos] };
+    default:
+      return state;
+  }
+};
+```
+
+이런식으로 state에서 가져온 값을 적용할 수 있으며 `createSelector` 에 매개변수로 전달된 값이 변경되지 않았다면 재계산을 수행하지 않게 된다.
+
+<iframe
+	src="https://codesandbox.io/embed/eager-wind-0ufmk?fontsize=16&hidenavigation=1&theme=dark"
+	style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+	allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+	sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+/>
+
+### 참고
+
+- [reselect](https://github.com/reduxjs/reselect)
+- [Reselect로 Redux 성능 개선하기](https://wonism.github.io/redux-with-reselect/)
