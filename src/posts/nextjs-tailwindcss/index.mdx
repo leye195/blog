@@ -1,0 +1,111 @@
+---
+title: NextJS에 TailwindCSS 적용하기
+slug: nextjs-tailwindcss
+date: 2022-02-07
+tags: ['nextjs', 'FE']
+---
+
+**TailwindCSS**는 **utility-first** 컨셉의 css 프레임워크로 class 이름을 통해 미리 정의된 스타일을 불러와 적용 할 수 있습니다.
+
+코드의 길이를 줄일수 있고 코드의 직관성을 높일수 있어 유용하고 러닝커브도 높지 않아 쉽게 사용 할 수 있다는 장점이 있습니다.
+
+## 설치
+
+```bash
+yarn add tailwindcss postcss autoprefixer -D
+# or
+npm i tailwindcss postcss autoprefixer -D
+```
+
+## 설정 및 적용
+
+설치를 완료한 뒤 아래 명령문을 실행하여 `tailwind.config.js` 와 `postcss.config.js` 설정 파일들을 생성합니다.
+
+```bash
+npx tailwindcss init -p
+```
+
+`tailwind.config.js` 설정 파일의 content 에 tailwind를 사용할 모든 경로를 입력합니다.
+
+```bash
+module.exports = {
+  content: [  // tailwind를 사용할 경로들을 입력
+    "./pages/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+`_app.tsx` 에 import 되어있는 `styles/globals.css` 내부 내용들을 모두 삭제하고 아래와 같이 `@tailwind base` `@tailwind component` `@tailwind utilities` 를 추가하여 tailwind에서 제공하는 base, component 그리고 utilities를 사용 할 수 있도록 합니다.
+
+```bash
+/**
+ * This injects Tailwind's base styles and any base styles registered by
+ * plugins.
+ */
+@tailwind base;
+
+/**
+ * This injects Tailwind's component classes and any component classes
+ * registered by plugins.
+ */
+@tailwind components;
+
+/**
+ * This injects Tailwind's utility classes and any utility classes registered
+ * by plugins.
+ */
+@tailwind utilities;
+```
+
+이제 정상적으로 작동하는지 확인해보기 위해 `index.tsx` 에 아래와 같이 class 이름을 적용한 코드를 작성한 뒤 프로젝트를 실행하면 정상적으로 적용되는 것을 확인 할 수 있습니다.
+
+```bash
+import type { NextPage } from "next";
+
+const Home: NextPage = () => {
+  return (
+    <div className="bg-slate-400 py-20 px-10 grid gap-10 min-h-screen">
+        <div className="bg-white p-10 rounded-3xl shadow-xl">
+            <span className="font-bold text-2xl">Select Item</span>
+            <div className="flex justify-between my-2">
+                <span className="text-gray-500">Gray Chair</span>
+                <span className="font-bold">$19</span>
+            </div>
+            <div className="flex justify-between">
+                <span className="text-gray-500">Gray Chair</span>
+                <span className="font-bold">$19</span>
+            </div>
+            <div className="flex justify-between mt-2 pt-2 border-t-2 border-dashed font-bold">
+                <span>Total</span>
+                <span>$38</span>
+            </div>
+            <button
+              className="flex justify-center w-2/4 mt-5 mx-auto bg-blue-500
+              rounded-2xl p-3 text-white
+              hover:bg-blue-400  active:bg-teal-500  disabled:bg-blue-200"
+              type="button"
+            >
+              Checkout
+            </button>
+        </div>
+    </div>
+  );
+};
+
+export default Home;
+```
+
+![스크린샷 2022-02-06 오후 5 26 58](https://user-images.githubusercontent.com/30601503/152683384-6a1de2e1-12eb-4589-a59d-c589a1124e53.png)
+
+nextjs에서 tailwindCss를 설치 및 설정하여 사용하는 방법에 대해서 간단하게 알아봤습니다. 사용하기 매우 쉽고 다양한 기능을 제공하는 장점이 있어 기회가 된다면 프로젝트에 적용해보는것도 좋을거 같다고 생각됩니다.
+
+tailwind에 대해서 좀 더 자세히 알고 싶다면 [TailwindCSS 공식문서](https://tailwindcss.com/docs/installation)를 참고해주세요.
+
+### 참고
+
+- [TailwindCSS Document](https://tailwindcss.com/docs/installation)
