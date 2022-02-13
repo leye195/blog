@@ -12,6 +12,7 @@ type CardType = {
 const company = css`
 	margin-top: 2.5rem;
 	position: relative;
+	font-size: 20px;
 
 	&::after {
 		position: absolute;
