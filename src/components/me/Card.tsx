@@ -109,7 +109,7 @@ const Card = ({ title, period, position, projects, projectDescription }: CardTyp
 											<p>{des.main}</p>
 											<ul>
 												{des.sub?.map(sub => (
-													<li>{sub}</li>
+													<li key={sub}>{sub}</li>
 												))}
 											</ul>
 										</li>
