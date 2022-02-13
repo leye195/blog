@@ -17,7 +17,7 @@ const tableBody = css`
 `;
 
 const tableRow = css`
-	&:first-child {
+	&:first-of-type {
 		& td {
 			border-top: 1px solid #e3e3e3;
 		}
@@ -27,7 +27,7 @@ const tableRow = css`
 		border-bottom: 1px solid #e3e3e3;
 	}
 
-	& td:first-child {
+	& td:first-of-type {
 		padding: 0.5rem;
 		border-right: 1px solid #e3e3e3;
 
