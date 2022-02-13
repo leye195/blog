@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Global, css } from '@emotion/react';
 import { MDXProvider } from '@mdx-js/react';
 import { MdArrowUpward } from 'react-icons/md';
 import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
+
+import useScroll from 'hooks/useScroll';
+import { classNames } from 'libs';
+
 import Header from 'components/layout/Header';
 import Footer from 'components/layout/Footer';
 import Common from 'components/common';
@@ -28,13 +32,29 @@ const container = css`
 		color: white;
 		box-shadow: 0px 1px 6px 1px #00000078;
 		cursor: pointer;
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.25s;
+
+		&.show {
+			visibility: visible;
+			opacity: 1;
+		}
 	}
 `;
 
 const Layout: React.FC = ({ children }) => {
+	const { scrollY } = useScroll();
+	const [isVisible, setIsVisible] = useState(false);
+
 	const handleToTop = () => {
 		window.scrollTo({ top: 0, behavior: 'smooth' });
 	};
+
+	useEffect(() => {
+		if (scrollY > 100) setIsVisible(true);
+		else setIsVisible(false);
+	}, [scrollY]);
 
 	return (
 		<>
@@ -52,7 +72,11 @@ const Layout: React.FC = ({ children }) => {
 					<Header />
 					{children}
 					<Footer />
-					<Common.Button className="to-top" type="button" onClick={handleToTop}>
+					<Common.Button
+						className={classNames(['to-top', isVisible ? 'show' : ''])}
+						type="button"
+						onClick={handleToTop}
+					>
 						<MdArrowUpward />
 					</Common.Button>
 				</div>
