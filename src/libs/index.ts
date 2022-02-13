@@ -23,3 +23,7 @@ export const saveTheme = (isDark: boolean) => {
 		document.body.classList.remove('dark');
 	}
 };
+
+export const classNames = (classList: string[]) => {
+	return classList.join(' ');
+};
