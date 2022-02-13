@@ -9,6 +9,7 @@ type experienceType = {
 type projectType = {
 	title: string;
 	stack: string;
+	period: string;
 	describe: { main: string; sub?: string[] }[];
 };
 
@@ -20,6 +21,7 @@ const projectList: projectType[] = [
 	{
 		title: 'PlayDapp MarketPLAce (Eth, Polygon)',
 		stack: 'JavaScript, React, Redux, react-router, react-query, scss, web3-react',
+		period: '2020.10 - current',
 		describe: [
 			{ main: '마켓 플레이스 신규 기능 개발 (MakeOffer, Bundle, Auction, Transfer)', sub: [] },
 			{
@@ -55,6 +57,19 @@ const projectList: projectType[] = [
 			{ main: '프로젝트 Container-Presentational 패턴 작용', sub: ['view, logic 분리를 통해 작업 conflict 발생 방지'] },
 		],
 	},
+	{
+		title: 'GEO.DOMAIN Promotion',
+		stack: 'Typescript, React, NextJS, emotion, react-i18n',
+		period: '2022.02 - current',
+		describe: [
+			{
+				main: 'GEO.DOMAIN NFT 오픈 이벤트 프로모션 프로젝트 환경 구성 및 페이지 구현',
+			},
+			{
+				main: 'i18n 활용 영어, 한글 다국어 지원',
+			},
+		],
+	},
 ];
 
 const experiences: experienceType[] = [
@@ -62,7 +77,7 @@ const experiences: experienceType[] = [
 		title: 'SuperTree',
 		period: '2020.10 - current',
 		position: 'MarketPLAce Frontend Engineer, Service Platform Team',
-		projects: 'PlayDapp MarketPLAce (Ethereum ver, Polygon ver)',
+		projects: 'PlayDapp MarketPLAce (Ethereum ver, Polygon ver), GEO.DOMAIN NFT Promotion',
 		projectDescription: [...projectList],
 	},
 ];

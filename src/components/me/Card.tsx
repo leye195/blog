@@ -6,7 +6,7 @@ type CardType = {
 	period: string;
 	position: string;
 	projects: string;
-	projectDescription: { title: string; stack: string; describe: { main: string; sub?: string[] }[] }[];
+	projectDescription: { title: string; stack: string; period: string; describe: { main: string; sub?: string[] }[] }[];
 };
 
 const company = css`
@@ -43,7 +43,17 @@ const content = css`
 
 	& .project {
 		&__title {
+			position: relative;
 			margin-bottom: 0rem;
+
+			&::after {
+				position: absolute;
+				content: '';
+				width: 0.3rem;
+				height: 0.3rem;
+				background: #7886b7;
+				border-radius: 50%;
+			}
 		}
 
 		&__description {
@@ -65,7 +75,6 @@ const Card = ({ title, period, position, projects, projectDescription }: CardTyp
 		<div>
 			<h3 css={company}>{title}</h3>
 			<div css={content}>
-				<b>Period</b>
 				<p className="period">{period.trim()}</p>
 			</div>
 			<div css={content}>
@@ -85,6 +94,12 @@ const Card = ({ title, period, position, projects, projectDescription }: CardTyp
 							<ul className="project__description__stack">
 								<li>{project.stack}</li>
 							</ul>
+							<div>
+								<b>Period</b>
+								<ul>
+									<li>{project.period}</li>
+								</ul>
+							</div>
 							<div className="project__description__text">
 								<b>Description</b>
 								<ul>

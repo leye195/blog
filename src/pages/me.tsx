@@ -80,7 +80,7 @@ const MePage = ({ data: { bg } }: any) => {
 			<Common.Container css={containerStyle}>
 				<h2>이영재 (DanYJ)</h2>
 				<Common.Row className="last-updated" alignItems="center" justifyContents="flex-end">
-					<span className="last-updated__text">Last Updated: 2021.12.31</span>
+					<span className="last-updated__text">Last Updated: 2021.02.13</span>
 				</Common.Row>
 				<Common.Table info={data.basicInfo} />
 				<main className="main-contents">
