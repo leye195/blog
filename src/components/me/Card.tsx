@@ -46,6 +46,7 @@ const content = css`
 		&__title {
 			position: relative;
 			margin-bottom: 0rem;
+			font-size: 14.5px;
 
 			&::after {
 				position: absolute;
