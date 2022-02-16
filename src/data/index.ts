@@ -51,7 +51,7 @@ const projectList: projectType[] = [
 					'네트워크 스위칭 버튼을 통해 metamask를 통해 직접 네트워크를 수정 할 필요 없도록 개선',
 					'로그인 유지 개선',
 					'잘못된 네트워크 연결 toast 알림 메시지 추가',
-					'metamask 모바일 로그인 지원 - metamask 사용자 고려',
+					'metamask 모바일 로그인 지원 개선',
 				],
 			},
 			{ main: '프로젝트 Container-Presentational 패턴 작용', sub: ['view, logic 분리를 통해 작업 conflict 발생 방지'] },

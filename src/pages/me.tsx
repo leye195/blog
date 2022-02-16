@@ -89,7 +89,7 @@ const MePage = ({ data: { bg } }: any) => {
 						<Common.Column className="intro__text">
 							<p>
 								1년차 프론트엔드 개발자로 <b>SuperTree</b> 에서 웹 서비스를 개발하고 있습니다. 주로 C2C NFT 거래
-								마켓플레이스 새기능 개발 및 유지보수, 마켓 이벤트 페이지 개발을 담당하고 있습니다.
+								마켓플레이스 새기능 개발 및 유지보수 그리고 마켓 이벤트 페이지 개발을 담당하고 있습니다.
 							</p>
 							<br />
 							<p>
