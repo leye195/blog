@@ -60,7 +60,7 @@ const projectList: projectType[] = [
 	{
 		title: 'GEO.DOMAIN Promotion',
 		stack: 'Typescript, React, NextJS, emotion, react-i18n',
-		period: '2022.02 - current',
+		period: '2022.01 - 2022.02',
 		describe: [
 			{
 				main: 'GEO.DOMAIN NFT 오픈 이벤트 프로모션 프로젝트 환경 구성 및 페이지 구현',
