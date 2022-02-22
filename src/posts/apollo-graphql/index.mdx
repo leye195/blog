@@ -1,0 +1,158 @@
+---
+title: graphql 데이터 연동을 위한 apollo client 적용기 - 1
+slug: apollo-graphql
+date: 2022-02-22
+tags: ['FE', 'react', 'dev']
+---
+
+현재 회사에서 운영중인 `PlayDapp MarketPLAce` 프로젝트에 표출되는 데이터는 기본적으로 `algolia` 검색 엔진 툴을 통해 불러오도록 구현이 되어있습니다.
+
+`algolia` 를 프로젝트에서 사용하면서 년간 400만 달러를 지출하는것은 회사측에서는 매우 부담스러운 일이기 때문에 비용적인 측면에서 절약을 하기 위해 비용 상 비교적 저렴하고 오픈소스인 `elastic search` 를 백엔드 측에서 도입을 하고 데이터를 graphql 을 통해 프론트엔드에 전달하도록 결정 되었습니다.
+
+위의 이유로 제가 속해있는 프론트엔드팀 에서는 `algolia` 관련 로직을 싹다 걷어내고 `alglolia` 로 부터 받아오는 데이터들을 `graphql` 을 통해 가져와 데이터를 표시하고 필터 기능 역시 재구현해야 할 필요가 있어 대응 하기 위한 작업을 진행하게 되었습니다.
+
+이번 포스트는 아직 진행 중에 있지만 작업을 진행하게 되면서 알게된 지식들과 이슈들을 공유하고자 작성하게 되었습니다. 비슷한 작업을 진행하시는 분들께 도움이 되었으면 좋겠습니다.
+
+## apollo client 설치 및 기본 설정
+
+graphql 데이터에 접근할 수 있도록 도와주는 `@apollo/client` 와 `graphql` 을 설치하여 프로젝트에 적용하는 사전작업을 수행했습니다. 기본적으로 [document](https://www.apollographql.com/docs/react/get-started/) 를 읽어보면 어떻게 설정을 하는지 쉽게 설명이 되어 있어 적용하는데는 그렇게 어려운 작업은 아니었습니다
+
+### 설치
+
+```bash
+yarn add @apollo/client graphql
+# or
+npm i @apollo/client graphql
+```
+
+### 기본 설정
+
+설정하는 방법은 아래와 같습니다.
+
+root 경로에 `apollo.js` 라는 파일을 만들어 아래와 같은 방식으로 작성하였습니다.
+
+기본적으로 들어온 데이터에 대해서 cache 를 해주기 위해 `InMemoryCache` 를 추가해줬고, 내부 옵션으로 인피니티 스크롤을 통해 들어온 데이터와 기존 데이트들을 합쳐주기 위해 `merge` 를 작성하였습니다.
+
+**\*InMemoryCache 옵션인 typePolicies의 fields 의 key 값들은 넘어는 데이터에 따라 다르게 설정 할 수 있습니다.**
+
+```bash
+// apollo.js
+import {ApolloClient} from '@apollo/client';
+
+export const client = new ApolloClient({
+  uri: '',
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          asset: {
+            keyArgs: false,
+            merge(existing,incoming, {variable}) {
+              if(variable.type === 'myaccount') {
+                const assets = [...[...(existing?.assets || [])], ...[...(incoming?.assets || [])]];
+                  return incoming?.assets?.length ? { total: incoming.total, assets } : existing;
+                }
+                return incoming;
+              }
+            }
+          }
+        }
+      }
+  })
+});
+
+```
+
+그 다음 작성한 `client` 를 `ApolloProvider` 로 전달하여 기본적으로 프로젝트에서 graphql 데이터를 연동할 수 있도록 기본설정이 진행되었습니다.
+
+```bash
+// App.js
+import React from 'react';
+import { ApolloProvider } from '@apollo/client';
+import { client } from 'apollo';
+
+const App = ({children) => {
+  return <ApolloProvider client={client}>{children}</ApolloProvider>
+}
+
+export default App;
+
+```
+
+### gql 쿼리 작성
+
+graphql 데이터 연동을 위한 기본적인 준비는 완료가 되었다면 백엔드에서 정의한 graphql 쿼리를 프론트엔드에서 작성해서 보관하는 작업을 진행줍니다. `rest api` 와 다르게 필요한 데이터 요청하여 전달 받을 수 있습니다.
+
+```bash
+import {gql} from '@apollo/client';
+
+const GET_ASSETS = gql`
+  query GetAssets($count: Int!, $from: Int!) {
+    asset(count: $count, from: $from) {
+      total
+      assets {
+        assetId
+        tokenId
+        owner
+        name
+        assetTitle
+      }
+    }
+  }
+`;
+```
+
+추가적으로 `fragments` 를 활용하면 데이터를 캡슐화 할 수 있어 해당 필드를 분리하여 관리 할 수 있습니다.
+
+예를 들어 위의 쿼리에 `fragment` 를 적용하면 아래와 같이 작성 할 수 있게 됩니다.
+
+```bash
+import {gql} from '@apollo/client';
+
+const Asset = gql`
+  fragment Asset on Asset {
+    assetId
+    tokenId
+    owner
+    name
+    assetTitle
+  }
+`;
+
+const GET_ASSETS = gql`
+  ${Asset}
+  query GetAssets($count: Int!, $from: Int!) {
+    asset(count: $count, from: $from) {
+      total
+      assets {
+        ...Asset
+      }
+    }
+  }
+`;
+```
+
+### 데이터 fetcing
+
+작성한 쿼리를 useQuery 훅에 전달하여 데이터 요청을 하면 데이터가 넘어오는것을 확인 할 수 있습니다.
+
+variables라는 props를 추가하면 graphql 쿼리에 `variables` 를 포함 시켜 보낼수 있습니다.
+
+```bash
+const {loading, error, data} = useQuery(GET_ASSETS,{
+  variable: {
+    count: 30,
+    from: 0,
+  }
+});
+```
+
+<br />
+
+이렇게 기본적인 설정 그리고 사용방법에 대해서 알아봤습니다. 공유하고 싶은 내용이 더 있지만 좀 더 정리를 진행 한 뒤 다음 포스트에 공유하도록 하겠습니다.
+
+### 참고
+
+- [apollo - executing-a-query](https://www.apollographql.com/docs/react/data/queries/#executing-a-query)
+- [apollo - fragments](https://www.apollographql.com/docs/react/data/fragments/)
+- [apollo - pagination-offset-based/](https://www.apollographql.com/docs/react/pagination/offset-based/)
