@@ -77,7 +77,7 @@ const experiences: experienceType[] = [
 	{
 		title: 'SuperTree',
 		period: '2020.10 - current',
-		position: 'MarketPLAce Frontend Engineer, Service Platform Team',
+		position: 'MarketPLAce Frontend Engineer, PlayDapp Service Platform Team',
 		projects: 'PlayDapp MarketPLAce (Ethereum ver, Polygon ver), GEO.DOMAIN NFT Promotion',
 		projectDescription: [...projectList],
 	},
