@@ -3,6 +3,7 @@ import { Global, css } from '@emotion/react';
 import { MDXProvider } from '@mdx-js/react';
 import { MdArrowUpward } from 'react-icons/md';
 import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/highlight-code/dist/loader';
+import i18n from 'i18n';
 
 import useScroll from 'hooks/useScroll';
 import { classNames } from 'libs';
@@ -13,6 +14,7 @@ import Common from 'components/common';
 import MDXDesign from 'components/mdx';
 import global from 'styles/global';
 import { flexMixin } from 'styles/mixin';
+import { I18nextProvider } from 'react-i18next';
 
 deckDeckGoHighlightElement();
 
@@ -57,7 +59,7 @@ const Layout: React.FC = ({ children }) => {
 	}, [scrollY]);
 
 	return (
-		<>
+		<I18nextProvider i18n={i18n}>
 			<Global styles={global} />
 			<MDXProvider
 				components={{
@@ -81,7 +83,7 @@ const Layout: React.FC = ({ children }) => {
 					</Common.Button>
 				</div>
 			</MDXProvider>
-		</>
+		</I18nextProvider>
 	);
 };
 

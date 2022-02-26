@@ -1,5 +1,6 @@
 const { createFilePath } = require(`gatsby-source-filesystem`);
 const path = require('path');
+const fs = require('fs-extra');
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
 	const { createNodeField } = actions;
@@ -60,4 +61,8 @@ exports.createPages = async ({ graphql, actions }) => {
 			},
 		});
 	});
+};
+
+exports.onPostBuild = () => {
+	fs.copySync(path.join(__dirname, '/src/locales'), path.join(__dirname, '/public/locales'));
 };

@@ -46,7 +46,7 @@ const projectList: projectType[] = [
 			{
 				main: 'UX improvement work',
 				sub: [
-					'add network switching button, user no need to change network through metamask ',
+					'add network switching button, user no need to change network through metamask',
 					'improve login maintain',
 					'add toast message, nofity user on wrong network',
 					'support metamask mobile login',

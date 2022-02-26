@@ -1,0 +1,23 @@
+{
+	"intro1": "As a front-end developer, I am developing web services in SuperTree. I am mainly in charge of developing and maintaining new functions of C2C NFT trading marketplace and developing market event pages.",
+	"intro2": "I like to work in consideration of reusability, I always thinking about how to write the code cleanly and trying to grow into a better developer.",
+	"market-desc1": "implement MarketPlace new Functions (MakeOffer, Bundle, Auction, Transfer)",
+	"market-desc2": "apply web3-react lib to enhance wallet scalability",
+	"market-desc2-sub1": "support various wallets connect via web3-react (added CoinBase, Trust Wallet)",
+	"market-desc3": "implement playDapp Town Nft bridge (Eth -> Polygon)",
+	"market-desc3-sub1": "transfer the SSR grade Nft in Ethereum Market to Polygon MarketPlace using contract abi",
+	"market-desc4": "polygon Market 2nd Event Merge (nft merge)",
+	"market-desc4-sub1": "seperate various components can be reused on existing event page",
+	"market-desc4-sub2": "implement event merge function",
+	"market-desc4-sub3": "implement event ranking page",
+	"market-desc5": "implement playdappLand Coupon Service page",
+	"market-desc6": "UX improvement work",
+	"market-desc6-sub1": "add network switching button, user no need to change network through metamask",
+	"market-desc6-sub2": "improve login maintain",
+	"market-desc6-sub3": "add toast message, nofity user on wrong network",
+	"market-desc6-sub4": "support metamask mobile login",
+	"market-desc7": "apply Container-Presentational pattern on project",
+	"market-desc7-sub1": "seperate view and logic to prevent conflicts",
+	"geo-desc1": "GEO.DOMAIN NFT Open Event Promotion Project Environment configuration and page implementation",
+	"geo-desc2": "multi-language support in English and Korean using i18n"
+}

@@ -1,6 +1,8 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import { css } from '@emotion/react';
+import { useTranslation } from 'react-i18next';
+
 import Layout from 'components/layout/Layout';
 import Common from 'components/common';
 import Card from 'components/me/Card';
@@ -69,6 +71,8 @@ const containerStyle = css`
 `;
 
 const MePage = ({ data: { bg } }: any) => {
+	const { t } = useTranslation();
+
 	return (
 		<Layout>
 			<Common.Container css={containerStyle}>
@@ -81,15 +85,9 @@ const MePage = ({ data: { bg } }: any) => {
 					<Common.Section className="intro">
 						<h2>👤 Introduction</h2>
 						<Common.Column className="intro__text">
-							<p>
-								As a front-end developer, I am developing web services in SuperTree. I am mainly in charge of developing
-								and maintaining new functions of C2C NFT trading marketplace and developing market event pages.
-							</p>
+							<p>{t('intro1')}</p>
 							<br />
-							<p>
-								I like to work in consideration of reusability, I always thinking about how to write the code cleanly
-								and trying to grow into a better developer.
-							</p>
+							<p>{t('intro2')}</p>
 						</Common.Column>
 					</Common.Section>
 					<Common.Section className="experience">
