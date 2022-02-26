@@ -71,7 +71,7 @@ const Layout: React.FC = ({ children }) => {
 				<div css={container}>
 					<Header />
 					{children}
-					<Footer />
+
 					<Common.Button
 						className={classNames(['to-top', isVisible ? 'show' : ''])}
 						type="button"
