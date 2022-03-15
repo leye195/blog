@@ -47,7 +47,6 @@ const containerStyle = css`
 				margin-bottom: 1rem;
 
 				& p {
-					font-size: 0.85rem;
 					opacity: 0.8;
 				}
 			}

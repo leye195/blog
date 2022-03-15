@@ -34,7 +34,7 @@ const content = css`
 	margin-bottom: 1.2rem;
 
 	& .period {
-		font-size: 0.95rem !important;
+		font-size: 1rem !important;
 	}
 
 	& p {
@@ -44,6 +44,7 @@ const content = css`
 	& ul {
 		& > li {
 			margin: 0.5rem 0;
+			line-height: 1.5;
 			list-style: square;
 		}
 	}
@@ -52,7 +53,7 @@ const content = css`
 		&__title {
 			position: relative;
 			margin-bottom: 0rem;
-			font-size: 14.5px;
+			font-size: 1rem;
 
 			&::after {
 				position: absolute;
@@ -65,7 +66,7 @@ const content = css`
 		}
 
 		&__description {
-			font-size: 0.85rem !important;
+			font-size: 1rem !important;
 
 			&__job {
 				margin-top: 1rem;
@@ -119,7 +120,7 @@ const Card = ({ title, period, position, projects, projectDescription }: CardTyp
 								<ul>
 									{project.job.map(des => (
 										<li key={des.main}>
-											<p>{des.main}</p>
+											<p className="project__description__main">{des.main}</p>
 											<ul>
 												{des.sub?.map(sub => (
 													<li key={sub}>{sub}</li>

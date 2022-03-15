@@ -21,7 +21,7 @@ type skillType = {
 const projectList: projectType[] = [
 	{
 		title: 'PlayDapp MarketPLAce (Eth, Polygon) 1.0',
-		stack: 'JavaScript, React, Redux, react-router, react-query, scss, web3-react',
+		stack: 'JavaScript, React, Redux, react-router, react-query, scss, web3-react, ethersjs',
 		period: '2020.10 - current',
 		job: [
 			{ main: '마켓 플레이스 신규 기능 개발 (MakeOffer, Bundle, Auction, Transfer)' },
@@ -32,11 +32,11 @@ const projectList: projectType[] = [
 			{
 				main: 'playDapp Town Nft bridge 기능 개발 (Eth -> Polygon)',
 				sub: [
-					'contract abi 함수를 활용 Ethereum 버전 마켓에 생성된 SSR 등급의 playDapp Town Nft를 Polygon 버전 마켓으로 옮길수 있도록 구현',
+					'etherjs 제공 contract 객체를 통해 스마트컨트랙의 contract abi 함수 호출를 통해 Ethereum 버전 마켓에 생성된 SSR 등급의 playDapp Town Nft를 Polygon 버전 마켓으로 옮길수 있도록 구현',
 				],
 			},
 			{
-				main: 'polygon 마켓 2차 이벤트 합성 (nft 합성) [현재 이벤트 종료]',
+				main: 'polygon 마켓 2차 이벤트 합성 (nft 합성)',
 				sub: [
 					'기존 이벤트 페이지 재사용 가능 각종 컴포넌트 분리',
 					'이벤트 합성 기능 구현',
