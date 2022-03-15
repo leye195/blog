@@ -6,7 +6,13 @@ type CardType = {
 	period: string;
 	position: string;
 	projects: string;
-	projectDescription: { title: string; stack: string; period: string; describe: { main: string; sub?: string[] }[] }[];
+	projectDescription: {
+		title: string;
+		stack: string;
+		period: string;
+		job: { main: string; sub?: string[] }[];
+		describe: string;
+	}[];
 };
 
 const company = css`
@@ -61,7 +67,7 @@ const content = css`
 		&__description {
 			font-size: 0.85rem !important;
 
-			&__text {
+			&__job {
 				margin-top: 1rem;
 			}
 
@@ -102,10 +108,16 @@ const Card = ({ title, period, position, projects, projectDescription }: CardTyp
 									<li>{project.period}</li>
 								</ul>
 							</div>
-							<div className="project__description__text">
+							<div>
 								<b>Description</b>
 								<ul>
-									{project.describe.map(des => (
+									<li>{project.describe}</li>
+								</ul>
+							</div>
+							<div className="project__description__job">
+								<b>What I Did</b>
+								<ul>
+									{project.job.map(des => (
 										<li key={des.main}>
 											<p>{des.main}</p>
 											<ul>

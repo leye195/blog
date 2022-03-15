@@ -7,7 +7,7 @@ const props = {
 	period: 'from - now',
 	position: 'position',
 	projects: 'projects',
-	projectDescription: [{ title: 'title', stack: 'stack', describe: [{ main: '' }] }],
+	projectDescription: [{ title: 'title', stack: 'stack', job: [{ main: '' }], describe: 'describe', period: 'period' }],
 };
 
 describe('<Card/>', () => {
