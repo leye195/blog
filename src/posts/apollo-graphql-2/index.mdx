@@ -9,6 +9,13 @@ tags: ['FE', 'react', 'dev']
 
 ## cache 갱신
 
+![image](https://user-images.githubusercontent.com/30601503/159941600-f34d1ad7-3fde-4a38-a1bc-8eb22924122c.png)
+
+apollo cache는 위 그림에서 나타내는것 처럼, 먼저 cache에 원하는 데이터가 있는지 확인하고, 있으면 데이터를 반환하고 없으면 서버로 데이터를 요청한 뒤
+재사용 하기 위해 캐시에 쓰고 클라이언트에 넘겨줍니다.
+
+만약 cache가 없었다면 데이터가 필요 할 때 마다 서버에 요청하여 받아오거나 직접 캐싱을 구현해야 했을 겁니다... 다행히 캐시를 지원해주고 있어 불필요한 데이터 요청을 줄일 수 있습니다.
+
 ### InMemoryCache?
 
 apollo client를 설정하고 `useQuery` 훅에 graphql query를 전달하여 데이터를 불러오게 되면 해당 데이터들은 `InMemoryCache` 에 저장이 되어 불필요한 네트워크 요청없이 데이터를 요청하여 사용 할 수 있게 됩니다.
