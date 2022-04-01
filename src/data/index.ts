@@ -53,8 +53,10 @@ const projectList: projectType[] = [
 		job: [
 			{ main: '마켓 플레이스 신규 기능 개발 (MakeOffer, Bundle, Auction, Transfer)' },
 			{
-				main: '지갑 추가 확장성 강화를 위해, web3-react 도입',
-				sub: ['web3-react 지원 connector 활용 지갑 연동 지원 (CoinBase, Trust Wallet 추가)'],
+				main: '멀티월렛 지원 확장을 위한, web3-react 도입',
+				sub: [
+					'이미 로그인 지원을 하는 metamask, portis을 제외한 다른 월렛(walletLink, walletConnect)에 대한 로그인을 지원하기 위해 web3-react를 도입하였습니다.',
+				],
 			},
 			{
 				main: 'playDapp Town Nft bridge 기능 개발 (Eth -> Polygon)',
@@ -109,7 +111,7 @@ const experiences: experienceType[] = [
 	{
 		title: 'SuperTree',
 		period: '2020.10 - current',
-		position: 'MarketPLAce Frontend Engineer, Service Platform Team',
+		position: 'Frontend Engineer, PlayDapp Develop Center',
 		projects: 'PlayDapp MarketPLAce (Ethereum ver, Polygon ver), GEO.DOMAIN NFT Promotion, ItemManager',
 		projectDescription: [...projectList],
 	},

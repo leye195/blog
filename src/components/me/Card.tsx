@@ -68,12 +68,20 @@ const content = css`
 		&__description {
 			font-size: 1rem !important;
 
+			& {
+				border-bottom: 1px solid #f5f3f3;
+			}
+
+			&:last-child {
+				border-bottom: none;
+			}
+
 			&__job {
 				margin-top: 1rem;
 			}
 
 			& ul {
-				padding-left: 1.5rem;
+				padding-left: 1rem;
 			}
 		}
 	}
