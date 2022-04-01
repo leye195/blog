@@ -20,6 +20,33 @@ type skillType = {
 
 const projectList: projectType[] = [
 	{
+		title: 'ItemManager',
+		stack: 'React, Recoil, Typescript, react-query, Emotion, web3-react',
+		period: '2022.03 - current',
+		describe:
+			'Multihoming 2.0 버전 지원을 위한 ItemManager에 내구제 기능을 적용하는 작업을 진행하였습니다. itemManager는 유저가 소유하고 있는 nft를 스테이킹 하고 게임내 일일임무, PvP 보상을 받아갈수 있도록 해주는 서비스 입니다',
+		job: [
+			{
+				main: 'Repair 기능 구현',
+				sub: [
+					'유저가 itemManager에 스테이킹한 nft들에 대해서 PLA를 지불하여 내구도를 수리 할 수 있도록 로직을 구현하여 지속적으로 보상을 받아갈 수 있도록 하였습니다.',
+				],
+			},
+			{
+				main: '공통 컴포넌트 개발',
+				sub: [
+					'각 페이지에서 공통적으로 보여줘야 하는 내구도 게이지, 경고 메시지 등 컴포넌트들에 대해 모듈화를 진행하여 UI를 구성',
+				],
+			},
+			{
+				main: '멀티 월렛 지원 - walletConnect',
+				sub: [
+					'기존에 portis 월렛을 통한 로그인 만 지원하는 경우 portis 월렛 제품 자체에서 에러가 발생하여 로그인이 안되는 이슈가 많아 walletConnect 월렛 로그인도 추가적으로 지원하여 유저가 다른 경로를 통해 로그인을 할 수 있도록 개선 하였습니다.',
+				],
+			},
+		],
+	},
+	{
 		title: 'PlayDapp MarketPLAce (Eth, Polygon) 1.0',
 		stack: 'JavaScript, React, Redux, react-router, react-query, scss, web3-react, ethersjs',
 		period: '2020.10 - current',
@@ -83,7 +110,7 @@ const experiences: experienceType[] = [
 		title: 'SuperTree',
 		period: '2020.10 - current',
 		position: 'MarketPLAce Frontend Engineer, Service Platform Team',
-		projects: 'PlayDapp MarketPLAce (Ethereum ver, Polygon ver), GEO.DOMAIN NFT Promotion',
+		projects: 'PlayDapp MarketPLAce (Ethereum ver, Polygon ver), GEO.DOMAIN NFT Promotion, ItemManager',
 		projectDescription: [...projectList],
 	},
 ];
