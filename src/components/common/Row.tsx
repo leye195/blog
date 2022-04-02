@@ -11,6 +11,7 @@ type rowType = {
 	direction?: string;
 	alignItems?: string;
 	justifyContents?: string;
+	gap?: string;
 };
 
 const row = (params: rowType) => css`
@@ -18,15 +19,16 @@ const row = (params: rowType) => css`
 	width: 100%;
 `;
 
-const Row: React.FC<Props> = ({
+const Row: React.FC<Props & rowType> = ({
 	children,
 	className,
 	direction = 'row',
 	alignItems = 'flex-start',
 	justifyContents = 'flex-start',
+	gap = '0px',
 }) => {
 	return (
-		<div className={className} css={row({ direction, alignItems, justifyContents })}>
+		<div className={className} css={row({ direction, alignItems, justifyContents, gap })}>
 			{children}
 		</div>
 	);

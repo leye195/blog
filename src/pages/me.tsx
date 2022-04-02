@@ -41,8 +41,6 @@ const containerStyle = css`
 		padding: 1.5rem 0;
 
 		& .card-group {
-			border-bottom: 1px solid #f5f3f3;
-
 			& .card {
 				margin-bottom: 1rem;
 
@@ -79,7 +77,7 @@ const MePage = ({ data: { bg } }: any) => {
 			<Common.Container css={containerStyle}>
 				<h2>이영재 (DanYJ)</h2>
 				<Common.Row className="last-updated" alignItems="center" justifyContents="flex-end">
-					<span className="last-updated__text">Last Updated: 2022.03.15</span>
+					<span className="last-updated__text">Last Updated: 2022.04.01</span>
 				</Common.Row>
 				<Common.Table info={data.basicInfo} />
 				<main className="main-contents">

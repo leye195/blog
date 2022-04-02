@@ -65,15 +65,15 @@ const content = css`
 			}
 		}
 
+		& &:last-child {
+			border-bottom: none;
+		}
+
 		&__description {
 			font-size: 1rem !important;
 
 			& {
 				border-bottom: 1px solid #f5f3f3;
-			}
-
-			&:last-child {
-				border-bottom: none;
 			}
 
 			&__job {
