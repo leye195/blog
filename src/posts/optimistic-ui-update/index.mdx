@@ -1,0 +1,81 @@
+---
+title: Optimistic UI update
+slug: optimistic-ui-update
+date: 2022-05-09
+tags: ['Dev', 'FE']
+---
+
+트위터, 인스타그램 같은 SNS에서 게시물 좋아요를 누르는 상황을 그냥 보통 요청과 응답 주고 받는 예로 들면 다음과 같은 과정을 거치게 된다.
+
+- (1). 좋아요를 버튼을 클릭한다
+- (2). 클릭한 뒤 관련 함수가 실행이 되고 서버에 요청을 보낸다
+- (3). 서버에 보낸 요청에 대한 응답이 올 때 까지 기다린다
+- (4). 응답이 오면 데이터를 refetch 하여 데이터를 갱신한다
+- (5). 갱신된 데이터를 화면에 보여준다.
+
+<br />
+
+좋아요 기능을 수행하기 위해 위와 같이 많은 과정을 거쳐야되는것 같아 매우 비효율적인것 같아 보인다. 좋아요를 클릭하면서 바로바로 반응이 오는것과 달리 요청을 보내고 응답이 올때 까지 기능 수행 완료를 기다리는것은 사용성에 불편함을 주고 너무 느리다는 느낌을 준다.
+
+이런 부분을 보완하고자 `Optimistic UI Update` 를 사용하게 되는데 `Optimistic UI Update`는 먼저 페이지의 UI 상에서 백엔드의 요청을 기다리지 않고 즉각적으로 반응이 보이도록 하는것으로
+
+기본적으로 UI에서 백엔드로 보내는 요청이 성공적으로 잘 수행됬다고 가정을 하고 UI를 변경 시키며 사용자에게 성공 했을 경우의 결과를 화면에 바로 바로 반영하여 보여준다.
+
+- (1). 좋아요 버튼을 누른다
+- (2). 좋아요 갯수가 1개 추가 된 UI가 페이지에 반영된다
+- (3). 서버에 요청을 보낸다
+- (4). 서버로 부터 응답을 받는다
+
+<br />
+
+만약 오류가 발생할 경우 변경했던 UI를 서버 응답을 받은 뒤 원래 상태로 되돌려준다.
+
+react에서는 `SWR` 혹은 `react-query` 라이브러리를 활용하면 optimistic ui update를 진행 할 수 있다.
+
+`SWR` 을 활용하는 경우
+
+```
+const { data, error, mutate } = useSWR('item', getItemDetail);
+
+const handleClick = () => {
+  if (!data) return;
+
+  mutate({ ...data, isLiked: data.isLiked }, false);
+  // cache 된 데이터에 원하는 부분을 변경
+};
+```
+
+`react-query`를 활용하는 경우
+
+```
+const {data} = useQuery('item',getItemDetail);
+
+const {mutate} = useMutation(updateLiked,{
+  onMutate: async () => {
+  // api에 요청을 보내기 전에 실행 onMutate함수 실행
+
+    const oldItemData = queryClient.getQuery('item');
+    // 이전 cache 데이터를 받아옴
+
+    if(oldItemData) {
+      await queryClient.cancelQueries('item'); // query refetch 방지
+      queryClient.setQueryData('item',()=>({...data,isLiked:!data.isLiked})
+      // 이전 캐시된 데이터에서 원하는 부분을 변경
+
+      return {oldItemData};
+    }
+  },
+  onSettled: () => queryClient.invalidateQueries('item'),
+  // stale한 상태의 데이터를 refetch 요청
+
+  onError: (err,values,context) => {
+    // 변경된 상태를 롤백
+    queryClient.setQueryData('item',context.oldItemData);
+  }
+});
+```
+
+### 참고
+
+- [Optimistic UI](https://intrepidgeeks.com/tutorial/optimistic-ui)
+- [True lies of Optimistic UI](https://story.pxd.co.kr/1193)
