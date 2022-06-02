@@ -31,7 +31,8 @@ const company = css`
 `;
 
 const content = css`
-	margin-bottom: 1.2rem;
+	padding: 1.2rem 0;
+	border-top: 1px solid #e3e3e3;
 
 	& .period {
 		font-size: 1rem !important;
@@ -41,12 +42,21 @@ const content = css`
 		white-space: pre-line;
 	}
 
+	& b {
+		width: 5rem;
+	}
+
 	& ul {
 		& > li {
 			margin: 0.5rem 0;
 			line-height: 1.5;
 			list-style: square;
 		}
+	}
+
+	&:not(:last-of-type) {
+		display: flex;
+		gap: 1rem;
 	}
 
 	& .project {
@@ -92,6 +102,7 @@ const Card = ({ title, period, position, projects, projectDescription }: CardTyp
 		<div>
 			<h3 css={company}>{title}</h3>
 			<div css={content}>
+				<b>Period</b>
 				<p className="period">{period.trim()}</p>
 			</div>
 			<div css={content}>
@@ -100,9 +111,8 @@ const Card = ({ title, period, position, projects, projectDescription }: CardTyp
 			</div>
 			<div css={content}>
 				<b>Projects</b>
-				<p className="position">{projects}</p>
+				<p className="projects">{projects}</p>
 			</div>
-
 			<div css={content}>
 				{projectDescription.map(project => (
 					<div key={project.title} className="project">
