@@ -95,8 +95,8 @@ const MePage = ({ data: { bg } }: any) => {
 						<h2>👤 Introduction</h2>
 						<Common.Column className="intro__text">
 							<p>
-								1년차 프론트엔드 개발자로 <b>SuperTree</b>내 PlayDapp 조직에서 웹 서비스를 개발하고 있습니다. 주로 C2C
-								NFT 거래 마켓플레이스 기능 개발 그리고 외부 협력 관련 페이지 개발을 진행하고 있습니다.
+								프론트엔드 개발자로 <b>SuperTree</b>내 PlayDapp 조직에서 웹 서비스를 개발하고 있습니다. 주로 C2C NFT
+								거래 마켓플레이스 기능 개발 그리고 외부 협력 관련 페이지 개발을 진행하고 있습니다.
 							</p>
 							<br />
 							<p>
