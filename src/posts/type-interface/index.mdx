@@ -1,0 +1,120 @@
+---
+title: type vs interface
+slug: type-interface
+date: 2022-08-10
+tags: ['Dev', 'TypeScript']
+---
+
+typescript을 활용하여 개발을 진행하다 보면 `type alias`와 `interface` 중 어떤 것을 활용하여 타입을 정의해야될지 고민이 됩니다.
+
+이번 포스트에서는 `type alias`와 `interface`의 차이를 알아보고 각각 어떤 상황에서 쓰는것이 좋을지 알아보도록 하겠습니다.
+
+## type alias
+
+`type alias`는 특정 타입을 참조 할 수 있는 타입 변수를 의미하며 새로운 값을 생성하는 것이 아닌 정의한 타입에 대해 쉽게 참조 할 수 있도록 이름을 부여합니다.
+
+```
+const name: string = 'name';
+const age: number = 20;
+
+type User = {
+  name: string,
+  age: number,
+};
+
+const user: User = {
+  name: 'name',
+  age: 20,
+};
+
+// generic
+type User<T> = {
+  name: T,
+};
+```
+
+<br />
+
+## interface
+
+`interface`는 원시 타입이 아닌 객체의 타입을 정의하는데 사용 됩니다.
+
+```
+interface User {
+  name: string;
+  age: number;
+  getInfo(): string;
+}
+
+let users: User[];
+let user: User;
+
+user = {
+  name: 'name',
+  age: 20,
+};
+
+function addUser(user: User) {
+  users = [...users, user];
+}
+```
+
+<br />
+
+## type alias와 interface 공통점
+
+- 둘 다 확장이 가능합니다. 조금의 차이점이 있다면 `type`은 `&`를 활용 `interface`는 `extends` 키워드를 활용하여 확장을 진행합니다.
+- class에 대하여 `implements` 키워드를 사용 할 수 있습니다.
+
+## type alias와 interface 차이점
+
+- `type alias` 는 mapped type을 활용할 수 있지만 interface에서는 지원하지 않습니다
+- `interface`는 `readonly` 키워드를 통해 특정 값을 변경하지 못하도록 할 수 있습니다
+- `interface`는 `선언병합(declaration merging)`이 가능하지만, `type alias`는 그렇지 않습니다.
+  - `interface`를 같은 이름으로 여러번 선언해도 컴파일 시점에는 하나로 합쳐집니다
+  - `type alias`의 경우 같은 이름으로 여러번 선언하면 에러가 발생합니다.
+
+```
+//interface
+interface Point {
+  x: number;
+}
+
+interface Point {
+  y: number;
+}
+
+const point: Point = {
+  x: 10,
+  y: 5
+};
+
+// type
+type User {
+  name: string;
+}
+
+type User {
+  age: number;
+}
+// Error: duplicate identifier
+```
+
+<br />
+
+## 그렇다면 언제 뭘 사용하는게 좋을까?
+
+- 객체 구조의 타입을 다루어야하는 경우 `interface`, 복잡한 타입을 다룰때는 type을 활용하는 것을 고려하는것이 좋다.
+- 일반 웹 서비스를 개발하는 경우에서는 type을 사용하는것이 좋다. `interface`를 활용하면 선언병합이 발생할 경우가 있어 혼선을 빚을 수 있기 때문
+- 외부에 공개하는 API인 경우 `interface`를 활용하는것이 좋다. 점진적으로 변경이 생길수 있는 부분에 대하여 선언병합을 활용하면 좋기 때문
+
+## 결론:
+
+`type`, `interface` 중 어떤것을 쓸지는 고민하는 것은 상황에 따라 다를거 같다는 생각이듭니다. 프로젝트를 진행하고 있고 관련하여 컨벤션이 지정되어 있다면 거기 맞춰 사용하면 되겠지만 객체, 타입간 합성을 고려하면 `interface`를 사용하는게 좋지 않을까 라고 생각이 됩니다.
+
+### 참고
+
+- [https://github.com/microsoft/TypeScript/wiki/Performance#preferring-interfaces-over-intersections](https://github.com/microsoft/TypeScript/wiki/Performance#preferring-interfaces-over-intersections)
+- [https://www.typescriptlang.org/ko/docs/handbook/2/everyday-types.html#타입-별칭과-인터페이스의-차이점](https://www.typescriptlang.org/ko/docs/handbook/2/everyday-types.html#%ED%83%80%EC%9E%85-%EB%B3%84%EC%B9%AD%EA%B3%BC-%EC%9D%B8%ED%84%B0%ED%8E%98%EC%9D%B4%EC%8A%A4%EC%9D%98-%EC%B0%A8%EC%9D%B4%EC%A0%90)
+- [https://ageek.dev/ts-types-interfaces](https://ageek.dev/ts-types-interfaces)
+- [https://blog.logrocket.com/types-vs-interfaces-in-typescript/](https://blog.logrocket.com/types-vs-interfaces-in-typescript/)
