@@ -1,25 +1,26 @@
+import { css } from '@emotion/react';
+
 import Common from 'components/common';
 import Layout from 'components/layout/Layout';
+import { flexMixin } from 'styles/mixin';
 
-// styles
-const pageStyles = {
-	color: '#232129',
-	padding: '64px 96px 120px 96px',
-	fontFamily: '-apple-system, Roboto, sans-serif, serif',
-};
-const headingStyles = {
-	marginTop: 0,
-	marginBottom: 32,
-	maxWidth: 320,
-};
+const main = css`
+	${flexMixin({ alignItems: 'center', direction: 'column' })};
+	min-height: calc(100vh - 280px);
+	padding: 2rem;
+`;
+
+const title = css`
+	margin: 0 auto 2rem auto;
+	text-align: center;
+`;
 
 const NotFoundPage = () => {
 	return (
 		<Layout>
 			<Common.SEO title="404: Not Found" />
-			<main style={pageStyles}>
-				<h1 style={headingStyles}>Page Not found</h1>
-				<p>We couldn’t find what you were looking for.</p>
+			<main css={main}>
+				<h1 css={title}>404: Page Not found</h1>
 			</main>
 		</Layout>
 	);

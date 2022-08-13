@@ -21,7 +21,7 @@ type skillType = {
 const projectList: projectType[] = [
 	{
 		title: 'PlayDapp Marketplace 2.0 - Renewal',
-		stack: 'NextJS, Redux, Typescript, react-query, Emotion, web3-react',
+		stack: 'NextJS, Redux, Typescript, react-query, Emotion, web3-react, etherjs',
 		period: '2022.04 - current',
 		describe:
 			'기존 마켓 1.0 UI, 기능, ethereum, polygon 네트워크 별로 분리되어있는 서비스 통합 등 전체적인 서비스 및 구조 리뉴얼 작업을 진행하였습니다',
@@ -43,15 +43,20 @@ const projectList: projectType[] = [
 				],
 			},
 			{
+				main: 'My Offers 페이지',
+				sub: ['Offer 승인 기능 구현: 선택한 Offer에 대하여', 'Offer Table, OfferAccept 모달 컴포넌트 구현'],
+			},
+			{
 				main: 'OOZ 티징 페이지',
 				sub: [
 					'IPX (라인프렌즈)의 OOZ 관련 티징 페이지 작업으로 IPX 측 디자이너와 협업을 통해 개발한 페이지로 one page scroll 형식으로 한 번에 한 페이지 씩 노출되도록 구현 진행',
 				],
 			},
-
 			{
-				main: 'My Offers 페이지',
-				sub: ['Offer 승인 기능 구현: 선택한 Offer에 대하여', 'Offer Table, OfferAccept 모달 컴포넌트 구현'],
+				main: 'Renewal Event 페이지',
+				sub: [
+					'구매 이벤트 랭킹 보상 수령 기능: 추후 이벤트 역시 보상 수령 기능이 추가되는 것을 고려하여 해당 기능을 custom hook을 통해 실행 할 수 있도록 히였으며,  보상인 pla 수령 가능 여부 및 수령 기능은 contract abi를 호출을 통해 유저가 직접 수령 진행하도록 구현이 되었습니다.',
+				],
 			},
 		],
 	},
