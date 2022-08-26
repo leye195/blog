@@ -58,6 +58,7 @@ const categoryListStyle = css`
 			border-radius: 10px;
 			background-color: white;
 			box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+			white-space: pre;
 
 			& > a {
 				color: black;
