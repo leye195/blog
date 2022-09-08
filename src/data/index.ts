@@ -20,9 +20,26 @@ type skillType = {
 
 const projectList: projectType[] = [
 	{
+		title: 'PlayDapp Tournaments',
+		stack: 'NextJS, Redux, TypeScript, react-query, web3-react, etherjs',
+		period: '2022.08 - current',
+		describe: '유저가 티켓을 소비하여 참여한 Pvp 게임 플레이 성적, 순위에 따른 보상을 제공하는 Game Platform 서비스',
+		job: [
+			{
+				main: '프론트 개발환경 및 프로젝트 구조 설정',
+			},
+			{
+				main: 'iframe을 통한 game 연동 및 postMessage를 활용한 이벤트 상호작용 작업',
+			},
+			{
+				main: '게임 보상 수령을 위한 contract abi 호출 작업',
+			},
+		],
+	},
+	{
 		title: 'PlayDapp Marketplace 2.0 - Renewal',
-		stack: 'NextJS, Redux, Typescript, react-query, Emotion, web3-react, etherjs',
-		period: '2022.04 - current',
+		stack: 'NextJS, Redux, TypeScript, react-query, Emotion, web3-react, etherjs',
+		period: '2022.04 - 2022.08',
 		describe:
 			'기존 마켓 1.0 UI, 기능, ethereum, polygon 네트워크 별로 분리되어있는 서비스 통합 등 전체적인 서비스 및 구조 리뉴얼 작업을 진행하였습니다',
 		job: [
@@ -132,7 +149,7 @@ const projectList: projectType[] = [
 	},
 	{
 		title: 'GEO.DOMAIN Promotion',
-		stack: 'Typescript, React, NextJS, emotion, react-i18n',
+		stack: 'TypeScript, React, NextJS, emotion, react-i18n',
 		period: '2022.01 - 2022.02',
 		job: [
 			{
@@ -154,8 +171,8 @@ const experiences: experienceType[] = [
 	{
 		title: 'SuperTree',
 		period: '2020.10 - current',
-		position: 'PlayDapp CIC / Front-End Engineer',
-		projects: 'PlayDapp Marketplace, GEO.DOMAIN NFT Promotion, ItemManager',
+		position: 'PlayDapp CIC, Tournaments TF / Front-End Engineer',
+		projects: 'PlayDapp Marketplace, GEO.DOMAIN NFT Promotion, ItemManager, PlayDapp Tournaments',
 		projectDescription: [...projectList],
 	},
 ];
