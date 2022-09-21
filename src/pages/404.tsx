@@ -1,8 +1,9 @@
 import { css } from '@emotion/react';
 
+import { flexMixin } from 'styles/mixin';
+
 import Common from 'components/common';
 import Layout from 'components/layout/Layout';
-import { flexMixin } from 'styles/mixin';
 
 const main = css`
 	${flexMixin({ alignItems: 'center', direction: 'column' })};

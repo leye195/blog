@@ -1,12 +1,14 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
+
+import { Colors } from 'styles/variables';
+import type { mdxGroupType } from 'types/post';
+
 import Layout from 'components/layout/Layout';
 import Common from 'components/common';
 import Tag from 'components/common/Tag';
 import SEO from 'components/common/SEO';
-import { mdxGroupType } from 'types/post';
-import { Colors } from 'styles/variables';
 
 type Props = {
 	data: {

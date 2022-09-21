@@ -1,8 +1,10 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import Common from 'components/common';
+
 import { flexMixin } from 'styles/mixin';
 import { media } from 'styles/variables';
+
+import Common from 'components/common';
 
 type Props = {
 	title: string;

@@ -6,13 +6,13 @@ import { defineCustomElements as deckDeckGoHighlightElement } from '@deckdeckgo/
 
 import useScroll from 'hooks/useScroll';
 import { classNames } from 'libs';
+import global from 'styles/global';
+import { flexMixin } from 'styles/mixin';
 
 import Header from 'components/layout/Header';
 import Footer from 'components/layout/Footer';
 import Common from 'components/common';
 import MDXDesign from 'components/mdx';
-import global from 'styles/global';
-import { flexMixin } from 'styles/mixin';
 
 deckDeckGoHighlightElement();
 

@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
 import qs from 'qs';
+
+import { categorizePosts } from 'libs';
+import { media } from '../../styles/variables';
+import type { postType, groupType } from 'types/post';
+
 import Layout from 'components/layout/Layout';
 import Common from 'components/common';
 import CategoryList from 'components/posts/CategoryList';
 import SEO from 'components/common/SEO';
-import { categorizePosts } from 'libs';
-import { media } from '../../styles/variables';
-import { postType, groupType } from 'types/post';
 
 const contentSection = css`
 	padding: 1.5rem 1rem;

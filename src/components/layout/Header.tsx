@@ -1,10 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { css } from '@emotion/react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
-import Common from 'components/common';
-import DarkModeToggle from 'components/layout/DarkModeToggle';
+
 import { saveTheme } from 'libs';
 import { media } from 'styles/variables';
+
+import Common from 'components/common';
+import DarkModeToggle from 'components/layout/DarkModeToggle';
 
 const headerStyle = css`
 	min-height: auto;
@@ -124,31 +126,29 @@ const Header = () => {
 	}, []);
 
 	return (
-		<>
-			<header css={headerStyle}>
-				<Common.Column>
-					<div className="inner-container">
-						<Link className="logo-container" to="/">
-							<img className="logo" src={data.logo.publicURL} alt="dan.dev.log" />
-						</Link>
+		<header css={headerStyle}>
+			<Common.Column>
+				<div className="inner-container">
+					<Link className="logo-container" to="/">
+						<img className="logo" src={data.logo.publicURL} alt="dan.dev.log" />
+					</Link>
+				</div>
+				<div className="menu">
+					<Link className="menu__about" to="/me" activeClassName="current-link">
+						Me
+					</Link>
+					<Link className="menu__posts" to="/posts" activeClassName="current-link">
+						Posts
+					</Link>
+					<Link className="menu__tags" to="/tags" activeClassName="current-link">
+						Tags
+					</Link>
+					<div className="theme">
+						<DarkModeToggle isDark={isDark} handleTheme={handleTheme} handleIsDark={handleIsDark} />
 					</div>
-					<div className="menu">
-						<Link className="menu__about" to="/me" activeClassName="current-link">
-							Me
-						</Link>
-						<Link className="menu__posts" to="/posts" activeClassName="current-link">
-							Posts
-						</Link>
-						<Link className="menu__tags" to="/tags" activeClassName="current-link">
-							Tags
-						</Link>
-						<div className="theme">
-							<DarkModeToggle isDark={isDark} handleTheme={handleTheme} handleIsDark={handleIsDark} />
-						</div>
-					</div>
-				</Common.Column>
-			</header>
-		</>
+				</div>
+			</Common.Column>
+		</header>
 	);
 };
 

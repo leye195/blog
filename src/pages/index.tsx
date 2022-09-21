@@ -1,11 +1,13 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
-import { mdxNodeType } from 'types/post';
+
+import { media, Colors } from 'styles/variables';
+import type { mdxNodeType } from 'types/post';
+
 import Layout from 'components/layout/Layout';
 import Common from 'components/common';
 import SEO from 'components/common/SEO';
-import { media, Colors } from 'styles/variables';
 
 const pageHeader = css`
 	display: flex;

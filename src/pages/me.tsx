@@ -1,11 +1,13 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 import { css } from '@emotion/react';
+
+import data from 'data';
+
 import Layout from 'components/layout/Layout';
 import Common from 'components/common';
 import Card from 'components/me/Card';
 import SEO from 'components/common/SEO';
-import data from 'data';
 
 const containerStyle = css`
 	max-width: 700px;
