@@ -21,7 +21,7 @@ type skillType = {
 const projectList: projectType[] = [
 	{
 		title: 'PlayDapp Tournaments',
-		stack: 'NextJS, Redux, TypeScript, react-query, web3-react, etherjs',
+		stack: 'NextJS, RTK(Redux Toolkit), TypeScript, react-query, web3-react, etherjs',
 		period: '2022.08 - current',
 		describe: '유저가 티켓을 소비하여 참여한 Pvp 게임 플레이 성적, 순위에 따른 보상을 제공하는 Game Platform 서비스',
 		job: [

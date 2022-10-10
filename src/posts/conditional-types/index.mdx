@@ -1,0 +1,110 @@
+---
+title: typescript - conditional types
+slug: conditional-types
+date: 2022-10-10
+tags: ['Dev', 'TypeScript', 'TIL']
+---
+
+Conditional Types란 타입관계 검사로 표현된 조건에 따라 두 가지 가능한 타입 중 하나를 선택하여 입력과 출력 타입간의 관계를 설명하는데 도움을 줄 수 있습니다.
+
+JavaScript의 삼항 연산자 조건문 **condition ? trueExpression : falseExpression** 과 비슷한 형태를 가집니다.
+
+```
+someType extends otherType ? TrueType : FalseType;
+```
+
+`extends` 를 기준으로 왼쪽 타입이 오른쪽 타입에 할당 될 수 있다면 첫 번째 타입 아닐 경우 두 번째 타입으로 지정됩니다.
+
+```
+type User = {
+    uid: number;
+    account: string;
+    isVerified: boolean;
+}
+
+type Guest = {
+   name: string;
+}
+
+function createUser(id:number): User;
+function createUser(name:string): Guest;
+function createUser(nameOrId: number|string): Guest | User;
+```
+
+위에 작성한 createUser 함수는 입력 타입에 따라 다른 아웃풋이 반환되도록 작성이 되어 있습니다.
+
+현재 3가지 케이스에 대해서만 작성이 되어 있지만 새로운 타입에 대한 정의가 들어가게 된다면 처리해야되는 케이스가 증가하게 되어 추가적으로 대응하는 함수를 작성해줘야 됩니다. 이런 작업을 매번 진행하는 것은 매우 귀찮고 번거로운 일 입니다.
+
+이런 케이스들에 대해서 conditional types (조건부 타입)을 통해 다음과 같이 개선 할 수 있습니다.
+
+[typescript playground](https://www.typescriptlang.org/play?#code/PTAEHUFMBsGMHsC2lQBd5oBYoCoE8AHSAZVgCcBLA1UABWgEM8BzM+AVwDsATAGiwoBnUENANQAd0gAjQRVSQAUCEmYKsTKGYUAbpGF4OY0BoadYKdJMoL+gzAzIoz3UNEiPOofEVKVqAHSKymAAmkYI7NCuqGqcANag8ABmIjQUXrFOKBJMggBcISGgoAC0oACCbvCwDKgU8JkY7p7ehCTkVDQS2E6gnPCxGcwmZqDSTgzxxWWVoASMFmgYkAAeRJTInN3ymj4d-jSCeNsMq-wuoPaOltigAKoASgAywhK7SbGQZIIz5VWCFzSeCrZagNYbChbHaxUDcCjJZLfSDbExIAgUdxkUBIursJzCFJtXydajBFQ4ZoeMheRDwPoMYHsGhfNxmZjsBjMSD8WDQdSJRnwPQiLwAIgAoqsGIgFvoxUlsWLwA5UAByYQAOUgEjFQRUAHkvmR3oIeVpIEdUI4FK5pHhQE46Tphlh9CgEIhocJLqyJPToiIDBxsQsmKwODwgiVFKh2g8zdiALygADeihKJXYFG4+X67EQ0m+AG4M5mGLBIts84JUJROMxS5mgwA1b4IiiQXPjeDwFqcUsAX2CcaIoAA4ux9DQU+nM5wZZAa3XhsXm4ph7H45PpwayPdEwAeHDg1YKHjCTgFovYgA+VxXDYAfKAUye1ufuJfr99QAB+BNfzzHda1LRQEE4WstCnWsAElOGSeB8hA1A9wPb5DzVDlpzVF9ZwXZB8jVFC1UHUsIKg9hE3gxDkJg1D9yPAAGPC02zXMmN4Csq1QIimNWJjBKYtVeCENtKGSTtc2SBhoDNMjQGCCi+0gAJoHgZgAApiPoojeGwuCEPgABKcjGkEFS1I07T0LIPSqO+GiTLAxQgA) 를 통해 아래 코드를 실행해보실수 있습니다
+
+```
+type User = {
+    uid: number;
+    account: string;
+    isVerified: boolean;
+}
+
+type Guest = {
+   name: string;
+}
+
+type GuestOrUser<T extends number | string> = T extends number ? User : Guest;
+
+const guestInfo:GuestOrUser<'guest'> = {name:'Guest'};
+const userInfo:GuestOrUser<0> = {uid:0,account:'0x0000',isVerified:false};
+
+console.log('Guest:',guestInfo);
+console.log('User:',userInfo);
+```
+
+**condiitional types의 타입 추론**
+
+conditional types은 `infer` 키워드을 사용하여 타입 추론를 하여 반환할 변수에 대해서 정의 할 수 있게 해줍니다. `infer` 키워드를 통해 더 쉽게 타입에 대하여 추론하고 conditional type을 더 유용하게 사용 할 수 있습니다.
+
+```
+// infer
+type GetReturnType<T> =
+    T extends (infer R)[] ? R[] :
+    T extends (...args:any[]) =>  infer R ? R :
+    T extends Promise<infer R> ? R :
+    T;
+
+type T0 = GetReturnType<string>; // string
+type T1 = GetReturnType<string[]>; // string[]
+type T2 = GetReturnType<Promise<string>>; // string
+type T3 = GetReturnType<Promise<string[]>>; // string[]
+type T4 = GetReturnType<Promise<string>[]>; // promise<string>
+type T5 = GetReturnType<User>; // User
+type T6 = GetReturnType<Guest>; // Guest
+type T7 = GetReturnType<()=>void>; // void;
+```
+
+위에서 infer 키워드를 활용하여 GetReturnType이라는 타입을 정의해보았습니다.
+
+기본적으로 해석해보면 `T` 를 제네릭 인자로 받으며 `T extends (infer R)[]` 조건이 참일 경우 `R[]` 아닐 경우 다음 조건문을 체크하고 마지막 조건 역시 충족하지 못할 경우 `T` 를 타입으로 반환합나다.
+
+**기타 사용 케이스**
+
+```
+// function
+type GetFirstArgumentOfAnyFunction<T> = T extends (first: infer R,...args: any) => any
+	? FirstArgument
+	: never;
+
+type T = GetFirstArgumentOfAnyFunction<(name:string,age:number) => void> // string
+
+// promise return type
+type PromiseReturnType<T> = T extends Promise<infer R> ? R : T;
+
+type T = PromiseReturnType<Promise<string>> // string;
+
+// array type
+type ArrayType<T> = T extends (infer Item)[] ? Item : T;
+```
+
+참고:
+
+- [https://www.typescriptlang.org/docs/handbook/2/conditional-types.html](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html)
+- [https://blog.logrocket.com/understanding-infer-typescript/](https://blog.logrocket.com/understanding-infer-typescript/)
