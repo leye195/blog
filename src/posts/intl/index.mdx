@@ -1,0 +1,201 @@
+---
+title: Intl API
+slug: intl
+date: 2022-11-22
+tags: ['Dev']
+---
+
+# Intl API?
+
+여러가지 언어로 서비스를 지원하는 경우 웹페이지 상에 문구를 단순히 번역하여 표시하는 것만이 아닌 데이터를 해당 언어 맞는 포맷으로 변경하여 보여줘야 하는 경우가 있다.
+
+예를 들어 12345.12를 화폐 단위를 붙여서 표시해야하는 경우 미국은 `$` , 한국은 `₩` 을 사용하게 되는데 각 국가게 맞춰 적용을 할 경우 매우 번거로운 작업이 될 수 있다. 다행히 이런 번거로움은 javascript에서 제공하는 `Intl` API를 통해 매우 심플하게 해결 할 수 있다. 대부분의 모던 브라우저에서 지원되고 있어 다국어를 지원하는 서비스인 경우 아주 유용하게 사용 할 수 있다.
+
+## Intl 사용법
+
+`Intl` API는 `Intl` 객체를 통해 사용 할 수 있으며 이 객체는 여러개의 생성자로 구성되어 있다.
+
+기본적으로 어떤 데이터 포맷팅을 할 것인가에 따라 생성자를 사용해야되며 해당 언어/지역에 맞는 형식이 적용된 문자열을 리턴한다.
+
+모든 생성자는 공통으로 2개의 인자를 전달 받는다.
+
+- locales: 언어와 지역 정보를 표준화 시킨 문자열 코드
+- options: 포멧팅 옵션 객체
+
+### DateTimeFormat
+
+`Intl.DateTimeFormat` 은 시간 혹은 날짜 데이터를 언어나 지역에 따라 다르게 표시 될 수 있도록 해준다.
+
+포멧팅 옵션으로 `dateStyle` 과 `timeStyle` 이 자주 사용되며 값으로 full, long, medium 그리고 short 중 하나로 설정 할 수 있다.
+
+아레 예제는 한국을 기준으로 표시한 현재 날짜와 시간이다.
+
+```jsx
+
+// 현재 날짜
+> new Intl.DateTimeFormat('ko',{dateStyle:'short'}).format(new Date())
+'22. 11. 22.'
+> new Intl.DateTimeFormat('ko',{dateStyle:'medium'}).format(new Date())
+'2022. 11. 22.'
+> new Intl.DateTimeFormat('ko',{dateStyle:'full'}).format(new Date())
+'2022년 11월 22일 화요일'
+
+// 현재 시간
+> new Intl.DateTimeFormat('ko',{timeStyle:'short'}).format(new Date())
+'오후 9:27'
+> new Intl.DateTimeFormat('ko',{timeStyle:'medium'}).format(new Date())
+'오후 9:27:16'
+> new Intl.DateTimeFormat('ko',{timeStyle:'long'}).format(new Date())
+'오후 9시 27분 21초 GMT+9'
+> new Intl.DateTimeFormat('ko',{timeStyle:'full'}).format(new Date())
+'오후 9시 27분 26초 대한민국 표준시'
+```
+
+dateStyle과 timeStyle을 같이 적용할 경우 날짜와 시간을 같이 출력해줄수 있다.
+
+```jsx
+> new Intl.DateTimeFormat('ko',{dateStyle:'full',timeStyle:'full'}).format(new Date())
+'2022년 11월 22일 화요일 오후 9시 28분 45초 대한민국 표준시'
+> new Intl.DateTimeFormat('ko',{dateStyle:'long',timeStyle:'long'}).format(new Date())
+'2022년 11월 22일 오후 9시 28분 54초 GMT+9'
+> new Intl.DateTimeFormat('ko',{dateStyle:'short',timeStyle:'short'}).format(new Date())
+'22. 11. 22. 오후 9:29'
+```
+
+혹시 매번 사용하는데 있어 `new Date()` 를 format 함수에 넘기는것이 귀찮다면 다음과 같이 Date객체의 toLocaleString을 활용하는 방법을 사용하면 된다.
+
+```jsx
+ > new Date().toLocaleString()
+'2022. 11. 22. 오후 10:58:31'
+> new Date().toLocaleString('en',{dateStyle:'long'})
+'November 22, 2022'
+> new Date().toLocaleString('en',{timeStyle:'long'})
+'11:01:07 PM GMT+9'
+```
+
+<br />
+
+### NumberFormat
+
+`Intl.NumberFormat` 은 숫자, 가격을 언어에 맞게 포맷팅 해준다. 옵션을 통해 다양한 스타일을 설정을 할 수 있으며 숫자 데이터를 다룰때 매우 유용하게 사용 할 수 있다.
+
+기본 사용 방법은 다음과 같으며 유효 숫자 제한을 설정하고자 하는 경우 `maximumSignificantDigits` 옵션을 설정 해주면 된다.
+
+```jsx
+> new Intl.NumberFormat().format(123456)
+'123,456'
+> new Intl.NumberFormat('en').format(123456)
+'123,456'
+> new Intl.NumberFormat('en',{notation:'compact',compactDisplay:'long'}).format(123456)
+'123 thousand'
+> new Intl.NumberFormat('en',{notation:'compact',compactDisplay:'short'}).format(123456)
+'123K'
+
+// 유효 숫자 제한
+> new Intl.NumberFormat('en',{maximumSignificantDigits:1}).format(123456)
+'100,000'
+> new Intl.NumberFormat('en',{maximumSignificantDigits:2}).format(123456)
+'120,000'
+> new Intl.NumberFormat('en',{maximumSignificantDigits:3}).format(123456)
+'123,000'
+> new Intl.NumberFormat('en',{maximumSignificantDigits:4}).format(123456)
+'123,500'
+> new Intl.NumberFormat('en',{maximumSignificantDigits:5}).format(123456)
+'123,460'
+
+// 소수점 자리수 제한
+const number = 1234567890.123456;
+
+> new Intl.NumberFormat(undefined, { maximumFractionDigits: 5}).format(number)
+'1,234,567,890.12346'
+> new Intl.NumberFormat(undefined, { maximumFractionDigits: 1}).format(number)
+'1,234,567,890.1'
+> new Intl.NumberFormat(undefined, { maximumFractionDigits: 2}).format(number)
+'1,234,567,890.12'
+> new Intl.NumberFormat(undefined, { maximumFractionDigits: 2}).format(number)
+```
+
+통화 데이터를 다뤄야하는 경우 `style` 옵션을 currency로 설정하며, `currency` 옵션 값으로 통화 코드를 설정 할 수 있다.
+
+```jsx
+> new Intl.NumberFormat('ko',{style:'currency',currency: 'KRW'}).format(50000)
+'₩50,000'
+> new Intl.NumberFormat('ko',{style:'currency',currency: 'USD'}).format(50000)
+'US$50,000.00'
+> new Intl.NumberFormat('en',{style:'currency',currency: 'USD'}).format(50000)
+'$50,000.00'
+> new Intl.NumberFormat('en',{style:'currency',currency: 'KRW'}).format(50000)
+'₩50,000'
+
+// notation 설정을 통한 표기값 설정
+> new Intl.NumberFormat('ko',{style:'currency',currency: 'KRW', notation: 'standard'}).format(25000)
+'₩25,000'
+> new Intl.NumberFormat('ko',{style:'currency',currency: 'KRW', notation: 'engineering'}).format(25000)
+'₩25E3'
+> new Intl.NumberFormat('ko',{style:'currency',currency: 'KRW', notation: 'compact'}).format(25000)
+'₩2.5만'
+> new Intl.NumberFormat('ko',{style:'currency',currency: 'KRW', notation: 'scientific'}).format(25000)
+'₩3E4'
+```
+
+백분율을 데이터를 다루는 경우 `style` 옵션을 percent로 설정하고 format 함수에 소수를 넘겨주면 된다
+
+```jsx
+> new Intl.NumberFormat('ko',{style:'percent'}).format(0.25)
+'25%'
+> new Intl.NumberFormat('ko',{style:'percent'}).format(1/4)
+'25%'
+> new Intl.NumberFormat('ko',{style:'percent'}).format(1/3)
+'33%'
+```
+
+<br />
+
+### RelativeTimeFormat
+
+`Intl.RelativeTimeFormat` 은 현재 시간 기준으로 얼마나 시간이 지났는지 혹은 얼마나 걸릴것인지 표시해줘야 할 경우 사용하면 된다. (상대 시간)
+
+사용시 `numeric` 옵션을 auto 혹은 always 로 설정 할 수 있는데, alway로 설정 할 경우 `2일 후` 같이 숫자가 붙은 형식, auto 인 경우 `그저께` 같이 숫자 없이 표기 할 수 있는 부분은 문자를 통해 표기 할 수 있도록 해준다.
+
+```jsx
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(-5,'days')
+'5일 전'
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(-2,'days')
+'그저께'
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(-1,'days')
+'어제'
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(0,'days')
+'오늘'
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(1,'days')
+'내일'
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(2,'days')
+'모레'
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(3,'days')
+'3일 후'
+
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(2,'week')
+'2주 후'
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(1,'week')
+'다음 주'
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(0,'week')
+'이번 주'
+
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(-1,'year')
+'작년'
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(0,'year')
+'올해'
+> new Intl.RelativeTimeFormat('ko',{numeric:'auto'}).format(1,'year')
+'내년'
+> new Intl.RelativeTimeFormat('en',{numeric:'auto'}).format(1,'year')
+'next year'
+> new Intl.RelativeTimeFormat('en',{numeric:'auto'}).format(0,'year')
+'this year'
+> new Intl.RelativeTimeFormat('en',{numeric:'auto'}).format(-1,'year')
+'last year'
+```
+
+참고:
+
+- [https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl)
+- [https://blog.webdevsimplified.com/2020-07/relative-time-format/](https://blog.webdevsimplified.com/2020-07/relative-time-format/)
+- [https://blog.logrocket.com/getting-to-know-the-intl-api-in-javascript/](https://blog.logrocket.com/getting-to-know-the-intl-api-in-javascript/)
