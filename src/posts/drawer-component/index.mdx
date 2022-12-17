@@ -1,0 +1,229 @@
+---
+title: Drawer 컴포넌트 - React
+slug: drawer-component
+date: 2022-12-19
+tags: ['Dev', 'FE', 'react']
+---
+
+개발을 하다보면 slide 방식으로 컨텐츠를 열렸다 닫혔다 하는 Drawer 컴포넌트를 구현해야되는 상황이 생긴다.
+
+**`chakra ui`** , **`ant design`** 같은 ui 라이브러리를 사용하는 경우 제공되는 Drawer 컴포넌트를 시간절약을 위해 그냥 편하게 사용할 수 있다. 하지만 그냥 사용하는것 보다 어떤 방식과 구조를 가지고 구현이 되어있는지 확인해보고 그 과정을 직접 구현하는 것도 필요하다고 생각된다.
+
+이번 포스트에서는 Drawer 컴포넌트를 구현하는 방법과 과정에 대해서 작성해보고자 한다.
+
+우선 Drawer 컴포넌트의 영역은 기본적으로 두 가지로 나눌수 있다
+
+**(1) contents 영역** <br/>
+**(2) overlay 영역** <br/>
+![image](https://user-images.githubusercontent.com/72896580/208249279-2292b3ce-c25c-487b-8502-d817463b21e1.png)
+
+이 두 영역의 크기 비율은 contents 영역이 자지하게 되는 크기에 따라 달라지게 되며, 필요에 따라 overlay 영역을 클릭하여 Drawer가 닫힐 수 있도록 할 수도 있다.
+
+초기 구현을 위해 작성한 코드는 다음과 같다.
+
+<iframe
+	src="https://codesandbox.io/embed/busy-tree-ubt7dj?fontsize=14&hidenavigation=1&theme=dark"
+	style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+	title="busy-tree-ubt7dj"
+	allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+	sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+초기에 정의한 Drawer컴포넌트의 props 타입은 다음과 같다.
+
+```jsx
+type Props = {
+	isOpen: boolean, // 열림, 닫힘 여부
+	direction: 'left' | 'right' | 'top' | 'bottom', // 열림 닫힘 방향
+	shouldCloseOnDimmer?: boolean, // overlay 클릭시 닫힘 필요 여부
+	handleOpen: (isOpen: boolean) => void,
+} & ComponentProps<'div'>;
+```
+
+Overlay 영역을 클릭할 경우 닫히는 기능의 경우 `react-use` 라이브러리에서 제공하는 useClickAway 훅의 콜백 함수에서 shouldCloseOnDimmer 값 설정 여부에 따라 결정되도록 했다.
+
+```jsx
+useClickAway(ref, () => {
+	if (!shouldCloseOnDimmer) return;
+	handleOpen(false);
+});
+```
+
+사용하는데 크게 문제 없는것 처럼 보인다. 하지만 지금 구현된 컴포넌트에는 몇 가지 단점이 있다.
+
+- Drawer 컴포넌트가 랜더링 되는 위치에 따라 다른 컴포넌트의 영향을 받을 수 있어 생각지도 못한 이슈가 발생할 수 있다. 예를 들어 아래와 같은 현상이 발생할 가능성이 있다는것이다.
+  <img
+  	src="https://user-images.githubusercontent.com/72896580/208249296-ea30f6b2-3d80-483b-80b3-fd0c26e6ff4c.png"
+  	width="100%"
+  	height="550px"
+  />
+- react-use 의 useClickAway 훅을 활용하여 overlay 클릭시 닫힘 기능을 구현해야된다.
+- 닫혀도 DOM에 계속 유지됨, 열려있는 경우에만 DOM 트리 상에 존재하도록 할 필요 있음
+
+### Portal 적용
+
+우선 첫 번째 단점을 해결하기 위해 React Portal을 활용해보았다.
+
+**Portals provide a first-class way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.** - [React docs](https://reactjs.org/docs/portals.html)
+
+react 문서에서 설명하는 것 처럼 portal을 활용하면 컴포넌트를 DOM 트리 최상단에 랜더링 하기 때문에 다른 컴포넌트의 영향을 받지 않게 된다.
+
+```jsx
+import { createPortal } from "react-dom";
+
+// drawer를 넣어줄 div 엘리먼트 생성
+function createPortalRoot() {
+  const drawerRoot = document.createElement("div");
+  drawerRoot.setAttribute("id", "drawer-root");
+
+  return drawerRoot;
+}
+
+const Drawer = (...) => {
+  const portalRootRef = useRef<HTMLDivElement>(
+    (document.getElementById("drawer-root") as HTMLDivElement) ||
+      createPortalRoot();
+  const bodyRef = useRef<HTMLBodyElement | null>(null);
+
+  // body에 portalRoot 추가
+  useEffect(() => {
+    bodyRef.current = document.querySelector("body");
+
+    if (bodyRef.current) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const portal = portalRootRef.current!;
+      bodyRef.current.appendChild(portal);
+    }
+  }, []);
+
+  return createPortal(
+    <Dimmer
+      type={isOpen ? "open" : "close"}
+      direction={direction}
+      onClick={handleClose}
+    >
+      <Container
+        className={`${isOpen ? "open" : ""} ${className}`}
+        type={isOpen ? "open" : "close"}
+        direction={direction}
+      >
+        <Contents>{children}</Contents>
+      </Container>
+    </Dimmer>,
+    portalRootRef.current
+  );
+}
+```
+
+return 하고 있던 컴포넌트를 createPortal의 첫 파라미터로 넘겨줬으며, 두 번째 파라미터로는 컴포넌트를 랜더링 해 줄 portalRootRef를 넘겨주었다.
+
+### useClickAway 제거 및 대체
+
+`react-use` 에서 제공하는 useClickAway 훅을 활용하는 것이 아닌 해당 클릭 위치의 클래스네임을 체크하는 방식으로 변경해보았다.
+
+- props에 className을 전달 할 수 있도록 Props 타입 업데이트
+- 클릭 target의 클래스네임 체크하여 닫힘여부를 결정하는 handleClose 함수를 작성하여 Dimmer 컴포넌트의 onClick에 넘겨줌
+
+```jsx
+
+type Props = {
+  ...
+  className?: string;
+  ...
+} & ComponentProps<"div">;
+
+const handleClose = (e: MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLDivElement;
+
+    if (
+      !shouldCloseOnDimmer ||
+      (target &&
+        typeof target.className === "string" &&
+        !target?.className?.includes(className)) ||
+      target.tagName === "svg"
+    ) {
+      return;
+    }
+
+    handleOpen(false);
+};
+```
+
+### DOM 지속 여부
+
+Drawer 컴포넌트가 추가 될 때 마다 DOM에 추가되는것이 아닌 필요한 경우 즉 열려있는 경우 DOM에 남아 있도록 하기 위한 처리로 prop에 removeOnClosed를 추가 했으며 다음 조건을 추가했다
+
+- removedWhenClosed 값이 true 이고 isOpen 값이 false 인 경우 Drawer 컴포넌트는 null을 리턴한다. `(DOM에서 제거됨)`
+
+```
+ const Drawer = ({
+  isOpen,
+  children,
+  className,
+  onClose,
+  position = 'left',
+  removeWhenClosed = true,
+}) => {
+    ...
+
+    if (removeWhenClosed && !isOpen) {
+        return null;
+    }
+
+    return createPortal(...);
+}
+
+```
+
+위의 랜더링 조건을 추가하니 transition 효과가 적용이 안되는 사이드 이펙트가 발생하게 되었다.
+
+관련하여 해결 방법은 여러가지가 있겠지만 `useMountTransition` 훅을 활용하는 방법을 사용하게 되었다
+
+```
+import { useEffect, useState } from 'react';
+
+const useMountTransition = (isMounted: boolean, unmountDelay: number) => {
+    const [isTransitioning, setIsTransitioning] = useState(false);
+
+    useEffect(() => {
+        let timeoutId: NodeJS.Timeout;
+
+        if (isMounted && !isTransitioning) {
+            setIsTransitioning(true);
+        } else if (!isMounted && isTransitioning) {
+            timeoutId = setTimeout(
+                () => setIsTransitioning(false), unmountDelay
+            );
+        }
+
+        return () => {
+            clearTimeout(timeoutId);
+        };
+    }, [isMounted, unmountDelay, isTransitioning]);
+
+    return isTransitioning;
+};
+
+export default useMountTransition;
+```
+
+`useMountTransition` 훅이 리턴하는 isTransitioning 을 활용하여 null을 리턴하는 조건을 변경 그리고 Dimmer와 Continaer 컴포넌트의 open className이 적용되는 조건을 `isOpen && isTransitioning` 으로 수정하면 `isOpen` 활용하여 랜더링 여부를 결정시 적용되지 않던 transition 효과가 다시 적용되는것을 확인 할 수 있다.
+
+```jsx
+const isTransitioning = useMountTransition(isOpen, 300);
+...
+if (!isTransitioning && removeWhenClosed && !isOpen) {
+    return null;
+}
+
+return createPortal(...);
+```
+
+위에서 언급했던 3가지 단점은 개선한 코드는 아래 code sandbox에서 확인 할 수 있습니다. 이 외에도 추가적 route 이동시 Drawer가 닫히도록 하는 처리도 하면 아주 좋을거 같습니다만.(관련 구현은 직접 시도해보는것으로 남기겠습니다)
+
+<iframe
+	src="https://codesandbox.io/embed/happy-rhodes-hwvw9j?fontsize=14&hidenavigation=1&theme=dark"
+	style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+	title="busy-tree-ubt7dj"
+	allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+	sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>

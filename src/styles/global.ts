@@ -127,7 +127,8 @@ export default css`
 		min-height: 100vh;
 	}
 
-	.deckgo-highlight-code {
+	deckgo-highlight-code {
 		width: 100%;
+		box-shadow: none;
 	}
 `;
