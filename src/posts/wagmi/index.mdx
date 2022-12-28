@@ -1,0 +1,264 @@
+---
+title: wagmi를 통한 쉬운 web3 지갑 연동
+slug: wagmi
+date: 2022-12-29
+tags: ['React', 'Dev', 'FE']
+---
+
+Dapp을 서비스를 개발을 진행하면 이더리움 네트워크와 상호작용 그리고 지갑로그인 기능을 제공하는것은 피할수 없는 작업이 된다. (물론 서비스 내부에서 어떻게 처리하는가에 따라 달라지긴 하겠지만 말이다)
+
+이전에 `web3-react` 라이브러리를 활용하여 지갑 연동하는 방법에 대해서 포스트를 작성한 적이 있다. 사용해본 사람 이라면 알겠지만 web3 연동을 쉽게 해주지만 wallet provider 만을 쉽게 관리하기 위한 독립 라이브러리 느낌이 강하며 그외 컨트랙트 액션을 구현하는 경우 생각보다 공수가 많이 발생하게 된다.
+
+한 가지 예를 들어 connector의 network를 변경하는 기능을 `web3-react` 를 연동하여 구현하고자 한다면 아래와 같이 etheruem.request를 통해 rpc api를 호출하는 코드를 작성할 필요가 있다. `wagmi` 에서는 이 부분을 `useSwitchNetwork` hook 하나를 통해 구현 할 수 있게 된다.
+
+```bash
+// https://docs.metamask.io/guide/rpc-api.html#unrestricted-methods
+
+const switchNetwork = async () => {
+try {
+  await ethereum.request({
+    method: 'wallet_switchEthereumChain',
+    params: [{ chainId: '0xf00' }],
+  });
+} catch (switchError) {
+  // This error code indicates that the chain has not been added to MetaMask.
+  if (switchError.code === 4902) {
+    try {
+      await ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            chainId: '0xf00',
+            chainName: '...',
+            rpcUrls: ['https://...'] /* ... */,
+          },
+        ],
+      });
+    } catch (addError) {
+      // handle "add" error
+    }
+  }
+  // handle other "switch" errors
+}
+};
+
+export default switchNetwork;
+```
+
+`wagmi` 는 web3 구현에 필요한 모든 기능을 hook으로 개별 관리할 수 있을 뿐만 아니라 각 hook의 상태관리 까지 제공하고 있어 `web3-react` 와 쉽게 기능을 구현할 수 있게 해준다.
+
+현재 시점 기준으로는 `0.9.5` 버전이 배포된 상태이며 매번 버전 업데이트가 진행 될 때 마다 `breaking change` 로 인하여 많은 부분이 변경되기 때문에 메이저 버전 배포 되기 이전 까지 서비스에 적용하기에는 신중하게 접근할 필요가 있다고 생각된다.
+
+(공식 문서가 잘 정리되어 있어 사용 방법을 쉽게 터득 할 수 있을거라고 생각된다)
+
+**wagmi 공식문서에 작성되어 있는 장점과 단점은 다음과 같다:**
+
+### **Pros**
+
+- 20+ hooks for working with wallets, ENS, contracts, transactions, signing, etc.
+- Built-in wallet connectors for MetaMask, WalletConnect, Coinbase Wallet, and Injected
+- Caching, request deduplication, and persistence powered
+- Auto-refresh data on wallet, block, and network changes
+- Multicall support
+- Test suite running against forked Ethereum network
+- TypeScript ready (infer types from ABIs and EIP-712 Typed Data)
+- Extensive documentation and examples
+- Used by [ENS](https://ens.domains/), [Foundation](https://foundation.app/), [SushiSwap](https://sushi.com/), and [more](https://github.com/wagmi-dev/wagmi/discussions/201)
+- MIT License
+
+### **Cons**
+
+- Not as many built-in connectors as `web3-react`
+
+딱 하나 단점인 connector가 적다는 부분은 빠른 시일내에 개선될것이라고 생각되며 특정 connector가 필요 할 경우 `wagmi` 에서 `[custom connector](https://wagmi.sh/examples/custom-connector)` 를 생성하는 방법 또한 제공하고 있어 참고하여 작업하면 될 거 같다.
+
+## 기본 셋업
+
+### 라이브러리 설치
+
+wagmi와 ethers 라이브러리를 설치한다.
+
+```bash
+npm i wagmi ethers
+
+# or
+
+yarn add wagmi ethers
+```
+
+### chain 설정 및 wagmi client 생성
+
+설치 후 가장 먼저 진행해야되는 작업은 wagmi에 사용하고자 하는 네트워크 체인과 원하는 provider를 설정주는 것이다.
+
+- 네트워크 체인은 여러개가 있으며 대표적으로 이더리움 메인넷 (main), 이더리움 테스트넷 (goerli) 이 있으며 layer2 (이더리움 확장 솔루션) 인 폴리곤 메인넷 (polygon)과 폴리곤 테스트넷인 (mumbai) 등 여러가지가 존재한다.
+- provider 란 이더리움 네트워크 연결을 위한 클래스로 네트워크에 대한 정보를 읽어올수 있게 해준다. `public provider`, `alchemy provider` , `infura provider` , `json rpc provider` 가 있다.
+
+그 다음 wagmi client 를 생성한다. client에는 autoConnect, connectors, provider 를 전달줬다.
+
+- **autoConnect:** 가장 최근 사용된 connector 재연결 여부
+- **connectors:** 지원할 connector 목록 (현재 wagmi에서 공식 지원되고 있는 connector들은 다음과 같다)
+  - MetaMask: `MetaMaskConnector`
+  - WalletConnect: `WalletConnectConnector`
+  - CoinBase: `CoinbaseWalletConnector`
+  - Ledger: `LedgetConnector`
+- **provider:** 이더리움 네트워크에 연결하기 위한 ethers 인터페이스.
+
+```bash
+import {configureChains} from 'wagmi';
+import { publicProvider } from "wagmi/providers/public";
+import {
+  polygon,
+  polygonMumbai,
+  mainnet,
+  goerli,
+} from "wagmi/chains";
+
+const { chains, provider, webSocketProvider } = configureChains(
+  [mainnet, goerli, polygon, polygonMumbai],
+  [publicProvider()]
+);
+
+const wagmiClient = createClient({
+  autoConnect: false,
+  connectors: [
+    new MetaMaskConnector({
+      chains,
+    }),
+    new InjectedConnector({
+      chains,
+      options: {
+        name: "Injected",
+        shimChainChangedDisconnect: false,
+      },
+    }),
+  ],
+  provider,
+});
+```
+
+### WagmiConfig 설정
+
+마지막으로 `WagmiConfig` 로 감싸준 뒤 client 값을 넘겨준다
+
+```bash
+function App() {
+  return (
+    <WagmiConfig client={client}>
+      <YourRoutes />
+    </WagmiConfig>
+  )
+}
+```
+
+## 자! 준비 끝 이제 사용해보자
+
+이제 사용할 준비는 끝났다. 본격적으로 로그인 구현 및 정보들을 불러오는 방법에 대해서 알아보자!
+
+위에서 언급한대로 `wagmi`는 web3 구현에 필요한 모든 기능을 hook으로 개별 관리하기 때문에 많은 부분을 hook을 활용만으로 쉽게 해결 할 수 있다.
+
+아래 코드를 확인해보면 따로 처리해주는 로직 없이 거의 모든 부분을 hook을 통해 해결할 수 있는 것을 볼 수 있다. 이처럼 많은 부분을 쉽게 처리 할 수 있게 되어 작업에 대한 공수를 줄 일수 있게 된다.
+
+- useAccount: account 정보 및 연결 상태 체크를 위한 hook
+- useConnect: connector 연결을 위한 hook
+- useDisconnect: connector에 연결 해제을 위한 hook
+- useNetwork: 네트워크 데이터 (현재 연결된 네트워크 체인, 체인 정보) 를 위한 hook
+- useSwitchNetwork: connector 네트워크 변경을 위한 hook
+
+```bash
+// https://github.com/leye195/wagmi-test
+
+import {
+  Connector,
+  useAccount,
+  useConnect,
+  useDisconnect,
+  useNetwork,
+  useSwitchNetwork,
+} from "wagmi";
+import { useState } from "react";
+
+const Home = () => {
+  const [error, setError] = useState<Error | null>(null);
+  # connect 연결 및 connector 목록 정보
+  const { connect, connectors, pendingConnector, reset } = useConnect({
+    onError(err) {
+      setError(err);
+      reset();
+    },
+  });
+  # 연결 혜제를 위한 disconnect
+  const { disconnect } = useDisconnect({
+    onSuccess() {
+      reset();
+    },
+  });
+
+	# 연결된 address 및 connector 정보
+  const { address, isConnected, connector: activeConnector } = useAccount();
+  # 현재 연결된 네트워크 체인
+  const { chain: activeChain } = useNetwork();
+
+  # 네트워크 체인 변경 및 체인 목록 정보
+  const { chains, switchNetwork } = useSwitchNetwork();
+
+  const handleConnect = (connector: Connector) => () => {
+    connect({ connector });
+  };
+
+  const handleSwitch = (id: number) => () => {
+    switchNetwork?.(id);
+  };
+
+  return (
+    <div className={styles.container}>
+      <main>
+        <div className={styles.connectBlock}>
+          <p>Wallet Connect with Wagmi</p>
+          {address && activeChain  && (
+            <div>
+              <p>Connected to {activeConnector?.name}</p>
+              <p>Address: {address}</p>
+              <p>ChainId: {activeChain?.id}</p>
+              <p>Network: {activeChain?.name}</p>
+            </div>
+          )}
+          <div className={styles.buttonGroup}>
+            {!isConnected &&
+              connectors.map((connector) => (
+                <button
+                  className={styles.connectButton}
+                  key={connector.id}
+                  onClick={handleConnect(connector)}
+                  disabled={!connector.ready || !!pendingConnector}
+                >
+                  {connector.name}
+                  {signMessageLoading &&
+                    pendingConnector?.id === connector.id &&
+                    " (connecting)"}
+                </button>
+              ))}
+            {isConnected && (
+              <>
+                <button onClick={() => disconnect()}>Disconnect</button>
+                {chains.map((chain) => (
+                    <button
+                      key={`switch-${chain.id}`}
+                      onClick={handleSwitch(chain.id)}
+                      disabled={chain.id === activeChain?.id}
+                    >
+                      {chain.id === activeChain?.id && "(Current)"} Switch to{" "}
+                      {chain.name}
+                    </button>
+                 ))}
+              </>
+            )}
+          </div>
+          {error && <div>{error.message}</div>}
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default Home;
+```
