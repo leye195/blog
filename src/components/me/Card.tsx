@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
+import { flexMixin } from 'styles/mixin';
 
 type CardType = {
 	title: string;
@@ -18,7 +19,6 @@ type CardType = {
 const company = css`
 	margin-top: 2.5rem;
 	position: relative;
-	font-size: 20px;
 
 	&::after {
 		position: absolute;
@@ -27,6 +27,19 @@ const company = css`
 		height: 0.5rem;
 		background: #7886b7;
 		border-radius: 50%;
+	}
+`;
+
+const table = css`
+	${flexMixin({ alignItems: 'center' })}
+	gap: 1rem;
+	padding: 1.2rem 0;
+	border-top: 1px solid #e3e3e3;
+
+	h5 {
+		width: 4.5rem;
+		margin: 0;
+		font-size: 1.125rem;
 	}
 `;
 
@@ -62,8 +75,8 @@ const content = css`
 	& .project {
 		&__title {
 			position: relative;
-			margin-bottom: 0rem;
-			font-size: 1rem;
+			margin: 1rem 0;
+			font-size: 1.5rem;
 
 			&::after {
 				position: absolute;
@@ -80,7 +93,7 @@ const content = css`
 		}
 
 		&__description {
-			font-size: 1rem !important;
+			font-size: 1.125rem !important;
 
 			& {
 				border-bottom: 1px solid #f5f3f3;
@@ -91,7 +104,13 @@ const content = css`
 			}
 
 			& ul {
-				padding-left: 1rem;
+				padding-left: 2rem;
+			}
+
+			h5 {
+				margin-top: 1rem;
+				margin-bottom: 0.5rem;
+				font-size: 18px;
 			}
 		}
 	}
@@ -101,17 +120,19 @@ const Card = ({ title, period, position, projects, projectDescription }: CardTyp
 	return (
 		<div>
 			<h3 css={company}>{title}</h3>
-			<div css={content}>
-				<b>Period</b>
-				<p className="period">{period.trim()}</p>
-			</div>
-			<div css={content}>
-				<b>Position</b>
-				<p className="position">{position}</p>
-			</div>
-			<div css={content}>
-				<b>Projects</b>
-				<p className="projects">{projects}</p>
+			<div>
+				<div css={table}>
+					<h5>Period</h5>
+					<p className="period">{period.trim()}</p>
+				</div>
+				<div css={table}>
+					<h5>Position</h5>
+					<p className="position">{position}</p>
+				</div>
+				<div css={table}>
+					<h5>Projects</h5>
+					<p className="projects">{projects}</p>
+				</div>
 			</div>
 			<div css={content}>
 				{projectDescription.map(project => (
@@ -122,19 +143,19 @@ const Card = ({ title, period, position, projects, projectDescription }: CardTyp
 								<li>{project.stack}</li>
 							</ul>
 							<div>
-								<b>Period</b>
+								<h5>Period</h5>
 								<ul>
 									<li>{project.period}</li>
 								</ul>
 							</div>
 							<div>
-								<b>Description</b>
+								<h5>Description</h5>
 								<ul>
 									<li>{project.describe}</li>
 								</ul>
 							</div>
 							<div className="project__description__job">
-								<b>What I Did</b>
+								<h5>What I Did</h5>
 								<ul>
 									{project.job.map(des => (
 										<li key={des.main}>
