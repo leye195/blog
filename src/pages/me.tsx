@@ -15,11 +15,11 @@ const containerStyle = css`
 	padding: 0 1rem;
 
 	h2 {
-		font-size: 28px;
+		font-size: 32px;
 	}
 
 	h3 {
-		font-size: 24px;
+		font-size: 28px;
 	}
 
 	& .last-updated {
@@ -61,8 +61,6 @@ const containerStyle = css`
 		}
 
 		& .skills {
-			border-bottom: 1px solid #f5f3f3;
-
 			&__container {
 				& ul {
 					padding-left: 2rem;
@@ -87,9 +85,9 @@ const MePage = ({ data: { bg } }: any) => {
 				</Common.Column>
 			</Common.PageHead>
 			<Common.Container css={containerStyle}>
-				<h2>이영재 (DanYJ)</h2>
+				<h2>이영재</h2>
 				<Common.Row className="last-updated" alignItems="center" justifyContents="flex-end">
-					<span className="last-updated__text">Last Updated: 2022.08.13</span>
+					<span className="last-updated__text">Last Updated: 2023.02.03</span>
 				</Common.Row>
 				<Common.Table info={data.basicInfo} />
 				<main className="main-contents">
@@ -98,11 +96,6 @@ const MePage = ({ data: { bg } }: any) => {
 						<Common.Column className="intro__text">
 							<p>
 								프론트엔드 개발자로 <b>SuperTree</b>내 PlayDapp 조직에서 웹 서비스를 개발하고 있습니다.
-							</p>
-							<br />
-							<p>
-								어떻게 하면 코드를 클린하게 작성할 수 있을지 그리고 사용자들에거 더 좋은 경험을 제공 할 수 있을지를
-								고민하고 더 좋은 개발자로 성장하기 위해 학습하고 노력하고 있습니다.
 							</p>
 						</Common.Column>
 					</Common.Section>

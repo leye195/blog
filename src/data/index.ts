@@ -22,17 +22,28 @@ const projectList: projectType[] = [
 	{
 		title: 'PlayDapp Tournaments',
 		stack: 'NextJS, RTK(Redux Toolkit), TypeScript, react-query, web3-react, etherjs',
-		period: '2022.08 - current',
-		describe: '유저가 티켓을 소비하여 참여한 Pvp 게임 플레이 성적, 순위에 따른 보상을 제공하는 Game Platform 서비스',
+		period: '2022.08 - 현재',
+		describe:
+			'유저가 티켓을 소비하여 참여한 Pvp 및 Pve 게임 플레이 성적, 순위에 따른 보상을 제공하는 Game Platform 서비스 개발을 진행하고 있습니다. TF로 합류하여 서비스 소프트런칭에 기여하였으며 이후 정식으로 팀으로 합류하여 서비스 개발 및 개선에 참여하고 있습니다',
 		job: [
 			{
 				main: '프론트 개발환경 및 프로젝트 구조 설정',
 			},
 			{
-				main: 'iframe을 통한 game 연동 및 postMessage를 활용한 이벤트 상호작용 작업',
+				main: 'iframe을 통한 game client 연동 및 postMessage를 활용한 이벤트 상호작용 작업',
 			},
 			{
-				main: '게임 보상 수령을 위한 contract abi 호출 작업',
+				main: '보상 출금 기능 구현',
+				sub: ['react-hook-form을 활용한 입력값 유효성 체크 및 contract abi 호출 통한 출금 처리 '],
+			},
+			{
+				main: '점검 페이지 및 국가 접근제한 페이지 노출 ',
+				sub: [
+					'_app 파일에서 getInitialProp을 활용 및 국가체크 및 점검 상태 api를 호출하여 pageProps로 상태 값 전달, 전달 받은 상태에 따른 페이지 노출 분기 처리',
+				],
+			},
+			{
+				main: 'Ticket NFT Convert 기능 구현',
 			},
 		],
 	},
@@ -171,7 +182,7 @@ const experiences: experienceType[] = [
 	{
 		title: 'SuperTree',
 		period: '2020.10 - current',
-		position: 'PlayDapp CIC, Tournaments TF / Front-End Engineer',
+		position: 'Market Dev Center, Tournaments Dev Center / Front-End Engineer',
 		projects: 'PlayDapp Marketplace, GEO.DOMAIN NFT Promotion, ItemManager, PlayDapp Tournaments',
 		projectDescription: [...projectList],
 	},
