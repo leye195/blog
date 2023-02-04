@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
 import { flexMixin } from 'styles/mixin';
+import { spacing } from 'styles/variables';
 
 import Common from 'components/common';
 import Layout from 'components/layout/Layout';
@@ -8,11 +9,11 @@ import Layout from 'components/layout/Layout';
 const main = css`
 	${flexMixin({ alignItems: 'center', direction: 'column' })};
 	min-height: calc(100vh - 280px);
-	padding: 2rem;
+	padding: ${spacing.xs};
 `;
 
 const title = css`
-	margin: 0 auto 2rem auto;
+	margin: 0 auto ${spacing.xs} auto;
 	text-align: center;
 `;
 

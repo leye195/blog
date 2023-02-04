@@ -1,6 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { flexMixin } from 'styles/mixin';
+import { spacing } from 'styles/variables';
 
 type CardType = {
 	title: string;
@@ -61,7 +62,7 @@ const content = css`
 
 	& ul {
 		& > li {
-			margin: 0.5rem 0;
+			margin: ${spacing.xs} 0;
 			line-height: 1.5;
 			list-style: square;
 		}
@@ -75,7 +76,7 @@ const content = css`
 	& .project {
 		&__title {
 			position: relative;
-			margin: 1rem 0;
+			margin: ${spacing.m} 0;
 			font-size: 1.5rem;
 
 			&::after {

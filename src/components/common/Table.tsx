@@ -1,5 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
+import { spacing } from 'styles/variables';
 
 type Props = {
 	info: { title: string; link?: string }[];
@@ -8,8 +9,7 @@ type Props = {
 const table = css`
 	max-width: 1200px;
 	width: 100%;
-	margin-top: 1rem;
-	margin: 1rem auto;
+	margin: ${spacing.m} auto;
 `;
 
 const tableBody = css`

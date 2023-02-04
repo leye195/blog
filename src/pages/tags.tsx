@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
 
-import { Colors } from 'styles/variables';
+import { Colors, spacing } from 'styles/variables';
 import type { mdxGroupType } from 'types/post';
 
 import Layout from 'components/layout/Layout';
@@ -19,7 +19,7 @@ type Props = {
 const tagsSection = css`
 	max-width: 700px;
 	min-height: 25rem;
-	margin: 2rem auto 2rem auto;
+	margin: ${spacing.xxxl} auto;
 	padding: 0 1rem;
 
 	& .tags {
@@ -48,11 +48,11 @@ const tagsSection = css`
 			}
 
 			& .empty__space {
-				margin-right: 1rem;
+				margin-right: ${spacing.m};
 			}
 
 			& .tag--wrapper {
-				margin: 0.5rem 0.5rem 0 0;
+				margin: ${spacing.xs} ${spacing.xs} 0 0;
 			}
 		}
 	}

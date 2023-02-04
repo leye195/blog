@@ -11,6 +11,8 @@ export const Colors = {
 // breakpoints
 export type BreakpointsType = 'sm' | 'md' | 'lg' | 'xl';
 export type MediaType = BreakpointsType | 'smDown' | 'mdDown' | 'lgDown' | 'xlDown' | 'mdOnly' | 'lgOnly' | 'xlOnly';
+export type Spacing = 'xxs' | 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl' | 'xxxl';
+
 type BreakpointsNum = Record<BreakpointsType, number>;
 type MediaQueries = Record<MediaType, string>;
 
@@ -39,3 +41,14 @@ breakpointKeys.reduce((prevMin, key): number => {
 
 	return min;
 }, 0);
+
+export const spacing: Record<Spacing, string> = {
+	xxs: '4px',
+	xs: '8px',
+	s: '12px',
+	m: '16px',
+	l: '20px',
+	xl: '24px',
+	xxl: '30px',
+	xxxl: '32px',
+};

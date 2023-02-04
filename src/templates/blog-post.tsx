@@ -6,7 +6,7 @@ import { css } from '@emotion/react';
 import Layout from 'components/layout/Layout';
 import Common from 'components/common';
 import Utterances from 'components/comment/Utterances';
-import { Colors, media } from 'styles/variables';
+import { Colors, media, spacing } from 'styles/variables';
 import SEO from 'components/common/SEO';
 
 const containerStyle = css`
@@ -15,7 +15,7 @@ const containerStyle = css`
 
 const contentsWrapper = css`
 	margin: 0 auto;
-	padding: 2rem 1rem;
+	padding: ${spacing.xxxl} ${spacing.m};
 	max-width: 40rem;
 	width: auto;
 
@@ -24,7 +24,7 @@ const contentsWrapper = css`
 	}
 
 	& .post-date {
-		margin-bottom: 1rem;
+		margin-bottom: ${spacing.m};
 		width: 100%;
 		font-size: 0.85rem;
 		font-weight: 500;
@@ -40,7 +40,7 @@ const postContainer = css`
 const postLink = css`
 	display: flex;
 	align-items: center;
-	padding: 0.25rem 0.5rem;
+	padding: 0.25rem ${spacing.xs};
 
 	${media.smDown} {
 		font-size: 0.85rem;
@@ -57,11 +57,11 @@ const postLink = css`
 		}
 
 		& .next-icon {
-			margin-left: 0.5rem;
+			margin-left: ${spacing.xs};
 		}
 
 		& .prev-icon {
-			margin-right: 0.5rem;
+			margin-right: ${spacing.xs};
 		}
 	}
 `;

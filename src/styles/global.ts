@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import emotionNormalize from 'emotion-normalize';
+import { spacing } from './variables';
 
 const darkTheme = css`
 	body {
@@ -116,8 +117,7 @@ export default css`
 	}
 
 	hr {
-		margin-top: 1rem;
-		margin-bottom: 1rem;
+		margin: ${spacing.m} 0;
 		width: 100%;
 		border: 0;
 		border-top: 1px solid rgba(0, 0, 0, 0.1);

@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql, Link } from 'gatsby';
 import { css } from '@emotion/react';
 
-import { media, Colors } from 'styles/variables';
+import { media, Colors, spacing } from 'styles/variables';
 import type { mdxNodeType } from 'types/post';
 
 import Layout from 'components/layout/Layout';
@@ -42,8 +42,8 @@ const pageHeader = css`
 	}
 
 	& .avatar {
-		height: 8.5rem;
-		width: 8.5rem;
+		height: 10rem;
+		width: 10rem;
 		margin-bottom: 0;
 
 		& > img {
@@ -56,8 +56,8 @@ const pageHeader = css`
 `;
 
 const contentSection = css`
-	padding: 2rem 1rem 1.5rem 1rem;
-	margin: 2rem auto 0 auto;
+	padding: ${spacing.xxxl} ${spacing.m} 1.5rem ${spacing.m};
+	margin: ${spacing.xxxl} auto 0 auto;
 
 	${media.sm} {
 		max-width: 550px;
@@ -77,7 +77,7 @@ const contentSection = css`
 
 		& .post {
 			width: 100%;
-			padding: 0.5rem 0;
+			padding: ${spacing.xs} 0;
 			color: ${Colors.black};
 			border-bottom: 1px solid #f5f5f5;
 			transition: all 0.2s linear;
@@ -100,15 +100,15 @@ const contentSection = css`
 		}
 
 		& .tag:not(:last-child) {
-			margin-right: 0.5rem;
+			margin-right: ${spacing.xs};
 		}
 	}
 
 	& .button-group {
-		padding: 0.5rem;
+		padding: ${spacing.xs};
 
 		& .page-button {
-			padding: 1rem;
+			padding: ${spacing.m};
 			font-weight: bold;
 			font-size: 1.2rem;
 			background-color: ${Colors.blue};

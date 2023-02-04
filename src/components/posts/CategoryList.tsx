@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { css } from '@emotion/react';
 import { Link } from 'gatsby';
 import { flexMixin } from 'styles/mixin';
+import { spacing } from 'styles/variables';
 
 type Props = {
 	children?: React.ReactNode;
@@ -22,7 +23,7 @@ const categoryListStyle = css`
 		direction: 'column',
 		alignItems: 'center',
 	})}
-	margin: 0.5rem auto;
+	margin: ${spacing.xs} auto;
 	position: sticky;
 	height: auto;
 
@@ -31,8 +32,8 @@ const categoryListStyle = css`
 			direction: 'row',
 			alignItems: 'center',
 		})}
-		padding: 0 0.5rem;
-		margin-bottom: 0.5rem;
+		padding: 0 ${spacing.xs};
+		margin-bottom: ${spacing.xs};
 		width: 100%;
 		min-height: 66px;
 		overflow: hidden;
@@ -53,8 +54,8 @@ const categoryListStyle = css`
 		}
 
 		& > li {
-			padding: 0.5rem;
-			margin: 0.5rem;
+			padding: ${spacing.xs};
+			margin: ${spacing.xs};
 			border-radius: 10px;
 			background-color: white;
 			box-shadow: 0 1px 1px rgb(0 0 0 / 10%);

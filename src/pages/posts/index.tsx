@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import qs from 'qs';
 
 import { categorizePosts } from 'libs';
-import { media } from '../../styles/variables';
+import { media, spacing } from '../../styles/variables';
 import type { postType, groupType } from 'types/post';
 
 import Layout from 'components/layout/Layout';
@@ -13,7 +13,7 @@ import CategoryList from 'components/posts/CategoryList';
 import SEO from 'components/common/SEO';
 
 const contentSection = css`
-	padding: 1.5rem 1rem;
+	padding: ${spacing.xl} ${spacing.m};
 	margin: auto;
 
 	${media.sm} {
@@ -34,7 +34,7 @@ const contentSection = css`
 
 		& .post {
 			width: 100%;
-			padding: 0.5rem 0;
+			padding: ${spacing.xs} 0;
 			color: black;
 			border-bottom: 1px solid #f5f5f5;
 			transition: all 0.2s linear;
@@ -57,7 +57,7 @@ const contentSection = css`
 		}
 
 		& .tag:not(:last-child) {
-			margin-right: 0.5rem;
+			margin-right: ${spacing.xs};
 		}
 	}
 `;

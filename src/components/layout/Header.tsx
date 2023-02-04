@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 
 import { saveTheme } from 'libs';
-import { media } from 'styles/variables';
+import { media, spacing } from 'styles/variables';
 
 import Common from 'components/common';
 import DarkModeToggle from 'components/layout/DarkModeToggle';
@@ -16,13 +16,13 @@ const headerStyle = css`
 		align-items: center;
 		justify-content: space-between;
 		margin: auto;
-		padding: 0 1rem;
+		padding: 0 ${spacing.m};
 		height: 100%;
 		max-width: 310px;
 
 		& .logo-container {
 			display: flex;
-			padding: 0.5rem 0;
+			padding: ${spacing.xs} 0;
 		}
 
 		${media.smDown} {
@@ -51,8 +51,7 @@ const headerStyle = css`
 		height: 2rem;
 		width: 100%;
 		position: relative;
-		padding-top: 0.5rem;
-		padding-bottom: 0.5rem;
+		padding: ${spacing.xs} 0;
 		border-top: 1px solid #f5f3f3;
 
 		& > a {
@@ -97,8 +96,8 @@ const headerStyle = css`
 		& .theme {
 			position: absolute;
 			right: 0;
-			margin-right: 1rem;
-			margin-top: 0.25rem;
+			margin-right: ${spacing.m};
+			margin-top: ${spacing.xxs};
 		}
 	}
 `;
