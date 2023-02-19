@@ -16,7 +16,7 @@ const containerStyle = css`
 const contentsWrapper = css`
 	margin: 0 auto;
 	padding: ${spacing.xxxl} ${spacing.m};
-	max-width: 40rem;
+	max-width: 50rem;
 	width: auto;
 
 	${media.sm} {
