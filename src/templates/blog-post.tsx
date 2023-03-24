@@ -35,6 +35,10 @@ const contentsWrapper = css`
 
 const postContainer = css`
 	width: 100%;
+
+	code {
+		font-weight: 600;
+	}
 `;
 
 const postLink = css`
