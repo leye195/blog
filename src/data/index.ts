@@ -24,7 +24,7 @@ const projectList: projectType[] = [
 		stack: 'NextJS, RTK(Redux Toolkit), TypeScript, react-query, web3-react, etherjs',
 		period: '2022.08 - 현재',
 		describe:
-			'유저가 티켓을 소비하여 참여한 Pvp 및 Pve 게임 플레이 성적, 순위에 따른 보상을 제공하는 Game Platform 서비스 개발을 진행하고 있습니다. TF로 합류하여 서비스 소프트런칭에 기여하였으며 이후 정식으로 팀으로 합류하여 서비스 개발 및 개선에 참여하고 있습니다',
+			'티켓 소비를 통해 참여한 Pvp 및 Pve 게임 플레이 성적, 순위에 따른 보상을 제공하는 Game Platform 서비스 개발을 진행하고 있습니다. TF로 합류하여 서비스 소프트런칭에 기여하였으며 이후 정식으로 팀에 합류하여 서비스 개발 및 개선에 참여하고 있습니다',
 		job: [
 			{
 				main: '프론트 개발환경 및 프로젝트 구조 설정',
@@ -37,10 +37,8 @@ const projectList: projectType[] = [
 				sub: ['react-hook-form을 활용한 입력값 유효성 체크 및 contract abi 호출 통한 출금 처리 '],
 			},
 			{
-				main: '점검 페이지 및 국가 접근제한 페이지 노출 ',
-				sub: [
-					'_app 파일에서 getInitialProp을 활용 및 국가체크 및 점검 상태 api를 호출하여 pageProps로 상태 값 전달, 전달 받은 상태에 따른 페이지 노출 분기 처리',
-				],
+				main: '점검 페이지 노출',
+				sub: ['middleware api 활용을 통한 점검진행 중인 경우 점검페이지로 redirect, 아닌 경우 입력 경로로 접근'],
 			},
 			{
 				main: 'Ticket NFT Convert 기능 구현',
