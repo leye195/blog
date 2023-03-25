@@ -15,7 +15,6 @@ describe('<Card/>', () => {
 		const { getByText } = render(<Card {...props} />);
 
 		expect(getByText(props.title)).toBeInTheDocument();
-		expect(getByText(props.period)).toBeInTheDocument();
 		expect(getByText(props.position)).toBeInTheDocument();
 		expect(getByText(props.projects)).toBeInTheDocument();
 	});

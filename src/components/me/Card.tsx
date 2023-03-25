@@ -18,10 +18,21 @@ type CardType = {
 };
 
 const company = css`
-	margin-top: 2.5rem;
+	${flexMixin({ alignItems: 'center' })};
+	gap: 1rem;
+	margin: 2.5rem 0;
 	position: relative;
 
-	&::after {
+	h3 {
+		margin: 0;
+	}
+
+	p {
+		font-size: 1.25rem;
+		font-weight: 800;
+	}
+
+	& h3::after {
 		position: absolute;
 		content: '';
 		width: 0.5rem;
@@ -120,12 +131,11 @@ const content = css`
 const Card = ({ title, period, position, projects, projectDescription }: CardType) => {
 	return (
 		<div>
-			<h3 css={company}>{title}</h3>
+			<div css={company}>
+				<h3>{title}</h3>
+				<p>({period.trim()})</p>
+			</div>
 			<div>
-				<div css={table}>
-					<h5>Period</h5>
-					<p className="period">{period.trim()}</p>
-				</div>
 				<div css={table}>
 					<h5>Position</h5>
 					<p className="position">{position}</p>
