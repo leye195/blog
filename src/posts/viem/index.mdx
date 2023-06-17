@@ -5,6 +5,9 @@ date: 2023-06-05
 tags: ['Dev']
 ---
 
+WalletConnect V1이 6월 28일 오후 2시 (UTC 기준) 부터 서비스 종료 예정으로 그 이전에 V2 버전으로 마이그레이션을 작업을 진행해야 되는 상황이 발생하게 됬습니다.
+관련하여 작업을 진행하다 보니 `Viem` 이라는 라이브러리를 사용하게 되어 간단하게 설명 및 정리를 하고자 합니다.
+
 **[Viem](https://github.com/wagmi-dev/viem)**은 web3 dapp을 쉽고 빠르게 구축 할 수 있도록 도와주는 [wagmi](https://github.com/wagmi-dev) 개발팀에서 만든 typescript 라이브러리 입니다.
 
 가볍고 사용하기 쉽다는 특징을 가지고 있으며 비록 ethers.js와 web3.js 와 비교 했을때 새로 나온 라이브러리지만 여러가지 더 좋은 장점을 가지고 있습니다.
@@ -129,7 +132,7 @@ const handleCancel = (tokenId: string) => async () => {
 
 위에서 작성한 방법 처럼 contract 객체를 생성하여 ABI 함수를 호출 할 수 있지만 [readContract](https://viem.sh/docs/contract/readContract.html) , [writeContract](https://viem.sh/docs/contract/writeContract.html) 를 활용하는 방법 또한 있으니 [문서](https://viem.sh/docs/getting-started.html)를 참고하면 좋을거 같습니다.
 
-만약 web3.js와 ethers.js 말고 다른 라이브러리를 찾고 계신다면 좋은 대안될거 같다고 생각이되며 저 또한 사용을 고려하게 될거 같습니다.
+만약 web3.js와 ethers.js 말고 다른 라이브러리를 찾고 계신다면 좋은 대안될거 같다고 생각이 됩니다.
 
 ### 참고
 
