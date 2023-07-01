@@ -39,6 +39,10 @@ const postContainer = css`
 	code {
 		font-weight: 600;
 	}
+
+	p {
+		font-size: 16px;
+	}
 `;
 
 const postLink = css`
