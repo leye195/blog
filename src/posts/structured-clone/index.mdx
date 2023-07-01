@@ -1,0 +1,140 @@
+---
+title: 잉? deepcopy를 쉽게 할 수 있는 방법이 있다고요? - structuredClone
+slug: structured-clone
+date: 2023-07-01
+tags: ['Dev', 'FE']
+---
+
+javascript의 내부 함수인 `structuredClone` 를 활용하면 deep copy를 손쉽게 구현 할 수 있다고 합니다.
+
+우선 설명을 하기 전에 `shallow copy` , `deep copy` 에 대해서 알아보도록 하겠습니다.
+
+## Shallow Copy
+
+shallow copy (얕은 복사)는 객체의 한 단계까지만 복사를 합니다 (같은 메모리 주소를 복사). 그 이유로 중첩 객체에 대해서는 복사 객체와 기존 객체가 서로 영향을 줄 수 있습니다.
+
+- **Object.assign()**
+- **Spread Operator**
+
+```
+const originObject = {
+    test: 'nonono',
+    aaa: 0,
+    b: false,
+    nested: {
+      a: 123,
+    },
+};
+
+const copiedObject = { ...originObject };
+copiedObject.aaa = 1;
+copiedObject.nested.a = 111;
+
+console.log(originObject.aaa);
+// 0
+console.log(copiedObject.aaa);
+// 1
+console.log(originObject.nested.a);
+// 111
+console.log(copiedObject.nested.a);
+// 111
+```
+
+## Deep Copy
+
+deep copy(깊은 복사)는 객체의 모든 것들을 복사하여 별개 객체를 생성합니다. 즉, 기존의 메모리 주소를 참조하는 것이 아닌 완전히 새로 메모리를 할당 받아 객체를 생성하는 것입니다.
+
+lodash의 cloneDeep 함수 활용:
+
+```
+import _ from 'lodash';
+
+const originObject = {
+    test: 'nonono',
+    aaa: 0,
+    b: false,
+    nested: {
+        a: 123,
+    },
+};
+
+const copied = _.cloneDeep(originalObject);
+copied === original; // false
+copied.nested === original.nested; // false
+```
+
+JSON.parse() + JSON.stringify() 활용:
+
+```
+// JSON 활용 방법
+const originObject = {
+    test: 'nonono',
+    aaa: 0,
+    b: false,
+    nested: {
+        a: 123,
+    },
+};
+
+const copiedObject = JSON.parse(JSON.stringify(originObject));
+
+copiedObject.aaa = 1;
+copiedObject.nested.a = 111;
+
+console.log(originObject.aaa);
+// 0
+console.log(copiedObject.aaa);
+// 1
+console.log(originObject.nested.a);
+// 123
+console.log(copiedObject.nested.a);
+// 111
+```
+
+`JSON` 방법의 경우 매우 간단하고 쉽지만 다음과 같은 단점들이 있습니다.
+
+- 함수, Date 객체, 정규표현식 등등의 데이터들은 정상적으로 복사가 될 수 없습니다.
+- JSON 메소드의 성능이 그렇게 좋지 않다 느릴수 있습니다.
+
+## StructuredClone
+
+javascript에서 deep copy를 쉽게 구현할 수 있도록 해주는 내부 함수 `structuredClone` 의 사용방법은 아래 코드와 같이 아주 간단합니다. deepCopy를 하고자하는 객체를 함수에 넘겨주면 됩니다.
+
+```
+const originObject = {
+    test: 'nonono',
+    aaa: 0,
+    b: false,
+    nested: {
+        a: 1,
+        b: 2
+    }
+};
+
+const deepCopiedObject = structuredClone(originObject);
+deepCopiedObject.b = true;
+deepCopiedObject.nested.a = 0;
+
+console.log(deepCopiedObject);
+// {test: 'nonono', aaa: 0, b: true, nested:{a:0,b:2}}
+
+console.log(originObject);
+// {test: 'nonono', aaa: 0, b: false, nested:{a:1,b:2}}
+```
+
+JSON을 활용하는 방법보다 성능도 좋고 쉽게 사용할 수 있으며 아래 타입들에 대해서 지원을 하고 있습니다.
+
+![Untitled](https://github.com/leye195/blog/assets/30601503/0fdcbca6-62fa-40fa-bdfc-c7415dc15f1b)
+
+하지만 다음과 같은 [제약사항](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#things_that_dont_work_with_structured_clone)이 있습니다.
+
+- class instance인 경우 prototype이 폐기되고 일반객체로 반환합니다.
+- DOM, 함수의 경우 복사에 실패하고 에러가 발생합니다.
+
+비록 한계점이 있지만 객체의 원본에 영향을 주지않는 복사본 객체를 생성해야되는 경우 라이브러리 설치 없이 javascript 제공함수인 `structuredClone` 사용을 고려해보는것도 괜찮을거 같습니다.
+
+### 참고
+
+- https://medium.com/version-1/cloning-an-object-in-javascript-shallow-copy-vs-deep-copy-fa8acd6681e9
+- https://developer.mozilla.org/en-US/docs/Web/API/structuredClone
+- https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm
