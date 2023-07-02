@@ -40,6 +40,9 @@ console.log(copiedObject.nested.a);
 // 111
 ```
 
+위 과정의 메모리 할당 상태를 다음과 같이 표현할 수 있습니다.
+![Untitled](https://github.com/leye195/blog/assets/30601503/e52109ca-0269-452e-96e6-d06fd7afd2f0)
+
 ## Deep Copy
 
 deep copy(깊은 복사)는 객체의 모든 것들을 복사하여 별개 객체를 생성합니다. 즉, 기존의 메모리 주소를 참조하는 것이 아닌 완전히 새로 메모리를 할당 받아 객체를 생성하는 것입니다.
@@ -95,6 +98,9 @@ console.log(copiedObject.nested.a);
 
 - 함수, Date 객체, 정규표현식 등등의 데이터들은 정상적으로 복사가 될 수 없습니다.
 - JSON 메소드의 성능이 그렇게 좋지 않다 느릴수 있습니다.
+
+그렇다면 deepcopy의 경우 메모리 할당 상태는 어떻게 표현이 될 까요? 바로 다음과 같습니다.
+![Untitled](https://github.com/leye195/blog/assets/30601503/44f2b79c-ea6f-4974-b0b8-79556c5fca9c)
 
 ## StructuredClone
 
