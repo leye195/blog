@@ -21,27 +21,35 @@ type skillType = {
 const projectList: projectType[] = [
 	{
 		title: 'PlayDapp Tournaments',
-		stack: 'NextJS, RTK(Redux Toolkit), TypeScript, react-query, web3-react, etherjs',
+		stack: 'NextJS, RTK(Redux Toolkit), TypeScript, react-query, web3-react, etherjs, wagmi',
 		period: '2022.08 - 현재',
 		describe:
-			'티켓 소비를 통해 참여한 Pvp 및 Pve 게임 플레이 성적, 순위에 따른 보상을 제공하는 Game Platform 서비스 개발을 진행하고 있습니다. TF로 합류하여 서비스 소프트런칭에 기여하였으며 이후 정식으로 팀에 합류하여 서비스 개발 및 개선에 참여하고 있습니다',
+			'재화(Gold,Ticket) 소비를 통해 참여한 Single 및 Multi 게임 플레이 순위 및 대결 결과에 따른 보상을 제공하는 BlockChain Game Platform 입니다.. TF로 합류하여 서비스 소프트런칭에 기여하였으며 이후 정식으로 팀에 합류하여 서비스 개발 및 개선에 참여하고 있습니다',
 		job: [
 			{
 				main: '프론트 개발환경 및 프로젝트 구조 설정',
 			},
 			{
-				main: 'iframe을 통한 game client 연동 및 postMessage를 활용한 이벤트 상호작용 작업',
+				main: 'iframe을 통한 game client 연동 및 postMessage를 활용한 이벤트 통신 작업',
 			},
 			{
-				main: '보상 출금 기능 구현',
-				sub: ['react-hook-form을 활용한 입력값 유효성 체크 및 contract abi 호출 통한 출금 처리 '],
+				main: '가상화폐 보상 출금 기능 구현',
+				sub: [
+					'react-hook-form을 활용한 입력값 유효성 체크 및 contract abi 호출을 통해 보상으로 얻은 가상화폐 보상 출금 처리 ',
+				],
 			},
 			{
 				main: '점검 페이지 노출',
-				sub: ['middleware api 활용을 통한 점검진행 중인 경우 점검페이지로 redirect, 아닌 경우 입력 경로로 접근'],
+				sub: [
+					'middleware api 활용을 통한 점검진행 중인 경우 점검페이지로 redirect, 아닌 경우 입력 경로로 접근하도록 처리',
+				],
 			},
 			{
 				main: 'Ticket NFT Convert 기능 구현',
+			},
+			{
+				main: 'WalletConnectV2 마이그레이션 작업',
+				sub: ['기존 WalletConnectV1 서비스 종료 대응 및 V2로 마이그레이션을 진행하기 위해 wagmi 적용'],
 			},
 		],
 	},
@@ -133,15 +141,7 @@ const projectList: projectType[] = [
 			},
 			{
 				main: 'polygon 마켓 2차 이벤트 합성 (nft 합성)',
-				sub: [
-					'기존 이벤트 페이지 재사용 가능 각종 컴포넌트 분리',
-					'이벤트 합성 기능 구현',
-					'이벤트 합성 랭킹 페이지 UI 개발',
-				],
-			},
-			{
-				main: 'playdappLand 쿠폰 서비스 페이지 개발',
-				sub: ['쿠폰페이지 프론트엔드 로직 구현', '페이지 컴포넌트 개발 작업'],
+				sub: ['이벤트 합성 기능 구현', '이벤트 합성 랭킹 페이지 UI 개발'],
 			},
 			{
 				main: 'UX 개선 작업',
@@ -156,7 +156,7 @@ const projectList: projectType[] = [
 		],
 		describe: 'PlayDapp MarketPLAce 신규기능 구현 및 유지보수 그리고 UX 개선 작업을 진행하고 있습니다.',
 	},
-	{
+	/*{
 		title: 'GEO.DOMAIN Promotion',
 		stack: 'TypeScript, React, NextJS, emotion, react-i18n',
 		period: '2022.01 - 2022.02',
@@ -173,7 +173,7 @@ const projectList: projectType[] = [
 		],
 		describe:
 			'마켓에서 판매하고 있는 GEODOMAIN.NFT의 정식 오픈 소개 및 이벤트 프로모션 진행을 위한 페이지 개발을 진행하였습니다.',
-	},
+	},*/
 ];
 
 const experiences: experienceType[] = [
@@ -181,7 +181,7 @@ const experiences: experienceType[] = [
 		title: 'SuperTree',
 		period: '2020.10 - current',
 		position: 'Market Dev Center, Tournaments Dev Center / Front-End Engineer',
-		projects: 'PlayDapp Marketplace, GEO.DOMAIN NFT Promotion, ItemManager, PlayDapp Tournaments',
+		projects: 'PlayDapp Marketplace, ItemManager, PlayDapp Tournaments',
 		projectDescription: [...projectList],
 	},
 ];

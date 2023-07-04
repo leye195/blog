@@ -88,7 +88,7 @@ const MePage = ({ data: { bg } }: any) => {
 			<Common.Container css={containerStyle}>
 				<h2>이영재</h2>
 				<Common.Row className="last-updated" alignItems="center" justifyContents="flex-end">
-					<span className="last-updated__text">Last Updated: 2023.02.03</span>
+					<span className="last-updated__text">Last Updated: 2023.07.04</span>
 				</Common.Row>
 				<Common.Table info={data.basicInfo} />
 				<main className="main-contents">
@@ -100,9 +100,9 @@ const MePage = ({ data: { bg } }: any) => {
 								nft 마켓 개발을 진행하였으며, 현재는 토너먼트 서비스 개발을 참여하고 있습니다.
 								<br />
 								<br />
-								서비스 기여를 위한 리서치를 좋아합니다. 예를들어 웹 영상 광고 노출, nextJS middleware, adblock 탐지방법
-								등 추후 제공 기능에 활용 할 수 있기 위해 노력합니다. 이런 과정은 개인적으로도 많은 공부가 된다고
-								생각합니다.
+								서비스 기여를 위한 리서치를 좋아합니다. 예를들어 nextJS middleware, adblock 탐지방법 등 추후 제공 기능에
+								활용 할 수 있기 위해 노력합니다. 이런 과정은 개인적으로도 많은 공부가 된다고 생각하며 정리하여 블로그에
+								기록해놓기도 합니다
 								<br />
 								<br />
 								반복적인 작업은 개선을 통해 시간낭비를 하지 않도록 하는것 그리고 리팩토링을 통해 코드를 클린하게

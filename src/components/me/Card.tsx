@@ -20,7 +20,7 @@ type CardType = {
 const company = css`
 	${flexMixin({ alignItems: 'center' })};
 	gap: 1rem;
-	margin: 2.5rem 0;
+	margin: 1.5rem 0;
 	position: relative;
 
 	h3 {
@@ -105,6 +105,7 @@ const content = css`
 		}
 
 		&__description {
+			padding-bottom: 0.5rem;
 			font-size: 1.125rem !important;
 
 			& {
