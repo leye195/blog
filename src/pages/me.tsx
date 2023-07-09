@@ -96,18 +96,16 @@ const MePage = ({ data: { bg } }: any) => {
 						<h2>👤 Introduction</h2>
 						<Common.Column className="intro__text">
 							<p>
-								프론트엔드 개발자로 <b>SuperTree</b> 에서 블록체인 웹 서비스를 개발하고 있습니다. 입사하여 1년 반 동안은
-								nft 마켓 개발을 진행하였으며, 현재는 토너먼트 서비스 개발을 참여하고 있습니다.
+								프론트엔드 개발자로 <b>SuperTree - PlayDapp</b> 에서 블록체인 웹 서비스를 개발하고 있습니다. C2C NFT
+								거래 마켓플레이스 새기능 개발 및 유지보수를 진행했으며 현재는 Tournaments 라는 게임 플랫폼 서비스 개발에
+								참여하고 있습니다.
 								<br />
 								<br />
-								서비스 기여를 위한 리서치를 좋아합니다. 예를들어 nextJS middleware, adblock 탐지방법 등 추후 제공 기능에
-								활용 할 수 있기 위해 노력합니다. 이런 과정은 개인적으로도 많은 공부가 된다고 생각하며 정리하여 블로그에
-								기록해놓기도 합니다
-								<br />
-								<br />
-								반복적인 작업은 개선을 통해 시간낭비를 하지 않도록 하는것 그리고 리팩토링을 통해 코드를 클린하게
-								개선하는것을 좋아합니다.
 							</p>
+							<ul>
+								<li>- 새로운 지식 및 궁금했던 개념에 대해서는 노션 혹은 블로그에 기록하며 공유하고자 노력합니다.</li>
+								<li>- 어떤일 진행하는데 있어 정보는 동일하게 공유가 되어야 된다고 생각합니다.</li>
+							</ul>
 						</Common.Column>
 					</Common.Section>
 					<Common.Section className="experience">
