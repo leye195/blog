@@ -1,0 +1,38 @@
+---
+title: pull to refresh를 막아봅시다
+slug: disable-pull-to-refresh
+date: 2023-07-10
+tags: ['FE', 'Dev', 'TIL']
+---
+
+모바일 브라우저를 사용하다 보면 스크롤을 아래로 쭉 당기게 되어 사용자 본인도 모르게 페이지가 새로고침이 되는 경우가 있습니다. 실제로 개발 중인 토너먼트 서비스에서 게임을 플레이 하다 새로고침을 하게 되어 게임을 끝마치치 못해 기록이 날아가는 경우 관련하여 유저 피드백이 있어 이걸 어떻게 처리해야될지 고민을 하게 됐습니다.
+
+관련하여 어떤 방법이 있을까 고민하며 찾아보니 방법은 생각보다 간단했습니다. 바로 `overscroll-behavoir` 를 `contain` 혹은 `none` 으로 body 태그에 적용하는 것이었습니다.
+
+![Untitled](https://github.com/leye195/blog/assets/30601503/6279418c-8de7-458f-805f-7ef1d032512e)
+
+```
+body {
+  overscroll-behavoir-y: none; // or contain
+}
+```
+
+전체 페이지에 적용하는 것은 불필요한 작업이고 게임 플레이시 발생하는 불편함을 해소하기 위한 작업이었음으로 게임 페이지에 한에서만 적용이 되도록 처리하여 아래 영상에서 보이는것 처럼 이제 새로고침이 발생하지 않게 됬습니다.
+
+## 적용 전 후 비교:
+
+<div style="display:flex;">
+	<img
+		style="width:50%;"
+		src="https://user-images.githubusercontent.com/30601503/252331759-e838244d-0391-499d-a8e6-8d6fc89b56db.gif"
+	/>
+	<img
+		style="width:50%;"
+		src="https://user-images.githubusercontent.com/30601503/252332210-e7069426-50fb-4fc8-b9cb-4646fd4ebaec.gif"
+	/>
+</div>
+
+### 참고:
+
+- https://developer.chrome.com/blog/overscroll-behavior/#disabling-pull-to-refresh
+- https://developer.chrome.com/blog/overscroll-behavior/#disabling-overscroll-glow-and-rubberbanding-effects
