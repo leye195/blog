@@ -1,9 +1,5 @@
-import React from 'react';
+import { type ComponentProps } from 'react';
 import { css } from '@emotion/react';
-
-type Props = {
-	className?: string;
-};
 
 const codeStyle = css`
 	background: inherit;
@@ -12,9 +8,11 @@ const codeStyle = css`
 	top: 0;
 	white-space: pre-wrap;
 	overflow: auto;
+	color: #eb5757;
+	background: rgba(135, 131, 120, 0.15);
 `;
 
-const Code: React.FC<Props> = ({ children, className }) => {
+const Code = ({ children, className }: ComponentProps<'code'>) => {
 	return (
 		<code className={className} css={codeStyle}>
 			{children}
