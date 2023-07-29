@@ -1,0 +1,167 @@
+---
+title: SVG Dynamic import
+slug: svg-dynamic-import
+date: 2023-07-30
+tags: ['Dev', 'FE']
+---
+
+`nextjs` 에서 `svg` 파일을 컴포넌트로 활용하기 위해서는 `@svgr/webpack` 플러그인 설치 및 추가 설정을 추가해줘야 됩니다.
+
+## 설치
+
+```tsx
+yarn add -D @svgr/webpack
+```
+
+## next.config.js 설정
+
+```
+// next.config.js
+
+module.exports = {
+    webpack(config) {
+        const fileLoaderRule = config.module.rules.find(rule => rule.test?.test?.('.svg'));
+
+        config.module.rules.push(
+            // Reapply the existing rule, but only for svg imports ending in ?url
+            {
+                ...fileLoaderRule,
+                test: /\.svg$/i,
+                resourceQuery: /url/, // *.svg?url
+            },
+            // Convert all other *.svg imports to React components
+            {
+                test: /\.svg$/i,
+                resourceQuery: { not: /url/ }, // exclude if *.svg?url
+                use: [
+                    {
+                        loader: '@svgr/webpack',
+                        options: {
+                            svgo: false,
+                        },
+                    },
+                ],
+            },
+        );
+    },
+};
+```
+
+## 컴포넌트로 사용하기
+
+```
+import SampleIcon from '../sample.svg';
+
+const Page = () => {
+    return (
+        <div>
+            <SampleIcon />
+        </div>
+    );
+};
+```
+
+위와 같은 과정을 거치면 이제 프로젝트에서 `svg`를 import하여 컴포넌트로 쉽게 사용 할 수 있게 되었습니다.
+
+하지만 뭔가 좀 아쉽습니다. 필요한 `svg`를 매번 import 해야된다니… 귀찮네요ㅎ 다른 방법이 없을까요?
+
+그래서 생각했던 방법으로 `Icon` 이라는 공통 컴포넌트 내에 모든 `svg`를 import 하여 다음과 같이 key, value로 매칭 시켜주는것이었습니다. 괜찮은 방법 이었지만 매번 새로운 `svg` 파일이 추가될 때마다 공통 컴포넌트내에서 매칭을 시켜주는 추가 작업이 필요했습니다. 좀 더 동적으로 불러올수 있는 방법을 고민해 봐야겠습니다.
+
+```
+// Icon.tsx
+import Sample1 from '../sample1.svg';
+import Sample2 from '../sample2.svg';
+import Sample3 from '../sample3.svg';
+
+type Props = {
+    name: string;
+    width: number;
+    height: number;
+};
+
+const IconList = {
+    sample1: <Sample1 />,
+    sample2: <Sample2 />,
+    sample3: <Sample3 />,
+};
+
+const Icon = ({ name, widht, height }: Props) => {
+    return React.cloneElement(IconList[name], { width, height });
+};
+
+export default Icon;
+```
+
+## 동적으로 불러오기
+
+`svg` 컴포넌트를 동적으로 불러오기 위한 작업으로 다음과 같은 방식으로 코드를 수정했습니다. 주요 로직은 다음과 같습니다.
+
+- `useEffect` 훅에서 props로 받아온 name 값을 활용하여 `svg` 컴포넌트를 import 하여 받아온 `mod.default` 값을 ref에 할당, isLoading 값을 `false` 로 변경
+- 비동기적으로 불어오는 영향으로 발생하는 컴포넌트 랜더링 지연 현상을 커버하기 위한 Skeleton 적용
+
+```
+import { useEffect, useRef, useState } from 'react';
+import { Skeleton } from '@chakra-ui/react';
+
+type Props = {
+    name: string;
+    width: number;
+    height: number;
+    borderRadius?: number | string;
+};
+
+const Icon = ({ name, width, height, borderRadius = '8px' }: Props) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const ref = useRef<any>(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setIsLoading(true);
+        import(`../../../public/assets/images/icons/${name}.svg`).then(mod => {
+            ref.current = mod.default;
+            setIsLoading(false);
+        });
+    }, [name]);
+
+    if (ref.current) {
+        const { current: SVG } = ref;
+
+        return (
+            <Skeleton
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                width={`${width}px`}
+                height={`${height}px`}
+                borderRadius={borderRadius}
+                isLoaded={!isLoading}
+            >
+                <SVG width={width} height={height} />
+            </Skeleton>
+        );
+    }
+
+    return (
+        <Skeleton width={`${width}px`} height={`${height}px`} borderRadius={borderRadius}>
+            <div />
+        </Skeleton>
+    );
+};
+
+export default Icon;
+```
+
+야호~ 이제 `svg`가 추가될 때마다 공통 컴포넌트 내에서 매칭 작업을 할 필요 없이, name 값을 통해 원하는 `svg`를 불러와서 컴포넌트로 사용할 수 있습니다.
+
+<img src="https://github.com/leye195/blog/assets/30601503/a4b395d5-fa22-42a2-bddf-a868aa68cc6e" />
+<br />
+<br />
+
+## 장점:
+
+- **렌더링 최적화**: svg 파일을 컴포넌트로 동적으로 불러오기 때문에 실제 필요한 시점에만 렌더링되도록 할 수 있습니다.
+- **상태에 따른 로딩**: 동적으로 불러오는 상태로 상황에 따라 로딩 여부를 결정 할 수 있습니다.
+
+## 단점:
+
+- **렌더링 지연**: 동적으로 불러오는 과정은 비동기적으로 진행되기 때문에, svg를 컴포넌트로 받아오는 동안 빈 공간으로 노출될 수 있습니다.
