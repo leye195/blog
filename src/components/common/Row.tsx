@@ -1,25 +1,25 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { flexMixin } from 'styles/mixin';
+import { Flex, flexMixin } from 'styles/mixin';
 
 type Props = rowType & {
 	children: React.ReactNode;
 	className?: string;
-};
+} & rowType;
 
 type rowType = {
-	direction?: string;
-	alignItems?: string;
-	justifyContents?: string;
-	gap?: string;
+	direction?: Flex['direction'];
+	alignItems?: Flex['alignItems'];
+	justifyContents?: Flex['justifyContents'];
+	gap?: Flex['gap'];
 };
 
-const row = (params: rowType) => css`
-	${flexMixin(params)}
+const row = ({ direction, alignItems, justifyContents, gap }: rowType) => css`
+	${flexMixin({ direction, alignItems, justifyContents, gap })}
 	width: 100%;
 `;
 
-const Row: React.FC<Props & rowType> = ({
+const Row: React.FC<Props> = ({
 	children,
 	className,
 	direction = 'row',

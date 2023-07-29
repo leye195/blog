@@ -1,4 +1,4 @@
-import React from 'react';
+import { type ComponentProps } from 'react';
 import { css } from '@emotion/react';
 
 const preStyle = css`
@@ -7,7 +7,7 @@ const preStyle = css`
 	border: none;
 `;
 
-const Pre: React.FC = ({ children }) => (
+const Pre = ({ children }: ComponentProps<'pre'>) => (
 	<pre className="language-" css={preStyle}>
 		{children}
 	</pre>

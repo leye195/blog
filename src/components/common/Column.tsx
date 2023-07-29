@@ -1,17 +1,17 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { flexMixin } from 'styles/mixin';
+import { type Flex, flexMixin } from 'styles/mixin';
 
 type Props = colType & {
 	children: React.ReactNode;
 	className?: string;
-};
+} & colType;
 
 type colType = {
-	direction?: string;
-	alignItems?: string;
-	justifyContents?: string;
-	gap?: string;
+	direction?: Flex['direction'];
+	alignItems?: Flex['alignItems'];
+	justifyContents?: Flex['justifyContents'];
+	gap?: Flex['gap'];
 };
 
 const col = (params: colType) => css`
@@ -19,7 +19,7 @@ const col = (params: colType) => css`
 	width: 100%;
 `;
 
-const Column: React.FC<Props & colType> = ({
+const Column: React.FC<Props> = ({
 	children,
 	className,
 	direction = 'column',

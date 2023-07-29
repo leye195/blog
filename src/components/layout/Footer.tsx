@@ -1,4 +1,3 @@
-import React from 'react';
 import { css } from '@emotion/react';
 import { FaGithubSquare, FaRssSquare, FaInstagramSquare } from 'react-icons/fa';
 import Common from 'components/common';
@@ -24,7 +23,7 @@ const footerStyle = css`
 	}
 `;
 
-const Footer: React.FC = () => {
+const Footer = () => {
 	return (
 		<footer css={footerStyle}>
 			<Common.Column alignItems="center" justifyContents="center">

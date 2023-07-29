@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-type Flex = {
+export type Flex = {
 	display?: 'flex' | 'inline-flex';
 	direction?: 'row' | 'column' | 'reverse-row' | 'reverse-column';
 	alignItems?: 'flex-start' | 'flex-end' | 'center' | 'start' | 'end';

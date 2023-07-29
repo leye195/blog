@@ -1,4 +1,4 @@
-import React from 'react';
+import { type ComponentProps } from 'react';
 import { css } from '@emotion/react';
 
 const listStyle = css`
@@ -6,6 +6,6 @@ const listStyle = css`
 	line-height: 1.85;
 `;
 
-const List: React.FC = ({ children }) => <li css={listStyle}>{children}</li>;
+const List = ({ children }: ComponentProps<'li'>) => <li css={listStyle}>{children}</li>;
 
 export default List;

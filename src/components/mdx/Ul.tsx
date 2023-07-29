@@ -1,11 +1,15 @@
-import React from 'react';
+import { ComponentProps } from 'react';
 import { css } from '@emotion/react';
 
 const ulStyle = css`
 	margin-left: 1rem;
+
+	li {
+		font-size: 16px;
+	}
 `;
 
-const Ul: React.FC = ({ children }) => {
+const Ul = ({ children }: ComponentProps<'ul'>) => {
 	return <ul css={ulStyle}>{children}</ul>;
 };
 

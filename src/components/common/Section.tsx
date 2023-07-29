@@ -1,10 +1,6 @@
-import React from 'react';
+import { ComponentProps } from 'react';
 
-type Props = {
-	className?: string;
-};
-
-const Section: React.FC<Props> = ({ children, className }) => {
+const Section = ({ children, className }: ComponentProps<'section'>) => {
 	return <section className={className}>{children}</section>;
 };
 

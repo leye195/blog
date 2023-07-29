@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ComponentProps, useEffect, useState } from 'react';
 import { Global, css } from '@emotion/react';
 import { MDXProvider } from '@mdx-js/react';
 import { MdArrowUpward } from 'react-icons/md';
@@ -41,9 +41,14 @@ const container = css`
 			opacity: 1;
 		}
 	}
+
+	code {
+		color: #eb5757;
+		background: rgba(135, 131, 120, 0.15);
+	}
 `;
 
-const Layout: React.FC = ({ children }) => {
+const Layout = ({ children }: ComponentProps<'div'>) => {
 	const { scrollY } = useScroll();
 	const [isVisible, setIsVisible] = useState(false);
 
