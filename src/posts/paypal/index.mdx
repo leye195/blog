@@ -7,11 +7,11 @@ tags: ['FE', 'Dev']
 
 최근 회사 서비스에 `Paypal` 결제기능을 지원하기 시작했습니다.
 
-처음 `Paypal` 결제를 지원해야된다고 들었을때 프론트엔드 에서는 어떤 방식으로 처리를 해줘야 되는걸까? 라는 고민을 하게 되었습니다. 공식문서를 읽어보니 생각보다 그렇게 어려운 일은 아니었습니다.
+`Paypal` 결제 지원을 프론트엔드에서 어떻게 처리를 해줘야 되는걸까? 고민하며 공식문서를 읽어보니 생각보다 그렇게 어려운 일은 아니었습니다.
 
-그저 `Paypal` 에서 제공하고 있는 SDK를 통해 필요한 설정을 진행하고 컴포넌트를 만들 필요없이 제공되는 `buttons` , `marks` 같이 제공되는 위젯 컴포넌트을 활용하면 됩니다.
+단순히 `Paypal` 에서 제공하고 있는 SDK를 통해 필요한 설정을 진행하고 컴포넌트를 만들 필요없이 제공되는 `buttons` , `marks` 같이 제공되는 위젯 컴포넌트을 활용하면 됩니다.
 
-(저의 경우 `react-paypal-js` 를 설치하여 사용하고 있습니다. 프로젝트 환경에 따라 필요한 것을 설치해주시면 됩니다.)
+(저의 경우 `react-paypal-js` 를 설치하여 사용하고 있으나 프로젝트 환경에 맞춰 필요 라이브러리를 설치해주시면 됩니다.)
 
 ```bash
 #yarn add paypal-js
@@ -23,7 +23,7 @@ yarn add react-paypal-js
 `react-paypal-js` 의 경우 크게 2가지로 구성되어 있습니다.
 
 - **Provider :** `PayPalScriptProvider` 컴포넌트를 통해 sdk script를 불러와 react에 넣어줍니다.
-- **SDK Components :** `PayPalButtons` \*\*\*\*같은 컴포넌트를 통해 SDK를 실행시킬 UI를 랜더링 합니다.
+- **SDK Components :** `PayPalButtons` 같은 컴포넌트를 통해 SDK를 실행시킬 UI를 랜더링 합니다.
 
 ```
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
@@ -72,6 +72,7 @@ import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 여러가지 결제 방법이 있겠지만 일시불 결제의 경우 `createOrder` 와 `onApprove` 를 활용하게 됩니다.
 
 ![스크린샷 2023-09-03 오후 8 19 12](https://github.com/leye195/blog/assets/30601503/3682f11f-b72e-4048-b4a4-abc4ce89679a)
+위의 sequence 다이어그램을 통해 프론트엔드 보다는 백엔드 단에서 처리해줘야 될 부분이 더 많다는 것을 알 수 있습니다.
 
 - **createOrder:** 일시불 결제 거래에 대한 상세 정보를 설정하는데 사용되며, `buyer` 가 paypal 버튼을 클릭한경우 호출 됨 (https://developer.paypal.com/docs/api/orders/v2/#orders_create)
 - **onApprove:** 거래 성공 메시지를 구매자에게 보여주는 역할을 수행 할 수 있다. `buyer` 가 `[paypal.com](http://paypal.com)` 에서 거래 승인을 한 경우 발생하게 됨. (https://developer.paypal.com/sdk/js/reference/#link-onapprove)
