@@ -1,0 +1,183 @@
+---
+title: Paypal 결제 연동
+slug: paypal
+date: 2023-09-03
+tags: ['FE', 'Dev']
+---
+
+최근 회사 서비스에 `Paypal` 결제기능을 지원하기 시작했습니다.
+
+처음 `Paypal` 결제를 지원해야된다고 들었을때 프론트엔드 에서는 어떤 방식으로 처리를 해줘야 되는걸까? 라는 고민을 하게 되었습니다. 공식문서를 읽어보니 생각보다 그렇게 어려운 일은 아니었습니다.
+
+그저 `Paypal` 에서 제공하고 있는 SDK를 통해 필요한 설정을 진행하고 컴포넌트를 만들 필요없이 제공되는 `buttons` , `marks` 같이 제공되는 위젯 컴포넌트을 활용하면 됩니다.
+
+(저의 경우 `react-paypal-js` 를 설치하여 사용하고 있습니다. 프로젝트 환경에 따라 필요한 것을 설치해주시면 됩니다.)
+
+```bash
+#yarn add paypal-js
+yarn add react-paypal-js
+```
+
+## 기본 설정 및 사용 방법
+
+`react-paypal-js` 의 경우 크게 2가지로 구성되어 있습니다.
+
+- **Provider :** `PayPalScriptProvider` 컴포넌트를 통해 sdk script를 불러와 react에 넣어줍니다.
+- **SDK Components :** `PayPalButtons` \*\*\*\*같은 컴포넌트를 통해 SDK를 실행시킬 UI를 랜더링 합니다.
+
+```
+import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
+
+<div
+  style={{
+    width: '100%',
+    maxWidth: '400px',
+  }}
+>
+  <PayPalScriptProvider
+    options={{
+      clientId: 'test',
+      currency: 'USD',
+      intent: 'capture',
+      locale: 'en_US',
+    }}
+  >
+    <PayPalButtons
+      fundingSource="paypal"
+      style={{ layout: 'horizontal', height: 48 }}
+      onInit={}
+      onClick={}
+      createOrder={}
+      onApprove={}
+      onCancel={}
+      onError={}
+    />
+  </PayPalScriptProvider>
+</div>;
+```
+
+구체적으로 어떤 옵션값을 설정할 수 있는지는 [공식문서](https://developer.paypal.com/sdk/js/configuration/)에서 더 자세하게 설명을 해주고 있기 때문에 여기서는 간단한 설명만 하겠습니다.
+
+- **clientId**: 거래 관련 설정 및 진행을 하게되는 paypal 계정을 식별하기 위한 값, 기본적으로 모든 거래의 자금은 해당 계정으로 정산처리 됨
+  - 기본값으로 `none` 이 설정되며, 테스트를 진행하는 경우 `test` 로 설정.
+- **intent**: 거래의도에 대한 설정. 기본 값 `capture` .
+  - capture: `buyer` 가 사이트에 있는 동안 자금 정보를 바로 수집
+  - subscription: `vault=true` 와 같이 설정이 되어야 하며, 구독거래를 설정하기 위해 사용
+  - tokenize: `vault=true` , `createBillingAgreement` 와 함께 사용하여 결제 지정
+- **currency**: 거래시 노출될 화폐단위 - 기본 값으로 `USD` 로 설정됨
+- **locale**: 노출 언어 관련 설정 - 유저의 위치에 따라 노출될 언어가 자동으로 설정됨.
+
+위의 설정이 다 끝났으면 이제 거래를 진행하기 위한 버튼 컴포넌트의 이벤트 함수들에 대해서 알아보겠습니다.
+
+여러가지 결제 방법이 있겠지만 일시불 결제의 경우 `createOrder` 와 `onApprove` 를 활용하게 됩니다.
+
+![스크린샷 2023-09-03 오후 8 19 12](https://github.com/leye195/blog/assets/30601503/3682f11f-b72e-4048-b4a4-abc4ce89679a)
+
+- **createOrder:** 일시불 결제 거래에 대한 상세 정보를 설정하는데 사용되며, `buyer` 가 paypal 버튼을 클릭한경우 호출 됨 (https://developer.paypal.com/docs/api/orders/v2/#orders_create)
+- **onApprove:** 거래 성공 메시지를 구매자에게 보여주는 역할을 수행 할 수 있다. `buyer` 가 `[paypal.com](http://paypal.com)` 에서 거래 승인을 한 경우 발생하게 됨. (https://developer.paypal.com/sdk/js/reference/#link-onapprove)
+
+  ```
+  //for common js
+  createOrder() {
+     return fetch("/my-server/create-paypal-order", {
+         method: "POST",
+         headers: {
+           "Content-Type": "application/json",
+         },
+         body: JSON.stringify({
+         cart: [
+          {
+             sku: "YOUR_PRODUCT_STOCK_KEEPING_UNIT",
+             quantity: "YOUR_PRODUCT_QUANTITY",
+           },
+          ]})
+     })
+     .then((response) => response.json())
+     .then((order) => order.id);
+  }
+
+  onApprove() {
+    // This function captures the funds from the transaction.
+    return fetch("/my-server/capture-paypal-order", {
+        method: "POST",
+        body: JSON.stringify({
+          orderID: data.orderID
+        })
+    })
+    .then((response) => response.json())
+    .then((details) => {
+      // This function shows a transaction success message to your buyer.
+      alert('Transaction completed by ' + details.payer.name.given_name);
+    });
+  }
+
+  // for react
+  // Called on button click to set up a one-time payment.
+  const handleCreateOrder = () => {
+    // fetch api to open popup
+    const { data } = await postCreateOrder();
+    return data.orderId;
+  };
+
+  // Called when finalizing the transaction.
+  const handleOnApprove = async data => {
+    // fetch api from backend to complete trade
+    await postCaptureOrder(data.orderID);
+
+    //show toast message
+  };
+
+  // ...
+  <PayPalButtons
+    style={{
+      layout: 'vertical',
+      height: 44,
+      label: isInsufficient ? 'pay' : 'buynow',
+    }}
+    fundingSource="paypal"
+    createOrder={handleCreateOrder}
+    onApprove={handleOnApprove}
+  />;
+  ```
+
+- **onCancel:** `buyer` 가 지불 취소를 하는 경우 호출됨
+  ```
+  onCancel(data) {
+    // Show a cancel page, or return to cart
+  }
+  ```
+- **onError:** 오류로 인해 결제가 불가능한 경우 호출됨
+- **onInit/onClick:**
+  ```
+  onInit(data,actions) {
+    actions.disabled(); // disable button
+  }
+  ```
+
+## **테스트 결제 설정:**
+
+**sandbox 테스트 설정:**
+
+1. clientId 값을 `test` 혹은 생성한 앱의 clientID로 설정
+
+![Untitled](https://github.com/leye195/blog/assets/30601503/fecfa83f-a228-4b2e-8d6a-4cb9adcb27f2)
+
+2. sandbox 테스트 계정 확인
+
+   - business: 결제 받는 계정
+   - Personal: 결제할 계정
+     ![Untitled](https://github.com/leye195/blog/assets/30601503/95195a0d-c4da-4b1d-b443-1f13276293f2)
+
+3. business 타입 계정을 클릭하여 결제 창에서 테스트 계정으로 로그인 한 뒤 결제 진행
+
+   ![Untitled](https://github.com/leye195/blog/assets/30601503/490b7a8a-da5a-44c0-b692-008426d8a799)
+
+![화면 기록 2023-09-03 오후 7 25 00](https://github.com/leye195/blog/assets/30601503/d54261d7-ccb6-4b5d-b044-64d453e71403)
+
+**참고:**
+
+- https://www.npmjs.com/package/@paypal/react-paypal-js
+- https://developer.paypal.com/sdk/js/configuration/
+- https://developer.paypal.com/sdk/js/reference/
+- https://paypal.github.io/react-paypal-js/?path=/story/braintree-braintreepaypalbuttons--default
+- https://paypal.github.io/react-paypal-js/?path=/docs/example-paypalbuttons--default
