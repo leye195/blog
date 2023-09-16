@@ -5,7 +5,7 @@ date: 2022-03-24
 tags: ['FE', 'react', 'Dev']
 ---
 
-이전 포스트인 [[graphql 데이터 연동을 위한 apollo client 적용기 - 1]](https://dantechblog.gatsbyjs.io/posts/apollo-graphql) 에서는 기본적인 설정 방법 그리고 사용방법에 대해 알아봤습니다. 이번에는 작업을 진행하면서 발생했던 cache 업데이트 관련 이슈에 대해서 작성해보겠습니다.
+이전 포스트인 [[graphql 데이터 연동을 위한 apollo client 적용기 - 1]](https://dantechblog.netlify.app/posts/apollo-graphql) 에서는 기본적인 설정 방법 그리고 사용방법에 대해 알아봤습니다. 이번에는 작업을 진행하면서 발생했던 cache 업데이트 관련 이슈에 대해서 작성해보겠습니다.
 
 ## cache 갱신
 
@@ -56,7 +56,7 @@ cache와 무관하게 네트워크에 데이터 요청이 발생하기 때문에
 
 `useQuery` 에서 제공하는 fetchMore 함수 활용하여 스크롤시 다음 데이터를 호출하도록 구현을 진행했지만,
 
-정상적으로 다음 데이터들을 이어서 보여주는것 아닌 중복 데이터들을 뒤에 이어 보여주는 현상이 발행하게 되었습니다. 공식문서를 읽어보니 fetchMore로 데이터를 요청하는 것에 대해서는 `InMemoryCache` 에 `typePolicy`에 merge 함수를 설정하여 이전 데이터와 최신 데이터가 합쳐질수 있도록 처리해줘야 된다고 명시가 되어 있어 [이전 포스트에서 InMemoryCache 설정](https://dantechblog.gatsbyjs.io/posts/apollo-graphql)을 작성했던거 처럼 아래코드를 작성해줬습니다
+정상적으로 다음 데이터들을 이어서 보여주는것 아닌 중복 데이터들을 뒤에 이어 보여주는 현상이 발행하게 되었습니다. 공식문서를 읽어보니 fetchMore로 데이터를 요청하는 것에 대해서는 `InMemoryCache` 에 `typePolicy`에 merge 함수를 설정하여 이전 데이터와 최신 데이터가 합쳐질수 있도록 처리해줘야 된다고 명시가 되어 있어 [이전 포스트에서 InMemoryCache 설정](https://dantechblog.netlify.app/posts/apollo-graphql)을 작성했던거 처럼 아래코드를 작성해줬습니다
 
 ```bash
 // apollo.js

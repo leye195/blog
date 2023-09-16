@@ -194,7 +194,7 @@ const skills: skillType = {
 
 const basicInfo = [
 	{ title: 'Github', link: 'https://github.com/leye195' },
-	{ title: 'Blog', link: 'https://dantechblog.gatsbyjs.io' },
+	{ title: 'Blog', link: 'https://dantechblog.netlify.app/' },
 	{ title: 'Contact', link: 'mailto:leye195@naver.com' },
 ];
 

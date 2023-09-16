@@ -20,12 +20,12 @@ const SEO = ({ title, description = 'Blog posted about development', article = f
 			<meta name="description" content={description || ''} />
 			<meta property="og:type" content={article ? 'article' : 'webpage'} />
 			<meta property="og:title" content={title || defaultTitle} />
-			<meta property="og:url" content="https://dantechblog.gatsbyjs.io/" />
+			<meta property="og:url" content="https://dantechblog.netlify.app/" />
 			<meta property="og:description" content={description || ''} />
 			<meta property="og:image" content={img.publicURL} />
 
 			<meta property="twitter:title" content={title || defaultTitle} />
-			<meta property="twitter:url" content="https://dantechblog.gatsbyjs.io/" />
+			<meta property="twitter:url" content="https://dantechblog.netlify.app/" />
 			<meta property="twitter:card" content="summary_large_image" />
 			<meta property="twitter:description" content={description || ''} />
 			<meta property="twitter:image" content={img.publicURL} />

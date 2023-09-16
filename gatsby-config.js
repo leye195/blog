@@ -1,7 +1,7 @@
 module.exports = {
 	siteMetadata: {
 		title: 'Dan DevLog',
-		siteUrl: 'https://dantechblog.gatsbyjs.io',
+		siteUrl: 'https://dantechblog.netlify.app',
 	},
 	plugins: [
 		'gatsby-plugin-netlify',
@@ -138,15 +138,15 @@ module.exports = {
 		{
 			resolve: 'gatsby-plugin-robots-txt',
 			options: {
-				host: 'https://dantechblog.gatsbyjs.io',
-				sitemap: 'https://dantechblog.gatsbyjs.io/sitemap.xml',
+				host: 'https://dantechblog.netlify.app/',
+				sitemap: 'https://dantechblog.netlify.app/sitemap.xml',
 				policy: [{ userAgent: '*', allow: '/' }],
 			},
 		},
 		{
 			resolve: `gatsby-plugin-canonical-urls`,
 			options: {
-				siteUrl: `https://dantechblog.gatsbyjs.io/`,
+				siteUrl: `https://dantechblog.netlify.app/`,
 				stripQueryString: true,
 			},
 		},
