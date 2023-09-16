@@ -23,7 +23,6 @@
 		"@mdx-js/react": "^1.6.22",
 		"emotion-normalize": "^11.0.1",
 		"gatsby": "^3.10.2",
-		"gatsby-adapter-netlify": "^1.0.0",
 		"gatsby-plugin-advanced-sitemap": "^2.0.0",
 		"gatsby-plugin-canonical-urls": "^3.14.0",
 		"gatsby-plugin-emotion": "^6.10.0",
@@ -74,12 +73,12 @@
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-import": "^2.24.2",
 		"eslint-plugin-prettier": "^4.0.0",
+		"gatsby-plugin-netlify": "^5.1.0",
 		"husky": "^7.0.2",
 		"identity-obj-proxy": "^3.0.0",
 		"jest": "^27.1.1",
 		"prettier": "^2.4.1",
 		"ts-jest": "^27.0.5",
-		"typescript": "^4.3.5",
-		"gatsby-adapter-netlify": "^1.0.0"
+		"typescript": "^4.3.5"
 	}
 }

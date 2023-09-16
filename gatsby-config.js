@@ -1,15 +1,10 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-const adapter = require('gatsby-adapter-netlify');
-
 module.exports = {
-	adapter: adapter({
-		excludeDatastoreFromEngineFunction: false,
-	}),
 	siteMetadata: {
 		title: 'Dan DevLog',
 		siteUrl: 'https://dantechblog.gatsbyjs.io',
 	},
 	plugins: [
+		'gatsby-plugin-netlify',
 		'gatsby-plugin-typescript',
 		'gatsby-plugin-emotion',
 		'gatsby-plugin-gatsby-cloud',
