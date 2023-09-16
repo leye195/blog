@@ -1,4 +1,10 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+const adapter = require('gatsby-adapter-netlify');
+
 module.exports = {
+	adapter: adapter({
+		excludeDatastoreFromEngineFunction: false,
+	}),
 	siteMetadata: {
 		title: 'Dan DevLog',
 		siteUrl: 'https://dantechblog.gatsbyjs.io',
@@ -32,13 +38,14 @@ module.exports = {
 					{
 						serialize: ({ query: { site, allMdx } }) => {
 							return allMdx.edges.map(edge => {
-								return Object.assign({}, edge.node.frontmatter, {
+								return {
+									...edge.node.frontmatter,
 									description: edge.node.excerpt,
 									date: edge.node.frontmatter.date,
-									url: site.siteMetadata.siteUrl + `/posts/${edge.node.slug}`,
-									guid: site.siteMetadata.siteUrl + `/posts/${edge.node.slug}`,
+									url: `${site.siteMetadata.siteUrl}/posts/${edge.node.slug}`,
+									guid: `${site.siteMetadata.siteUrl}/posts/${edge.node.slug}`,
 									custom_elements: [{ 'content:encoded': edge.node.html }],
-								});
+								};
 							});
 						},
 						query: `
@@ -129,7 +136,7 @@ module.exports = {
 		{
 			resolve: 'gatsby-plugin-google-fonts',
 			options: {
-				fonts: ['roboto mono', `Noto Sans KR\:400,400i,700,700i`],
+				fonts: ['roboto mono', `Noto Sans KR\\:400,400i,700,700i`],
 				display: 'swap',
 			},
 		},
