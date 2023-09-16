@@ -14,7 +14,7 @@ const SEO = ({ title, description = 'Blog posted about development', article = f
 
 	return (
 		<Helmet title={title || defaultTitle}>
-			<meta name="google-site-verification" content="zmW_2vqyKp22m8CHh6DiHxJ2HeO6hNlk8O0mUZA0EX4" />
+			<meta name="google-site-verification" content="SNn8OfS93Xxp1ddDVezupnfWFekOCL-_dl6oOsob920" />
 			<meta name="naver-site-verification" content="ecfeaa9be7cbad3bdcce2e35d5cb4d1d1a93fb89" />
 			<meta name="title" content={title || defaultTitle} />
 			<meta name="description" content={description || ''} />
