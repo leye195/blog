@@ -1,0 +1,86 @@
+---
+title: 성능개선 - bundle size 최적화
+slug: bundle-size
+date: 2023-10-03
+tags: ['TIL', 'FE']
+---
+
+이전 포스트에서는 `third party script` blocking 으로 인하여 발생하는 성능 이슈에 대하여 해결할 수 있는 방법이 어떤것들이 있을지 알아보았습니다.
+
+그것의 연장선으로 이번에는 성능을 개선할 수 있는 또 다른 방법 중 하나인 bundle size를 최적화하는 방법에 대해서 알아보겠습니다. (NextJS 기준)
+
+NextJS 에서 번들 파일이 어떤 코드들로 구성이 되어 있는지 확인하고 싶다면 `@next/bundle-analyzer` 를 사용해야 합니다. (react의 경우 [`webpack-bundle-analyzer`](https://www.npmjs.com/package/webpack-bundle-analyzer) )
+
+```jsx
+yarn add -D @next/bundle-analyzer
+```
+
+설치를 한 뒤 `next.config.js` 파일에 다음과 같이 `bundle-analyzer` 를 사용하기 위한 설정을 추가해주고 `package.json` 의 `script` 명령에 `analyze` 을 실행하는 경우에만 번들 사이즈를 분석하도록 해줍니다.
+
+```jsx
+// next.config.js
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+  openAnalyzer: false,
+});
+
+const nextConfig = {
+ //code...
+};
+
+module.exports = withBundleAnalyzer(nextConfig);
+
+
+// package.json
+"scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "analyze": "ANALYZE=true next build"
+},
+```
+
+이제 `yarn analyze` 를 실행하면 다음과 같이 빌드를 완료 한 뒤 `.next/analyze` 폴더 내 `client.html`, `edge.html` , `nodejs.html` 3개의 파일이 생성됩니다.
+
+![스크린샷 2023-10-03 오후 2 55 04](https://github.com/leye195/coinat-v2/assets/30601503/fc870fd9-576d-4225-a4f5-9e81f60a28e5)
+
+`client.html` 에는 클라이언트 사이드의 번들 파일과 그 안의 모든 패키지가 트리맵으로 시각화 되어 있어 파일의 실제 크기를 비율로 보여줘 아주 쉽게 각각의 패키지가 용량을 얼마만큼 차지하고 있는지 파악 할 수 있습니다.
+
+`edge.html` 에는 서버에만 필요한 패키지의 번들링 결과를 시각적으로 분석하여 보여줍니다.
+
+`node.html` 에는 서버사이드 랜더링 시 필요한 번들링 결과를 시각적으로 분석하여 보여줍니다.
+
+![Untitled](https://github.com/leye195/coinat-v2/assets/30601503/15bce886-ee2a-477d-8e0d-c757f2d20b9e)
+
+위에서 보이는 것들 중 `portis` 라는 패키지 차지하는 비율이 꽤 크다는것을 확인 할 수 있습니다. 해당 패키지의 경우 지갑 로그인 서비스 중 하나지만 유지보수가 잘 안되고 있어 정말 삭제하고 싶다는 생각이들지만… 일단 유지하고 있습니다.
+
+## Code Splitting
+
+하나의 큰 번들 파일은 크기에 따라 소요되는 로드시간이 커집니다. 이는 초기 로드 시간에 영향을 줄 수 있는 요소로 `code splitting` 을 통해 여러 작은 조각의 번들 파일로 쪼개 필요한 경우에만 따로 로드되어 사용하도록 하여 초기 로드 시간이 줄어들도록 할 수 있습니다.
+
+저의 경우 프로젝트 내부에서 사용되는 모달 컴포넌트 같은 유저와 상호작용시에 노출되는 컴포넌트 유저가 로그인을 해야만 노출되는 컴포넌트 그리고 각각의 `redux`, `react-query`, `emotion` 등 처럼 패키지 사용시 필요한 Provider를 한 번에 관리는 용도로 사용하는 `AppProvider` 또한 `dynamic import` 를 사용하여 `code spliting` 을 적용하였습니다.
+
+```
+// ex) 모달 컴포넌트
+const GuestGuideModal = dynamic(() => import('@/components/Modal/GuestGuideModal'), {
+    ssr: false,
+});
+const BudgetNewTicketModal = dynamic(() => import('@/components/Modal/BudgetNewTicketModal'), {
+    ssr: false,
+});
+const BudgetTicketModal = dynamic(() => import('@/components/Modal/BudgetTicketModal'), {
+    ssr: false,
+});
+const TicketModal = dynamic(() => import('@/components/Modal/TicketModal'), {
+    ssr: false,
+});
+```
+
+이후 다시 `analyze` 명령어를 실행하면 메인의 경우 **`707kb`** 에서 **`477kb`** 로 개선되었으며 공통 초기 번들 크기 역시 **`470kb`** 에서 **`198kb`** 로 개선된 것을 확인 할 수 있습니다. (기능 추가만 집중하고 성능에는 신경쓰지 못하는 경우 결말은 비참합니다…항상 신경쓰도록 합시다ㅎ)
+
+![스크린샷 2023-10-03 오후 2 56 35](https://github.com/leye195/coinat-v2/assets/30601503/d9d60951-6e7d-4438-8d23-8243b6f9efab)
+
+실제로 번들 사이즈 개선이 `Content Download` 속도 개선에 얼마나 도움이 되었는지는 정확하지 않지만 확실한 것은 [TBT (Total Blocking Time)](https://web.dev/tbt/)이 시간이 줄어들 확률이 높아졌다.
+
+추가적으로 한 가지 개선할 점이 있다면 현재 외부로 부터 받아오는 `gif` 이미지들이 있는데 사이즈가 꽤 무거워 로딩에 영향을 주고 있습니다. 이걸 어떤 방법을 통해 처리해야 될지 고민을 좀 해봐야 될거 같습니다.
