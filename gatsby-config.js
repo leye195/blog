@@ -139,7 +139,7 @@ module.exports = {
 			resolve: 'gatsby-plugin-robots-txt',
 			options: {
 				host: 'https://dantechblog.netlify.app/',
-				sitemap: 'https://dantechblog.netlify.app/sitemap.xml',
+				sitemap: ['https://dantechblog.netlify.app/sitemap.xml', 'https://dantechblog.netlify.app/sitemap-pages.xml'],
 				policy: [{ userAgent: '*', allow: '/' }],
 			},
 		},
