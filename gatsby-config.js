@@ -1,7 +1,7 @@
 module.exports = {
 	siteMetadata: {
 		title: 'Dan DevLog',
-		siteUrl: 'https://dantechblog.netlify.app',
+		siteUrl: 'https://dantechblog.netlify.app/',
 	},
 	plugins: [
 		'gatsby-plugin-netlify',
