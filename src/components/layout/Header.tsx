@@ -100,6 +100,11 @@ const headerStyle = css`
 			margin-top: ${spacing.xxs};
 		}
 	}
+
+	.notice {
+		padding: 1rem 0;
+		background-color: #ffffa6;
+	}
 `;
 
 const Header = () => {
@@ -146,6 +151,12 @@ const Header = () => {
 						<DarkModeToggle isDark={isDark} handleTheme={handleTheme} handleIsDark={handleIsDark} />
 					</div>
 				</div>
+				<Common.Row className="notice" alignItems="center" justifyContents="center" gap="8px">
+					<span>
+						<b>블로그를 다시 만들게 되어 이곳은 이제 업데이트 하지 않습니다ㅠ</b>{' '}
+					</span>
+					<a href="https://www.dantechblog.xyz/">https://www.dantechblog.xyz</a>
+				</Common.Row>
 			</Common.Column>
 		</header>
 	);
